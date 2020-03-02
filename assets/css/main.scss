@@ -1,0 +1,171 @@
+@import '_base';
+@import './mixins/mixin.scss';
+
+*,*::after,*::before{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    background-color: $primary-background-light;
+    color:$primary-text-light;
+    transition: all 0.4s ease-in-out;
+    font-family: "Chivo", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans",
+    "Droid Sans", "Helvetica Neue", sans-serif;
+    font-weight: 400;
+}
+p{
+    line-height:26px;
+}
+h1,h2,h3,h4,h5,h6{
+    font-family:"Asul";
+}
+.activeLink{
+    background-color: lightgray;
+}
+ul{
+    list-style-type: none;
+}
+button{
+    cursor: pointer;
+}
+
+.container{
+    padding: 1rem 6rem;
+}
+
+body[theme='dark']{
+    background-color: $primary-background-dark;
+    color:$primary-text-dark;
+
+    #sidebar{
+        background-color: $secondary-background-dark;
+        // box-shadow: 0 2px 10px rgba(0,0,0,.2);
+        box-shadow: -3px -3px 3px rgba(255,255,255,0.05),
+                    3px 3px 3px rgba(0,0,0,0.1);
+
+        .sidebar-menu{
+            li{
+                // background-color: $primary-background-dark;
+                // border-radius: 5px;
+                // box-shadow: -3px -3px 3px rgba(255,255,255,0.05),
+                //             3px 3px 3px rgba(0,0,0,0.1);
+
+                .nuxt-link-exact-active,
+                .nuxt-link-active {
+                    // padding: 8px 12px;
+                    background-color: $primary-background-dark;
+                    border-radius: 5px;
+                    box-shadow: -3px -3px 3px rgba(255,255,255,0.05),
+                    3px 3px 3px rgba(0,0,0,0.1);
+                }
+
+                &:hover svg{
+                    fill: #008ECC;
+                    text-shadow: 0 0 15px #008ECC;
+                }
+                
+                svg{
+                    fill: $primary-background-light;
+                }
+
+            }
+
+           
+        }
+    }
+
+}
+
+
+
+
+// NOTE  Sidebar
+#sidebar{
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 4rem;
+  padding: 16px 20px;
+  background-color: $secondary-background-light;
+  margin-right: 4rem;
+  box-shadow: -1px -1px 1px rgba(255,255,255,0.05),
+                    3px 3px 3px rgba(0,0,0,0.08);
+
+    .nuxt-link-exact-active svg,
+    .nuxt-link-active svg {
+    fill: white;
+    /* fill: blue; */
+    }
+    .nuxt-link-active,
+    .nuxt-link-exact-active {
+    border-radius: 3px;
+    background-color: #191c28;
+    box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.08),
+        -6px -6px 12px rgba(255, 255, 255, 1);
+    padding: 8px 12px;
+    }
+}
+
+
+
+.sidebar-menu{
+    margin-top: 4rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+
+
+
+    li{
+        margin-bottom: 1rem;
+        padding: 8px 12px;
+        
+        &:last-child{
+            margin-top: auto;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+        }
+
+        &:hover svg{
+            fill: #008ECC;
+            text-shadow: 0 0 15px #008ECC;
+        }
+
+        svg{
+            width:18px;
+            height:18px;
+            fill:$secondary-background-dark;
+            transition: all 0.15s linear;
+        }
+
+        a{
+            padding: 8px 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+
+}
+
+
+
+
+
+
+
+
+// NOTE Login Page
+#login-page{
+    width: 100vw;
+    height: 100vh;
+
+
+}
