@@ -2,7 +2,7 @@
   <div class="get-started-wrapper">
     <div class="get-started-form-wrapper">
       <div class="get-started-left">
-        <router-link to="/" style="color:white;">
+        <router-link to="/" style="color:white; outline:none;">
           <h2>E-Class</h2>
         </router-link>
         <div class="get-started-intro">
