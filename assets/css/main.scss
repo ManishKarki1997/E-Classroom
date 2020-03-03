@@ -26,15 +26,33 @@ h1,h2,h3,h4,h5,h6{
 .activeLink{
     background-color: lightgray;
 }
+a{
+    text-decoration: none;
+    color: $primary-text-light;
+}
 ul{
     list-style-type: none;
 }
 button{
     cursor: pointer;
+    font-family: "Chivo", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans",
+    "Droid Sans", "Helvetica Neue", sans-serif;
+    font-weight: 400;
 }
 
 .container{
     padding: 1rem 6rem;
+}
+
+// basic nuxt route transition
+.page-enter-active, .page-leave-active{
+    transition: all 0.3s ease-in;
+}
+
+.page-enter,.page-leave-active{
+    opacity: 0;
 }
 
 body[theme='dark']{
@@ -76,6 +94,22 @@ body[theme='dark']{
 
            
         }
+    }
+    .get-started-wrapper{
+        color: $primary-text-dark;
+    }
+    .get-started-right{
+        background-color: $secondary-background-dark;
+    }
+    .form-container{
+        background-color: $primary-background-dark;
+        box-shadow: 0 6px 31px -2px rgba(0, 0, 0, 0.36);
+    }
+    .form-input input{
+        @include inputBox($secondary-background-dark,$primary-text-dark);
+    }
+    .form-actions button{
+        background-color:$secondary-background-dark ;
     }
 
 }
@@ -154,18 +188,124 @@ body[theme='dark']{
     }
 
 }
-
-
-
-
-
-
-
-
-// NOTE Login Page
-#login-page{
-    width: 100vw;
-    height: 100vh;
-
-
+.user-account {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
+.user-account img {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+}
+
+
+
+
+
+
+
+
+// NOTE Get Started Page
+
+
+.get-started-wrapper {
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+  }
+  .get-started-form-wrapper {
+    display: flex;
+    height: 100%;
+    width: 100%;
+  }
+  .get-started-left {
+    width: 40%;
+    height: 100%;
+    background-color: #191c28;
+    padding: 3rem;
+    color: white;
+    position: relative;
+
+    h2{
+        text-align: left;
+    }
+
+    .get-started-intro{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        // width: 100%;
+        text-align: center;
+        
+        h3{
+            font-size: 36px;
+            
+        }
+        p{
+            font-size: 18px;
+        }
+
+        .get-started-nav {
+            display: flex;
+            align-items: center;
+            // justify-content: space-around;
+            margin-top: 2rem;
+          }
+          .get-started-nav a {
+            margin: 0 auto;
+            margin-right: 1rem;
+            text-decoration: none;
+            color: $primary-background-light;
+            border: 1px solid $secondary-background-dark;
+            border-radius: 3px;
+            padding: 6px 10px;
+
+            &.nuxt-link-exact-active,
+            &.nuxt-link-active {
+                border: 1px solid $primary-text-dark;
+            }
+          }
+    }
+  }
+  .get-started-right {
+    width: 60%;
+    height: 100%;
+    padding: 4rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    background-color: $primary-background-light;
+  }
+
+
+//   Signup/Register & Login Form
+.form-container {
+    width: 70%;
+    padding: 2rem;
+    box-shadow: 0 6px 31px -2px rgba(0, 0, 0, 0.1);
+    
+    
+  }
+  .form-input {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+  }
+  .form-input input {
+      @include inputBox($secondary-background-light,$primary-text-light);
+    border: 1px solid $primary-text-dark;
+    margin-top: 8px;
+  }
+  .form-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .form-actions button {
+      @include button(#191c28,white); //backgroundColor,color
+  }
+  

@@ -6,6 +6,12 @@
     <div class="sidebar-menu">
       <ul>
         <li class="nav-link">
+          <nuxt-link to="/get-started/login">
+            <RocketIcon />
+          </nuxt-link>
+        </li>
+
+        <li class="nav-link">
           <nuxt-link exact to="/app">
             <HomeIcon />
           </nuxt-link>
@@ -47,6 +53,7 @@ import DashboardIcon from '~/static/Icons/dashboard.svg?inline'
 import SettingsIcon from '~/static/Icons/settings.svg?inline'
 import SunIcon from '~/static/Icons/sun.svg?inline'
 import MoonIcon from '~/static/Icons/moon.svg?inline'
+import RocketIcon from '~/static/Icons/start.svg?inline'
 
 export default {
   components: {
@@ -56,7 +63,8 @@ export default {
     DashboardIcon,
     SettingsIcon,
     SunIcon,
-    MoonIcon
+    MoonIcon,
+    RocketIcon
   },
   data() {
     return {
@@ -77,16 +85,3 @@ export default {
   }
 }
 </script>
-<style scoped>
-.user-account {
-  display: flex;
-  justify-content: center;
-}
-.user-account img {
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  object-fit: cover;
-}
-</style>
-

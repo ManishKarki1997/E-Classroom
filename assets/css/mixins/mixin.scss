@@ -1,17 +1,22 @@
-@mixin inputBox{
+@mixin inputBox($backgroundColor,$color){
         font-size: 18px;
-        background-color: transparent;
         padding: 8px 12px;
-        box-shadow: -4px -4px 10px rgba(255,255,255,1),
-                    inset 4px 4px 10px rgba(0,0,0,0.05),
-                    inset -4px -4px 10px rgba(255,255,255,1),
-                    4px 4px 10px rgba(0,0,0,0.05);
+        border-radius: 3px;
+        background-color: $backgroundColor;
+        color: $color;
+        border: none;
+        // box-shadow: -4px -4px 10px rgba(255,255,255,1),
+        //             inset 4px 4px 10px rgba(0,0,0,0.05),
+        //             inset -4px -4px 10px rgba(255,255,255,1),
+        //             4px 4px 10px rgba(0,0,0,0.05);
     
 }
 
-@mixin button($backgroundColor){
-        padding: 6px 16px;
+@mixin button($backgroundColor,$color){
         border-radius: 3px;
+        border: none;
+        padding: 10px 16px;
+        color:$color;
         background-color: $backgroundColor;
         
 }
