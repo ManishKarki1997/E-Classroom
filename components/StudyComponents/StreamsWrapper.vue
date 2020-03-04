@@ -1,9 +1,7 @@
 <template>
   <div>
-    <button @click="shareCameraStream">Share Camera</button>
-    <button @click="stopCameraShare">Stop Sharing</button>
-    <VideoStream ref="videostream" :cameraStream="cameraStream" />
-    <!-- <VideoStream /> -->
+    <VideoStream class="cameraStream" ref="videostream" :cameraStream="cameraStream" />
+    <!-- <VideoStream class="cameraStream" /> -->
   </div>
 </template>
 
@@ -16,10 +14,11 @@ export default {
   },
   data() {
     return {
+      studentSharedCameraStream: false,
       cameraStream: null,
       cameraConstraints: {
-        audio: true,
-        video: true
+        audio: false,
+        video: { width: 1300, height: 720 }
       }
     }
   },
@@ -30,6 +29,7 @@ export default {
           const mediaStream = await navigator.mediaDevices.getUserMedia(
             this.cameraConstraints
           )
+          this.teacherShowedCameraStream = true
           this.cameraStream = mediaStream
         }
       } catch (error) {
@@ -39,7 +39,9 @@ export default {
     stopCameraShare() {
       this.$refs.videostream.stopCameraStream()
       this.cameraStream = null
+      this.teacherShowedCameraStream = false
     }
   }
 }
 </script>
+

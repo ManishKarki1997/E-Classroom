@@ -1,9 +1,6 @@
 <template>
-  <div>
-    <p>this is a video stream</p>
-    <div>
-      <video id="cameraStreamPlayer" autoplay></video>
-    </div>
+  <div class="camera-player-wrapper">
+    <video id="cameraStreamPlayer" autoplay></video>
   </div>
 </template>
 
@@ -20,11 +17,10 @@ export default {
   },
   watch: {
     cameraStream(newStream, oldStream) {
-      console.log(newStream)
       this.videoContainer.srcObject = newStream
-      this.videoContainer.onloadedmetadata = function(e) {
-        this.videoContainer.play()
-      }
+      // this.videoContainer.onloadedmetadata = function(e) {
+      //   this.videoContainer.play()
+      // }
     }
   },
   methods: {
@@ -37,9 +33,16 @@ export default {
 </script>
 
 <style scoped>
-#cameraStreamPlayer {
+.camera-player-wrapper {
   width: 100%;
   height: 10rem;
-  background-color: black;
+  margin-top: 4px;
+}
+#cameraStreamPlayer {
+  width: 100%;
+  height: 100%;
+  background-image: url('../../static/Images/Saber.jpg');
+  background-position: center;
+  background-size: cover;
 }
 </style>
