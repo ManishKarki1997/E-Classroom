@@ -77,11 +77,26 @@ export default {
       if (this.themeMode === '') {
         document.body.setAttribute('theme', 'dark')
         this.themeMode = 'dark'
+        this.setTheme()
       } else {
         document.body.setAttribute('theme', '')
         this.themeMode = ''
+        this.setTheme('light')
       }
+    },
+    setTheme(themeMode) {
+      localStorage.setItem(
+        'eclasses-theme',
+        JSON.stringify(this.themeMode || themeMode)
+      )
     }
+  },
+  created() {
+    const savedTheme = JSON.parse(localStorage.getItem('eclasses-theme'))
+    // If the saved theme in local storage is 'dark', set themeMode to '' i.e. light because toggleTheme works in reverse
+    // and if saved theme is '' i.e. light, set themeMode to dark;
+    savedTheme === 'dark' ? (this.themeMode = '') : (this.themeMode = 'dark')
+    this.toggleTheme()
   }
 }
 </script>

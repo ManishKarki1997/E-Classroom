@@ -65,9 +65,10 @@
           :resizable="true"
           :minWidth="550"
           :minHeight="350"
-          class="code-editor"
+          class="code-editor-wrapper"
         >
-          <div class="code-editor-language-options">
+          <CodeEditor />
+          <!-- <div class="code-editor-language-options">
             <h5>Choose a language</h5>
             <select name="code-languages" id="code-languages" v-model="codeEditor.cmOptions.mode">
               <option value="text/javascript">Javascript</option>
@@ -75,7 +76,7 @@
               <option value="text/x-mysql">SQL</option>
             </select>
           </div>
-          <codemirror v-model="codeEditor.code" :options="codeEditor.cmOptions"></codemirror>
+          <codemirror v-model="codeEditor.code" :options="codeEditor.cmOptions"></codemirror>-->
         </hsc-window>
       </hsc-window-style-metal>
 
@@ -87,13 +88,14 @@
 <script>
 import StreamsWrapper from '~/components/StudyComponents/StreamsWrapper'
 import Whiteboard from '~/components/StudyComponents/Whiteboard'
+import CodeEditor from '~/components/StudyComponents/CodeEditor'
 
-import 'codemirror/mode/javascript/javascript.js'
-import 'codemirror/mode/python/python.js'
-import 'codemirror/mode/sql/sql.js'
+// import 'codemirror/mode/javascript/javascript.js'
+// import 'codemirror/mode/python/python.js'
+// import 'codemirror/mode/sql/sql.js'
 
-// theme css
-import 'codemirror/theme/rubyblue.css'
+// // theme css
+// import 'codemirror/theme/rubyblue.css'
 
 // Icons Import
 import TelevisionIcon from '~/static/Icons/television.svg?inline'
@@ -112,7 +114,8 @@ export default {
     WebcamIcon,
     CheckMarkIcon,
     CloseIcon,
-    Whiteboard
+    Whiteboard,
+    CodeEditor
   },
   data() {
     return {
@@ -195,12 +198,6 @@ export default {
 </script>
 
 <style scoped>
-.code-editor-language-options {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 4px 1rem;
-}
 .camera-actions,
 .floating-window-actions {
   display: flex;
@@ -227,7 +224,7 @@ export default {
 .whiteboard {
   background-color: rgb(226, 223, 223);
 }
-.code-editor {
+.code-editor-wrapper {
   background-color: #2a2e3a;
 }
 #classroom {
