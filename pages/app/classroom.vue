@@ -18,122 +18,17 @@
           <CodeEditorIcon @click="toggleCodeEditor" />
         </div>
       </div>
+      <Whiteboard v-if="whiteboardOpen" />
+      <p
+        style="margin-left:1rem;margin-top:1rem; font-size:14px;"
+        v-if="!whiteboardOpen && !screenSharing.share"
+      >Start the classroom by broadcasting yourself or your screen by clicking on the Share icons above.</p>
       <video id="teacher-screen-video" autoplay></video>
     </div>
     <div class="classroom-right-side">
       <div class="online-students-wrapper">
         <h4>Online Students</h4>
         <ul class="online-students">
-          <li>
-            <div class="online-student-info">
-              <img src="~/static/Images/Saber.jpg" alt="user picture" />
-              <p>Arturia Pendragon</p>
-            </div>
-            <div class="communication-request-action-buttons">
-              <CheckMarkIcon />
-              <CloseIcon />
-            </div>
-          </li>
-          <li>
-            <div class="online-student-info">
-              <img src="~/static/Images/Saber.jpg" alt="user picture" />
-              <p>Sir Lancelot</p>
-            </div>
-            <div class="communication-request-action-buttons">
-              <CheckMarkIcon />
-              <CloseIcon />
-            </div>
-          </li>
-          <li>
-            <div class="online-student-info">
-              <img src="~/static/Images/Saber.jpg" alt="user picture" />
-              <p>Gilgamesh</p>
-            </div>
-            <div class="communication-request-action-buttons">
-              <CheckMarkIcon />
-              <CloseIcon />
-            </div>
-          </li>
-          <li>
-            <div class="online-student-info">
-              <img src="~/static/Images/Saber.jpg" alt="user picture" />
-              <p>Arturia Pendragon</p>
-            </div>
-            <div class="communication-request-action-buttons">
-              <CheckMarkIcon />
-              <CloseIcon />
-            </div>
-          </li>
-          <li>
-            <div class="online-student-info">
-              <img src="~/static/Images/Saber.jpg" alt="user picture" />
-              <p>Sir Lancelot</p>
-            </div>
-            <div class="communication-request-action-buttons">
-              <CheckMarkIcon />
-              <CloseIcon />
-            </div>
-          </li>
-          <li>
-            <div class="online-student-info">
-              <img src="~/static/Images/Saber.jpg" alt="user picture" />
-              <p>Gilgamesh</p>
-            </div>
-            <div class="communication-request-action-buttons">
-              <CheckMarkIcon />
-              <CloseIcon />
-            </div>
-          </li>
-          <li>
-            <div class="online-student-info">
-              <img src="~/static/Images/Saber.jpg" alt="user picture" />
-              <p>Arturia Pendragon</p>
-            </div>
-            <div class="communication-request-action-buttons">
-              <CheckMarkIcon />
-              <CloseIcon />
-            </div>
-          </li>
-          <li>
-            <div class="online-student-info">
-              <img src="~/static/Images/Saber.jpg" alt="user picture" />
-              <p>Sir Lancelot</p>
-            </div>
-            <div class="communication-request-action-buttons">
-              <CheckMarkIcon />
-              <CloseIcon />
-            </div>
-          </li>
-          <li>
-            <div class="online-student-info">
-              <img src="~/static/Images/Saber.jpg" alt="user picture" />
-              <p>Gilgamesh</p>
-            </div>
-            <div class="communication-request-action-buttons">
-              <CheckMarkIcon />
-              <CloseIcon />
-            </div>
-          </li>
-          <li>
-            <div class="online-student-info">
-              <img src="~/static/Images/Saber.jpg" alt="user picture" />
-              <p>Arturia Pendragon</p>
-            </div>
-            <div class="communication-request-action-buttons">
-              <CheckMarkIcon />
-              <CloseIcon />
-            </div>
-          </li>
-          <li>
-            <div class="online-student-info">
-              <img src="~/static/Images/Saber.jpg" alt="user picture" />
-              <p>Sir Lancelot</p>
-            </div>
-            <div class="communication-request-action-buttons">
-              <CheckMarkIcon />
-              <CloseIcon />
-            </div>
-          </li>
           <li>
             <div class="online-student-info">
               <img src="~/static/Images/Saber.jpg" alt="user picture" />
@@ -147,18 +42,19 @@
         </ul>
       </div>
 
-      <hsc-window-style-metal class="floating-window">
+      <!-- <hsc-window-style-metal class="floating-window whiteboard-wrapper">
         <hsc-window
           title="Whiteboard"
           :closeButton="true"
           :isOpen.sync="whiteboardOpen"
-          positionHint="-265 / 180"
+          positionHint="-265 / 100"
           :resizable="true"
-          :minWidth="350"
-          :minHeight="300"
-          class="whiteboard"
-        ></hsc-window>
-      </hsc-window-style-metal>
+          :minWidth="900"
+          :minHeight="560"
+        >
+          <Whiteboard />
+        </hsc-window>
+      </hsc-window-style-metal>-->
 
       <hsc-window-style-metal class="floating-window">
         <hsc-window
@@ -190,6 +86,7 @@
 
 <script>
 import StreamsWrapper from '~/components/StudyComponents/StreamsWrapper'
+import Whiteboard from '~/components/StudyComponents/Whiteboard'
 
 import 'codemirror/mode/javascript/javascript.js'
 import 'codemirror/mode/python/python.js'
@@ -214,14 +111,14 @@ export default {
     WhiteboardIcon,
     WebcamIcon,
     CheckMarkIcon,
-    CloseIcon
+    CloseIcon,
+    Whiteboard
   },
   data() {
     return {
       codeEditor: {
         code: '',
         cmOptions: {
-          // codemirror options
           tabSize: 4,
           mode: 'text/javascript',
           theme: 'rubyblue',
