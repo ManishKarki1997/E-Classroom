@@ -11,8 +11,7 @@
     align-items: center;
     justify-content: space-between;
 
-    input[type='text'],
-    input[type='submit']{
+    input{
       font-size: 14px;
       padding: 6px 8px;
       border-radius: 3px;
@@ -21,12 +20,8 @@
       border: none;
     }
 
-    input[type='text']{
+    input{
       width: 80%;
-    }
-
-    input[type='submit']{
-      cursor: pointer;
     }
   }
 
