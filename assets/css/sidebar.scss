@@ -1,0 +1,84 @@
+
+// NOTE  Sidebar
+#sidebar{
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 4rem;
+    padding: 16px 20px;
+    background-color: $secondary-background-light;
+    margin-right: 4rem;
+    box-shadow: -1px -1px 1px rgba(255,255,255,0.05),
+                      3px 3px 3px rgba(0,0,0,0.08);
+  
+      .nuxt-link-exact-active svg,
+      .nuxt-link-active svg {
+      fill: white;
+      /* fill: blue; */
+      }
+      .nuxt-link-active,
+      .nuxt-link-exact-active {
+      border-radius: 3px;
+      background-color: #191c28;
+      box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.08),
+          -6px -6px 12px rgba(255, 255, 255, 1);
+      padding: 8px 12px;
+      }
+  }
+  
+  
+  
+  .sidebar-menu{
+      margin-top: 4rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100%;
+  
+  
+  
+      li{
+          margin-bottom: 1rem;
+          padding: 8px 12px;
+          
+          &:last-child{
+              margin-top: auto;
+              cursor: pointer;
+              display: flex;
+              justify-content: center;
+          }
+  
+          &:hover svg{
+              fill: #008ECC;
+              text-shadow: 0 0 15px #008ECC;
+          }
+  
+          svg{
+              width:18px;
+              height:18px;
+              fill:$secondary-background-dark;
+              transition: all 0.15s linear;
+          }
+  
+          a{
+              padding: 8px 12px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+          }
+      }
+  
+  }
+  .user-account {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+  }
+  .user-account img {
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      object-fit: cover;
+  }
+  

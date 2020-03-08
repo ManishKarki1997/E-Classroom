@@ -1,0 +1,134 @@
+@use '_base';
+
+.camera-actions,
+.floating-window-actions {
+  display: flex;
+  align-items: center;
+  margin-right: 2rem;
+}
+.classroom-action-buttons-wrapper {
+  display: flex;
+  align-items: center;
+  padding: 8px 1rem;
+  background-color: $primary-background-light;
+  box-shadow: 0 6px 14px -2px rgba(0, 0, 0, 0.16);
+  border-radius: 3px;
+  color: $primary-text-light;
+  // background-color: #222839;
+}
+.classroom-action-buttons-wrapper svg {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  fill: $primary-text-light;
+  margin-right: 1rem;
+}
+
+.floating-window {
+  z-index: 20;
+}
+.whiteboard {
+  background-color: rgb(226, 223, 223);
+}
+.code-editor-wrapper {
+  background-color: #2a2e3a;
+}
+#classroom {
+  display: flex;
+  justify-content: space-between;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  padding: 0;
+  margin-left: 4rem;
+  background-color: $primary-background-light;
+}
+#teacher-screen-video {
+  width: 100%;
+  height: 100%;
+  /* margin-top: 1rem; */
+  // background-color: #191c28;
+}
+
+/* 
+::-webkit-scrollbar {
+  background-color: #222839;
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #191c28;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #222839;
+  width: 10px;
+} */
+
+.online-students-wrapper {
+  height: 45%;
+  border-radius: 3px;
+  // box-shadow: 0 6px 14px -2px rgba(0, 0, 0, 0.16);
+  padding: 8px;
+}
+.online-students-wrapper h4 {
+  margin-bottom: 1rem;
+  width: 100%;
+}
+.online-students {
+  height: 90%;
+  overflow-y: auto;
+}
+.online-students li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+.online-student-info {
+  display: flex;
+  align-items: center;
+}
+.communication-request-action-buttons svg {
+  cursor: pointer;
+  margin-left: 8px;
+  width: 16px;
+  height: 16px;
+}
+.communication-request-action-buttons svg:first-child {
+  fill: rgb(75, 230, 75);
+}
+.communication-request-action-buttons svg:last-child {
+  fill: rgb(238, 32, 32);
+}
+.online-students p {
+  font-size: 14px;
+}
+.online-students img {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+.teacher-screen {
+  width: 95%;
+  height: 100%;
+  // background-color: #191c28;
+  background-color: $primary-background-light;
+  color: white;
+  position: relative;
+}
+.classroom-right-side {
+  width: 25%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0;
+}
+.classroom-action-buttons-wrapper .classroomIconActive {
+  fill: red;
+  background-color: green;
+  width: 40px;
+  height: 40px;
+}

@@ -91,7 +91,7 @@ export default {
       )
     }
   },
-  created() {
+  mounted() {
     const savedTheme = JSON.parse(localStorage.getItem('eclasses-theme'))
     // If the saved theme in local storage is 'dark', set themeMode to '' i.e. light because toggleTheme works in reverse
     // and if saved theme is '' i.e. light, set themeMode to dark;

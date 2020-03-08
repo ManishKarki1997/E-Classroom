@@ -1,0 +1,33 @@
+@import '_base';
+
+  #dashboard{
+    padding: 1.5rem 3rem;
+  }
+
+  .search-classes {
+    margin-bottom: 1rem;
+    width: 350px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    input[type='text'],
+    input[type='submit']{
+      font-size: 14px;
+      padding: 6px 8px;
+      border-radius: 3px;
+      background-color:$secondary-background-dark;
+      color: white;
+      border: none;
+    }
+
+    input[type='text']{
+      width: 80%;
+    }
+
+    input[type='submit']{
+      cursor: pointer;
+    }
+  }
+
+ 

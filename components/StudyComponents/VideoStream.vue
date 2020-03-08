@@ -41,8 +41,8 @@ export default {
 #cameraStreamPlayer {
   width: 100%;
   height: 100%;
-  background-image: url('../../static/Images/Saber.jpg');
-  background-position: center;
-  background-size: cover;
+  /* background-image: url('../../static/Images/Saber.jpg'); */
+  /* background-position: center; */
+  /* background-size: cover; */
 }
 </style>

@@ -2,6 +2,7 @@
   <div class="whiteboard-wrapper">
     <div class="whiteboard-toolbars">
       <div class="whiteboard-colors">
+        <p style="margin-right:8px;">Palette</p>
         <p
           class="whiteboard-color"
           v-for="color in canvas.colors"
@@ -43,7 +44,7 @@ export default {
           '#39065a',
           '#45eba5'
         ],
-        selectedColor: 'white',
+        selectedColor: '#005691',
         lineWidth: 1,
         currentlyPainting: false,
         mousePosition: {
@@ -96,58 +97,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.whiteboard-wrapper {
-  height: 100%;
-}
-#whiteboard-canvas {
-  width: 100%;
-  height: 100%;
-}
-.whiteboard-toolbars {
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  width: 100%;
-}
-.whiteboard-colors {
-  display: flex;
-  align-items: center;
-}
-.whiteboard-color {
-  width: 25px;
-  height: 25px;
-}
-.line-width-selection {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 30%;
-}
-.line-width-selection p {
-  font-size: 14px;
-}
-.line-width-slider {
-  margin-left: 4px;
-  -webkit-appearance: none;
-  width: 60%;
-  height: 15px;
-  border-radius: 25px;
-  background-color: #ebebeb;
-  opacity: 0.9;
-  outline: none;
-  transition: opacity 0.3s;
-}
-.line-width-slider:hover {
-  opacity: 1;
-}
-.line-width-slider::-webkit-slider-thumb {
-  appearance: none;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background-color: #222839;
-  cursor: pointer;
-}
-</style>
