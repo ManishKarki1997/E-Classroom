@@ -94,6 +94,7 @@ export default {
       height: 14px;
       display: none;
       cursor: pointer;
+      fill: #858ea1;
     }
     &:hover .notification-read-icon svg {
       display: block;
