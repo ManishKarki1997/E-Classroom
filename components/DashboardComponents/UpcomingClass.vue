@@ -8,7 +8,18 @@
         <div class="class-start-time">
           <p>March 13</p>
           <span>&#8226;</span>
-          <p>11:00am-2:30am</p>
+          <p>11:00am-2:30pm</p>
+        </div>
+      </div>
+    </div>
+    <div class="upcoming-class">
+      <img src="~/static/Images/appdevelopment.jpg" alt="Class Image" />
+      <div class="class-info">
+        <h5>Mobile App Development</h5>
+        <div class="class-start-time">
+          <p>March 13</p>
+          <span>&#8226;</span>
+          <p>3:30am-5:30pm</p>
         </div>
       </div>
     </div>

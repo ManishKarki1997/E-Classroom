@@ -85,5 +85,16 @@ body[theme='dark']{
         border-radius: 0;
     }
 
+
+    .dashboard-right{
+        background-color: $secondary-background-dark;
+    }
+    .user-meta{
+        background-color: $primary-background-dark;
+    }
+    .dashboard-notifications,
+    .dashboard-enrolled-classes{
+        background-color: $secondary-background-dark;
+    }
     
 }

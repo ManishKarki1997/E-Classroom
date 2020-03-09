@@ -2,57 +2,53 @@
   <div id="notifications">
     <h4 class="section-title">Notifications</h4>
     <div class="notifications">
-      <div class="notification" v-for="notification in notifications" :key="notification.id">
-        <div class="notification-contents">
-          <p class="notification-subject">{{notification.subject}}</p>
-          <p class="notification-message">{{notification.notificationMessage}}</p>
-          <p class="notification-action">{{notification.action}}</p>
-          <p>in</p>
-          <p class="notification-classname">{{notification.className}}</p>
-        </div>
-        <div class="notification-read-icon">
-          <MailOpenIcon v-if="notification.notificationRead" />
-          <MailClosedIcon v-else />
-        </div>
+      <div
+        class="notification"
+        v-for="(notification,index) in notifications"
+        :key="notification.id"
+      >
+        <div class="notification-dot" :style="{backgroundColor:colors[index]}"></div>
+        <p class="notification-message">{{notification.notificationMessage}}</p>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import MailOpenIcon from '~/static/Icons/mailopen.svg?inline'
-import MailClosedIcon from '~/static/Icons/mailclosed.svg?inline'
-
 export default {
-  components: {
-    MailOpenIcon,
-    MailClosedIcon
-  },
   data() {
     return {
+      colors: [
+        '#005691',
+        '#9896f1',
+        '#fbe1b6',
+        '#74f9ff',
+        '#bad7df',
+        '#ffbd39',
+        '#f73859',
+        '#39065a',
+        '#45eba5'
+      ],
       notifications: [
         {
           id: 'notif001',
-          notificationMessage: ' added a new ',
-          subject: 'Gilgamesh',
-          action: 'file',
-          className: 'Web Development',
+          notificationMessage:
+            'Gilgamesh has added a new file in Web Development',
+
           notificationRead: false
         },
         {
           id: 'notif002',
-          notificationMessage: ' made a new ',
-          subject: 'Ishtar',
-          action: 'announcement',
-          className: 'Mobile App Development',
+          notificationMessage:
+            'Ishtar has made a new announcement in Mobile App Development',
+
           notificationRead: false
         },
         {
           id: 'notif003',
-          notificationMessage: ' added a new ',
-          subject: 'Ishtar',
-          action: 'announcement',
-          className: 'Mobile App Development',
+          notificationMessage:
+            'Ishtar has added a new announcement in Mobile App Development',
+
           notificationRead: false
         }
       ]
@@ -63,42 +59,40 @@ export default {
 
 <style lang="scss" scoped>
 #notifications {
-  margin-top: 2rem;
-  height: 200px;
+  // margin-top: 2rem;
+  // min-height: 100px;
   overflow: auto;
   overflow-x: hidden;
+
+  h4 {
+    margin-bottom: 12px;
+  }
 }
+
 .notifications {
   margin-top: 6px;
 
   .notification {
     margin-bottom: 6px;
-    background-color: #dddddd;
+    // background-color: #dddddd;
     padding: 2px 4px;
     border-radius: 2px;
-    display: flex;
-    justify-content: space-between;
     cursor: pointer;
+    display: flex;
+    // align-items: flex-start;
+    justify-content: space-between;
 
     p {
-      display: inline-block;
-      margin: 0;
       font-size: 12px;
       line-height: 18px;
     }
-    .notification-read-icon {
-      width: 10%;
-    }
-    .notification-read-icon svg {
-      width: 14px;
-      height: 14px;
-      display: none;
-      cursor: pointer;
-      fill: #858ea1;
-    }
-    &:hover .notification-read-icon svg {
-      display: block;
-    }
+  }
+  .notification-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-top: 4px;
+    margin-right: 8px;
   }
 }
 </style>
