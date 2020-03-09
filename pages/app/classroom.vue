@@ -6,16 +6,20 @@
       <div class="classroom-action-buttons-wrapper">
         <div class="camera-actions">
           <p style="margin-right:12px;">Share</p>
-          <WebcamIcon @click="handleWebcamSharing" />
+          <WebcamIcon
+            @click="handleWebcamSharing"
+            :class="{currentlyActive:webcamSharing.highlightIcon}"
+          />
           <TelevisionIcon
             @click="handleScreenSharing"
             :style="{classroomIconActive:screenSharing.highlightIcon}"
+            :class="{currentlyActive:screenSharing.highlightIcon}"
           />
         </div>
         <div class="floating-window-actions">
           <p style="margin-right:12px;">Tools</p>
-          <WhiteboardIcon @click="toggleWhiteboard" />
-          <CodeEditorIcon @click="toggleCodeEditor" />
+          <WhiteboardIcon :class="{currentlyActive:whiteboardOpen}" @click="toggleWhiteboard" />
+          <CodeEditorIcon :class="{currentlyActive:codeEditorOpen}" @click="toggleCodeEditor" />
         </div>
       </div>
       <Whiteboard v-if="whiteboardOpen" />
@@ -179,8 +183,10 @@ export default {
     handleWebcamSharing() {
       if (this.webcamSharing.share) {
         this.$refs.webcamStreamsWrapper.stopCameraShare()
+        this.webcamSharing.highlightIcon = false
       } else {
         this.$refs.webcamStreamsWrapper.shareCameraStream()
+        this.webcamSharing.highlightIcon = true
       }
       this.webcamSharing.share = !this.webcamSharing.share
     },
@@ -196,3 +202,9 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.currentlyActive {
+  fill: rgb(226, 46, 46);
+}
+</style>
