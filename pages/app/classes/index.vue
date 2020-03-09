@@ -1,7 +1,14 @@
 <template>
-  <div id="dashboard">
+  <div id="main-classroom">
     <div class="search-classes">
-      <input type="text" name="search" id="search" v-model="searchText" onchange="searchClass" />
+      <input
+        placeholder="Search Classes"
+        type="text"
+        name="search"
+        id="search"
+        v-model="searchText"
+        onchange="searchClass"
+      />
     </div>
     <div class="available-classes">
       <div v-for="availableClass in searchResults" :key="availableClass.id">

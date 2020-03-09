@@ -12,13 +12,13 @@
         </li>
 
         <li class="nav-link">
-          <nuxt-link exact to="/app">
-            <HomeIcon />
+          <nuxt-link exact to="/app/dashboard">
+            <DashboardIcon />
           </nuxt-link>
         </li>
         <li>
-          <nuxt-link to="/app/dashboard">
-            <DashboardIcon />
+          <nuxt-link to="/app/classes">
+            <HomeIcon />
           </nuxt-link>
         </li>
         <li>

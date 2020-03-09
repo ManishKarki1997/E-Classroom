@@ -22,6 +22,6 @@ export default {
 }
 .main-content {
   margin-left: 3rem;
-  padding: 12px 2rem;
+  /* padding: 12px 2rem; */
 }
 </style>
