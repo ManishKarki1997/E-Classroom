@@ -1,27 +1,56 @@
 @import '_base';
 
   #main-classroom{
+    // width: 100%;
+    height: 100vh;
+    position: relative;
+  }
+  .classes-overlay{
     padding: 1.5rem 3rem;
+    // width: 99%;
+    margin: 0 auto;
+    margin-left: 1rem;
+    height: 100%;
+    transition: all 0.3s ease-in-out;
+  }
+  .classes-overlay.darken{
+    background-color: rgba(0, 0, 0, 0.7);;
+  }
+  .darken{
+    .search-classes{
+      input{
+        background-color: rgba(0, 0, 0, 0.15);
+        color: white;
+      }
+    }
   }
 
   .search-classes {
     margin-bottom: 1rem;
-    width: 350px;
+    width: 500px;
     display: flex;
     align-items: center;
     justify-content: space-between;
 
-    input{
+    input[type='text']{
       font-size: 14px;
       padding: 6px 8px;
       border-radius: 3px;
-      background-color:$secondary-background-dark;
-      color: white;
+      box-shadow: 0 6px 31px -2px rgba(0, 0, 0, 0.1);
+
+      // background-color:$secondary-background-dark;
+      // color: white;
       border: none;
     }
 
-    input{
-      width: 80%;
+    input[type='text']{
+      width: 70%;
+    }
+
+    button{
+      width: 30%;
+      padding: 2px;
+      cursor: pointer;
     }
   }
 
