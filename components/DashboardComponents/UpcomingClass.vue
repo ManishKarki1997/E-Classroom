@@ -40,6 +40,10 @@
     flex-direction: column;
     width: 100%;
 
+    h5 {
+      font-weight: 500;
+    }
+
     p {
       font-size: 13px;
     }

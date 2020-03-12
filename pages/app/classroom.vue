@@ -20,6 +20,11 @@
           <p style="margin-right:12px;">Tools</p>
           <WhiteboardIcon :class="{currentlyActive:whiteboardOpen}" @click="toggleWhiteboard" />
           <CodeEditorIcon :class="{currentlyActive:codeEditorOpen}" @click="toggleCodeEditor" />
+          <ChatIcon
+            style="width:22px;height:22px;"
+            :class="{currentlyActive:chatboxOpen,openChat:chatboxOpen}"
+            @click="chatboxOpen=!chatboxOpen"
+          />
         </div>
       </div>
       <Whiteboard v-if="whiteboardOpen" />
@@ -29,7 +34,24 @@
       >Start the classroom by broadcasting yourself or your screen by clicking on the Share icons above.</p>
       <video id="teacher-screen-video" autoplay></video>
     </div>
+
+    <hsc-window-style-metal class="floating-window">
+      <hsc-window
+        title="Code Editor"
+        :closeButton="true"
+        :isOpen.sync="codeEditorOpen"
+        positionHint="-255 / -150"
+        :resizable="true"
+        :minWidth="550"
+        :minHeight="350"
+        class="code-editor-wrapper"
+      >
+        <CodeEditor class="code-editor" />
+      </hsc-window>
+    </hsc-window-style-metal>
+
     <div class="classroom-right-side">
+      <Chat v-if="chatboxOpen" />
       <div class="online-students-wrapper">
         <h4>Online Students</h4>
         <ul class="online-students">
@@ -46,44 +68,6 @@
         </ul>
       </div>
 
-      <!-- <hsc-window-style-metal class="floating-window whiteboard-wrapper">
-        <hsc-window
-          title="Whiteboard"
-          :closeButton="true"
-          :isOpen.sync="whiteboardOpen"
-          positionHint="-265 / 100"
-          :resizable="true"
-          :minWidth="900"
-          :minHeight="560"
-        >
-          <Whiteboard />
-        </hsc-window>
-      </hsc-window-style-metal>-->
-
-      <hsc-window-style-metal class="floating-window">
-        <hsc-window
-          title="Code Editor"
-          :closeButton="true"
-          :isOpen.sync="codeEditorOpen"
-          positionHint="-215 / -150"
-          :resizable="true"
-          :minWidth="550"
-          :minHeight="350"
-          class="code-editor-wrapper"
-        >
-          <CodeEditor class="code-editor" />
-          <!-- <div class="code-editor-language-options">
-            <h5>Choose a language</h5>
-            <select name="code-languages" id="code-languages" v-model="codeEditor.cmOptions.mode">
-              <option value="text/javascript">Javascript</option>
-              <option value="text/x-python">Python</option>
-              <option value="text/x-mysql">SQL</option>
-            </select>
-          </div>
-          <codemirror v-model="codeEditor.code" :options="codeEditor.cmOptions"></codemirror>-->
-        </hsc-window>
-      </hsc-window-style-metal>
-
       <StreamsWrapper ref="webcamStreamsWrapper" class="stream-wrapper" />
     </div>
   </div>
@@ -93,6 +77,7 @@
 import StreamsWrapper from '~/components/StudyComponents/StreamsWrapper'
 import Whiteboard from '~/components/StudyComponents/Whiteboard'
 import CodeEditor from '~/components/StudyComponents/CodeEditor'
+import Chat from '~/components/StudyComponents/Chat'
 
 // import 'codemirror/mode/javascript/javascript.js'
 // import 'codemirror/mode/python/python.js'
@@ -108,6 +93,7 @@ import WebcamIcon from '~/static/Icons/webcamera.svg?inline'
 import WhiteboardIcon from '~/static/Icons/whiteboard.svg?inline'
 import CheckMarkIcon from '~/static/Icons/correct.svg?inline'
 import CloseIcon from '~/static/Icons/close.svg?inline'
+import ChatIcon from '~/static/Icons/chat.svg?inline'
 
 export default {
   components: {
@@ -119,7 +105,9 @@ export default {
     CheckMarkIcon,
     CloseIcon,
     Whiteboard,
-    CodeEditor
+    CodeEditor,
+    Chat,
+    ChatIcon
   },
   data() {
     return {
@@ -136,6 +124,7 @@ export default {
       },
       whiteboardOpen: false,
       codeEditorOpen: false,
+      chatboxOpen: false,
       screenSharing: {
         share: false,
         highlightIcon: false

@@ -8,5 +8,10 @@
 <style lang="scss" scoped>
 #settings {
   padding: 14px 2rem;
+
+  p {
+    margin-top: 8px;
+    font-size: 14px;
+  }
 }
 </style>

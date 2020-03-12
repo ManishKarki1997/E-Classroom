@@ -49,8 +49,8 @@ export default {
   margin-top: 1rem;
 
   .user-avatar-wrapper {
-    padding: 4px;
-    border: 2px solid #858ea1;
+    // padding: 4px;
+    border: 2px solid #434c5e;
     width: 70px;
     height: 70px;
     border-radius: 50%;
@@ -74,7 +74,7 @@ export default {
 }
 .user-meta {
   margin-top: 8px;
-  background-color: #858ea1;
+  background-color: #434c5e;
   color: white;
   border-radius: 4px;
   padding: 6px 20px;

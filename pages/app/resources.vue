@@ -88,10 +88,10 @@ export default {
 
   .selectedResource {
     p {
-      color: black;
+      color: #434c5e;
     }
     svg {
-      fill: black;
+      fill: #434c5e;
     }
   }
 

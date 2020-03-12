@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="resource">
     <h4>{{this.$route.params.resource}}</h4>
     <table class="resource-table">
       <thead>
@@ -113,11 +113,17 @@ export default {
     transition: all 0.3s ease-in;
   }
   tr:hover {
-    background-color: white;
+    // background-color: white;
     cursor: pointer;
   }
   tr:hover td {
-    color: black;
+    color: #434c5e;
+  }
+  thead tr:hover {
+    background-color: transparent;
+  }
+  thead tr td {
+    color: inherit;
   }
 }
 .resource-file {

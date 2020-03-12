@@ -2,8 +2,14 @@
 
 body[theme='dark']{
     background-color: $primary-background-dark;
-    color:$primary-text-dark;
+    color:$tertiary-text-dark;
     transition: all 0.4s ease-in-out;
+
+    p{
+        color: #858ea1;
+    }
+
+    
 
 
     #sidebar{
@@ -62,8 +68,9 @@ body[theme='dark']{
     
     .search-classes input[type='text'],
     .search-classes input[type='submit'] {
-    background-color:$secondary-background-dark ;
+        background-color:$secondary-background-dark ;
     }
+   
 
     .teacher-screen{
         background-color: $primary-background-dark;
@@ -72,8 +79,9 @@ body[theme='dark']{
         background-color: $primary-background-dark;
         color: $primary-background-light;
     }
-    .classroom-action-buttons-wrapper svg{
-        fill: $primary-background-light;
+   
+    .classroom-action-buttons-wrapper svg.classroomIconActive{
+        fill: lightcoral !important;
     }
     .whiteboard-toolbars{
         color: $primary-background-light;
@@ -85,6 +93,10 @@ body[theme='dark']{
         border-radius: 0;
     }
 
+   
+
+    
+
 
     .dashboard-right{
         background-color: $secondary-background-dark;
@@ -94,7 +106,40 @@ body[theme='dark']{
     }
     .dashboard-notifications,
     .dashboard-enrolled-classes{
+        // background-color: $secondary-background-dark;
+        box-shadow: none;
+    }
+
+    #notifications,#enrolled-classes-wrapper{
+        background-color: $secondary-background-dark;   
+    }
+  
+    .shared-resources-menu{
         background-color: $secondary-background-dark;
+        color: $tertiary-text-dark;
+    }
+    .resource{
+        color: $tertiary-text-dark;
+    }
+    .resource-table{
+        tr{
+            color: $tertiary-text-dark;
+        }
+    }
+    .resource-file{
+        svg{
+            fill: $tertiary-text-dark;
+        }
     }
     
+
+    #classroom-chat {
+        background-color: $secondary-background-dark;
+        
+        .message-content{
+            color: $tertiary-text-dark;
+            background-color: $primary-background-dark !important;
+            padding: 4px 8px;
+        }
+    }
 }

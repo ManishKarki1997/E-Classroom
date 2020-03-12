@@ -1,6 +1,6 @@
 <template>
   <div id="enrolled-classes-wrapper">
-    <h4>Enrolled Classes</h4>
+    <h4 class="section-title">Enrolled Classes</h4>
     <ul class="enrolled-classes">
       <li class="enrolled-class">
         <img src="~/static/Images/laptop.jpg" alt="Class Image" />
@@ -21,14 +21,17 @@
 </template>
 
 <style lang="scss" scoped>
+#enrolled-classes-wrapper {
+  background-color: #eceff4;
+}
 .enrolled-classes {
-  margin-top: 12px;
+  margin-top: 16px;
   display: flex;
   flex-direction: column;
 }
 .enrolled-class {
   display: flex;
-  margin-bottom: 12px;
+  margin-bottom: 20px;
   cursor: pointer;
 
   img {
@@ -39,6 +42,9 @@
   }
 
   .class-info {
+    h5 {
+      font-weight: 500;
+    }
     p {
       font-size: 13px;
       margin-top: -4px;

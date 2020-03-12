@@ -1,0 +1,79 @@
+@use '_base';
+
+#classroom-chat {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    z-index: 10;
+    background-color: $secondary-background-light;
+    padding: 1rem 8px;
+  }
+  #chat-messages {
+    display: flex;
+    flex-direction: column;
+  
+    .chat-message {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 16px;
+      // align-items: center;
+  
+      .message-sender {
+        display: flex;
+        align-items: center;
+        img {
+          margin-right: 4px;
+          width: 24px;
+          height: 24px;
+          border-radius: 50%;
+        }
+      }
+  
+      .message-content {
+        font-size: 12px;
+        line-height: 20px;
+        background-color: #ccc;
+        padding: 2px 4px;
+        border-radius: 0 5px 5px 5px;
+        margin-top: 4px;
+        margin-left: 25px;
+      }
+    }
+  }
+  .message-by-me {
+    // TODO  flip image and sender name
+    .message-sender {
+      justify-content: flex-end;
+      // order: 2;
+    }
+    .message-content {
+      background-color: lightblue !important; //oops
+      border-radius: 0 0 5px 0 !important; //my bad
+      margin-left: 0;
+      margin-right: 16px;
+    }
+  }
+  .chat-form {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+
+    input[type='text']{
+      @include inputBox($secondary-background-light,$primary-text-light);
+      border-radius: 0;
+      padding: 5px 8px;
+      font-size: 14px;
+      margin-bottom: 8px;
+      border: 1.4px solid $primary-text-dark;
+    }
+
+    input[type='submit']{
+      @include button(#191c28,white); //backgroundColor,color
+      width: 35%;
+    }
+  }

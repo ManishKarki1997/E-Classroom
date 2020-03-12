@@ -48,7 +48,7 @@ export default {
   background-color: white;
   padding: 8px 12px;
   border-radius: 2px;
-  box-shadow: 2px 2px 4px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: 2px 2px 4px 4px #d8dee9;
 }
 .dashboard-enrolled-classes {
   grid-column: span 4;
@@ -60,7 +60,7 @@ export default {
 }
 .dashboard-right {
   width: 20%;
-  background-color: white;
+  background-color: #eceff4;
   padding: 6px 10px;
   box-shadow: 2px 2px 8px 4px rgba(0, 0, 0, 0.1);
 }

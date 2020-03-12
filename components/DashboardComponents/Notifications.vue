@@ -63,6 +63,7 @@ export default {
   // min-height: 100px;
   overflow: auto;
   overflow-x: hidden;
+  background-color: #eceff4;
 
   h4 {
     margin-bottom: 12px;
@@ -75,6 +76,7 @@ export default {
   .notification {
     margin-bottom: 6px;
     // background-color: #dddddd;
+
     padding: 2px 4px;
     border-radius: 2px;
     cursor: pointer;

@@ -11,17 +11,30 @@ body{
     background-color: $primary-background-light;
     color:$primary-text-light;
     transition: all 0.4s ease-in-out;
-    font-family: "Chivo", -apple-system, BlinkMacSystemFont,
+    // font-family: "Chivo";
+    font-family: "Rubik", -apple-system, BlinkMacSystemFont,
     "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans",
     "Droid Sans", "Helvetica Neue", sans-serif;
-    font-weight: 400;
+    font-weight: 300;
+    letter-spacing: .5px; //remove it if font is changed to Chivo
+    color: $primary-text-light;
 }
 p{
     line-height:26px;
 }
 h1,h2,h3,h4,h5,h6{
-    font-family:"Asul";
+    // font-family:"Asul";
+    font-family: "Rubik"; 
+}
+h1,h2,h3{
+    font-weight: 700;
+}
+h4,h5{
+    font-weight: 500;
+}
+h6,p{
+    font-weight: 400;
 }
 .activeLink{
     background-color: lightgray;
@@ -47,6 +60,7 @@ button{
 }
 .section-title{
     font-size: 15px;
+    font-weight: 700;
 }
 
 // basic nuxt route transition
@@ -65,3 +79,4 @@ button{
 @import './getstarted.scss';
 @import './classroom.scss';
 @import './whiteboard.scss';
+@import './chat.scss';
