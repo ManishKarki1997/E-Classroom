@@ -142,4 +142,20 @@ body[theme='dark']{
             padding: 4px 8px;
         }
     }
+
+    .create-class-wrapper{
+        background-color: $primary-background-dark;
+
+        input[type='text'],
+        input[type='file']{
+            background-color: $secondary-background-dark;
+            border:none;
+        }
+
+        // input[type='submit']{
+        //     background-color: $secondary-background-dark;
+        //     border:none;
+        //     color:$primary-text-dark;
+        // }
+    }
 }
