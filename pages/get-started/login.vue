@@ -1,16 +1,63 @@
 <template>
-  <form class="form-container">
+  <form class="form-container" @submit.prevent="login">
     <div class="form-input">
       <label for="email">Email</label>
-      <input type="email" id="email" name="email" />
+      <input v-model="user.email" type="email" id="email" name="email" />
     </div>
     <div class="form-input">
       <label for="password">Password</label>
-      <input type="password" id="password" name="password" />
+      <input v-model="user.password" type="password" id="password" name="password" />
     </div>
 
     <div class="form-actions form-login">
-      <button>Login</button>
+      <button type="submit">Login</button>
     </div>
   </form>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      user: {
+        email: '',
+        password: ''
+      },
+      errorOccured: false,
+      errorMessage: ''
+    }
+  },
+  methods: {
+    async login() {
+      if (this.user.email === '' || this.user.password === '') {
+        this.errorOccured = true
+        this.errorMessage = 'Please provide both email and password'
+        alert(this.errorMessage)
+        return false
+      }
+      const response = await this.$store.dispatch('login', this.user)
+      const { user, jwtToken } = response.data.payload
+      if (!user.error) {
+        this.$store.commit('setUser', { user, jwtToken })
+        this.$toast.open({
+          type: 'success',
+          message: 'Login successful. Redirecting...',
+          position: 'top-right',
+          duration: 1500
+        })
+        setTimeout(() => {
+          this.$router.push('/app')
+        }, 1500)
+      } else {
+        Toast.fire({
+          type: 'error',
+          message: user.error.errorMessage,
+          position: 'top-right',
+          duration: 1500
+        })
+        return false
+      }
+    }
+  }
+}
+</script>

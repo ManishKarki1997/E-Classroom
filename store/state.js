@@ -1,6 +1,8 @@
 function state() {
     return {
-
+        user: {},
+        jwtToken: '',
+        isLoggedIn: false
     }
 }
 

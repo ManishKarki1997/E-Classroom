@@ -1,7 +1,8 @@
 <template>
   <div id="sidebar">
     <div class="user-account">
-      <img src="~/static/Images/Saber.jpg" alt="Picture of the user" />
+      <img :src="apiStaticUrl + '/uploads/users/' + user.avatar" alt />
+      <!-- <img src="~/static/Images/Saber.jpg" alt="Picture of the user" /> -->
     </div>
     <div class="sidebar-menu">
       <ul>
@@ -46,6 +47,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 import HomeIcon from '~/static/Icons/home.svg?inline'
 import ResourcesIcon from '~/static/Icons/paper.svg?inline'
 import StudyIcon from '~/static/Icons/book.svg?inline'
@@ -69,8 +72,14 @@ export default {
   data() {
     return {
       themeMode: '',
-      activeLink: ''
+      activeLink: '',
+      apiStaticUrl: ''
     }
+  },
+  computed: {
+    ...mapState({
+      user: state => state.user
+    })
   },
   methods: {
     toggleTheme() {
@@ -97,6 +106,7 @@ export default {
     // and if saved theme is '' i.e. light, set themeMode to dark;
     savedTheme === 'dark' ? (this.themeMode = '') : (this.themeMode = 'dark')
     this.toggleTheme()
+    this.apiStaticUrl = process.env.baseUrl
   }
 }
 </script>

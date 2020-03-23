@@ -17,7 +17,10 @@
     "@nuxtjs/pwa": "^3.0.0-0",
     "@nuxtjs/svg": "^0.1.6",
     "nuxt": "^2.0.0",
-    "vue-codemirror": "^4.0.6"
+    "sweetalert2": "^9.10.5",
+    "vue-codemirror": "^4.0.6",
+    "vue-toast-notification": "^0.2.0",
+    "vuex-persist": "^2.2.0"
   },
   "devDependencies": {
     "eslint-config-prettier": "^4.1.0",

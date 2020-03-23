@@ -12,6 +12,13 @@ import Sidebar from '~/components/Sidebar'
 export default {
   components: {
     Sidebar
+  },
+  validate({ store }) {
+    if (!store.state.isLoggedIn) {
+      this.$router.push('/get-started/login')
+      return false
+    }
+    return true
   }
 }
 </script>

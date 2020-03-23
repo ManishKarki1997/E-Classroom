@@ -19,6 +19,9 @@ export default {
 
     ]
   },
+  server: {
+    port: 8080
+  },
   /*
   ** Customize the progress-bar color
   */
@@ -34,7 +37,8 @@ export default {
   */
   plugins: [
     '~/plugins/VueWindow.js',
-    '~/plugins/VueEditor.js'
+    '~/plugins/VueEditor.js',
+    '~/plugins/vue-toast.js'
 
   ],
   /*
@@ -52,6 +56,7 @@ export default {
     // Doc: https://github.com/nuxt-community/dotenv-module
     '@nuxtjs/dotenv',
     '@nuxtjs/svg',
+
   ],
   /*
   ** Axios module configuration
@@ -68,5 +73,8 @@ export default {
     */
     extend(config, ctx) {
     }
+  },
+  env: {
+    baseUrl: process.env.BASE_URL || 'http://localhost:3000'
   }
 }

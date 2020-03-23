@@ -1,20 +1,22 @@
-// import VuexPersist from 'vuex-persist';
+import VuexPersist from 'vuex-persist';
 
-// const vuexLocalStorage = new VuexPersist({
-//     key: 'torrents-app',
-//     // storage: window.localStorage,
-//     reducer: state => ({
-//         torrentToSearch: state.torrentToSearch
-//     })
-// })
+const vuexLocalStorage = new VuexPersist({
+    key: 'virtualclassroom',
+    // storage: window.localStorage,
+    reducer: state => ({
+        user: state.user,
+        isLoggedIn: state.isLoggedIn,
+        jwtToken: state.jwtToken
+    })
+})
 
 import state from './state.js'
-import mutation from './mutation.js'
-import action from './action.js'
+import mutation from './mutations.js'
+import action from './actions.js'
 
 export default {
     state,
     mutation,
     action,
-    // plugins: [vuexLocalStorage.plugin]
+    plugins: [vuexLocalStorage.plugin]
 }
