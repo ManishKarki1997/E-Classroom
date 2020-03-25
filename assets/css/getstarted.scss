@@ -89,6 +89,7 @@
       @include inputBox($secondary-background-light,$primary-text-light);
     border: 1px solid $primary-text-dark;
     margin-top: 8px;
+    font-size: 14px;
   }
   .form-actions {
     display: flex;

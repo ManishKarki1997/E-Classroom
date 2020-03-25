@@ -51,7 +51,9 @@ export default {
       } else {
         Toast.fire({
           type: 'error',
-          message: user.error.errorMessage,
+          message:
+            user.error.errorMessage ||
+            'Something went wrong. Please try again.',
           position: 'top-right',
           duration: 1500
         })

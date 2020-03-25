@@ -15,34 +15,51 @@
           @click="showCreateClassForm=!showCreateClassForm"
         >Create a Class</button>
       </div>
-      <div class="available-classes">
+
+      <!-- If there are results, show them -->
+      <div class="available-classes" v-if="searchResults.length>0">
         <div v-for="availableClass in searchResults" :key="availableClass.id">
           <ClassCard :courseclass="availableClass" />
         </div>
       </div>
-      <ClassCard />
+
+      <div v-else>
+        <p>No classes available</p>
+      </div>
+      <!-- <ClassCard /> -->
     </div>
     <div class="create-class-wrapper" v-if="showCreateClassForm">
-      <form @click="createClass">
+      <form @submit.prevent="createClass">
         <div class="form-input">
           <label for="className">Name</label>
-          <input type="text" name="className" id="className" />
+          <input v-model="newClass.name" type="text" name="className" id="className" />
         </div>
         <div class="form-input">
           <label for="classBackgroundImage">Image</label>
-          <input type="file" accept="image/*" name="classBackgroundImage" id="classBackgroundImage" />
+          <input
+            @change="onFileChanged"
+            type="file"
+            accept="image/*"
+            name="classBackgroundImage"
+            id="classBackgroundImage"
+          />
         </div>
         <div class="form-input">
           <label for="classroomDescription">Description</label>
-          <input type="text" name="classroomDescription" id="classroomDescription" />
+          <input
+            v-model="newClass.description"
+            type="text"
+            name="classroomDescription"
+            id="classroomDescription"
+          />
         </div>
         <div class="form-input">
           <label for="classSubject">Subject</label>
-          <input type="text" name="classSubject" id="classSubject" />
+          <input v-model="newClass.subject" type="text" name="classSubject" id="classSubject" />
         </div>
         <div>
           <input type="submit" value="Create" />
-          <button @click="showCreateClassForm=false">Close</button>
+          <button :disabled="formSubmitting" @click="showCreateClassForm=false">Close</button>
         </div>
       </form>
     </div>
@@ -58,45 +75,77 @@ export default {
   },
   data() {
     return {
+      newClass: {
+        name: '',
+        description: '',
+        createdBy: '',
+        subject: ''
+      },
+      formSubmitting: false,
+      classBackgroundImage: null,
       showCreateClassForm: false,
       searchText: '',
-      classes: [
-        {
-          id: 'class001',
-          className: 'Web Development',
-          classDescription:
-            'Learn about web development with the best practices and hands on real life projects.',
-          classImage: 'laptop.jpg',
-          teacher: {
-            name: 'Arthur Pendragon',
-            avatar: 'avatar.png'
-          }
-        },
-        {
-          id: 'class002',
-          className: 'Mobile App Development',
-          classDescription:
-            'Get hands on experience in mobile development with Flutter for both Android and IOS.',
-          classImage: 'appdevelopment.jpg',
-          teacher: {
-            name: 'Ishtar',
-            avatar: 'femaleavatar.png'
-          }
-        }
-      ]
+      classes: []
     }
   },
   computed: {
     searchResults() {
       return this.classes.filter(courseClass =>
-        courseClass.className
-          .toLowerCase()
-          .includes(this.searchText.toLowerCase())
+        courseClass.name.toLowerCase().includes(this.searchText.toLowerCase())
       )
     }
   },
   methods: {
-    createClass() {}
+    async createClass() {
+      this.formSubmitting = true
+      if (
+        this.newClass.name === '' ||
+        this.newClass.description === '' ||
+        this.newClass.subject === ''
+      ) {
+        this.$toast.open({
+          type: 'error',
+          message: 'Please provide email, password & name at the very least.',
+          position: 'top-right',
+          duration: 1500
+        })
+        return false
+      }
+
+      this.newClass.createdBy = this.$store.state.user.email
+
+      let formData = new FormData()
+      formData.append('name', this.newClass.name)
+      formData.append('subject', this.newClass.subject)
+      formData.append('createdBy', this.$store.state.user.email)
+      formData.append('description', this.newClass.description)
+      formData.append('avatar', this.classBackgroundImage)
+
+      const response = await this.$store.dispatch('createNewClass', formData)
+      const { error, payload, message } = response.data
+      if (error) {
+        this.$toast.open({
+          type: 'error',
+          message,
+          position: 'top-right',
+          duration: 1500
+        })
+      } else {
+        this.classes.push(payload.classroom)
+      }
+      this.formSubmitting = false
+      this.showCreateClassForm = false
+    },
+    onFileChanged(e) {
+      this.classBackgroundImage = e.target.files[0]
+    },
+    async fetchAllClasses() {
+      const response = await this.$store.dispatch('fetchAllClasses')
+      this.classes = response.data.payload.classes
+    }
+  },
+  created() {
+    this.fetchAllClasses()
   }
 }
 </script>
@@ -113,6 +162,18 @@ export default {
   padding: 1rem 2rem;
   border-radius: 3px;
 }
+input[type='text'] {
+  padding: 10px 8px;
+}
+
+input[type='submit'],
+button {
+  margin-left: 8px;
+  border-radius: 2px;
+  padding: 10px 8px;
+  border: none;
+}
+
 input[type='file'] {
   border: none;
 }

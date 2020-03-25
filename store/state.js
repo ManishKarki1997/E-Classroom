@@ -2,7 +2,8 @@ function state() {
     return {
         user: {},
         jwtToken: '',
-        isLoggedIn: false
+        isLoggedIn: false,
+        apiUrl: process.env.baseUrl
     }
 }
 
