@@ -52,7 +52,7 @@
 
       <!-- Start:  Classroom Join/Close Buttons -->
       <div class="classroom-action-buttons">
-        <button>Join</button>
+        <button @click="emitJoinEvent">Join</button>
         <button @click="hideModal">Cancel</button>
       </div>
       <!-- End:  Classroom Join/Close Buttons -->
@@ -81,6 +81,9 @@ export default {
   methods: {
     hideModal() {
       this.$emit('hideModal', true)
+    },
+    emitJoinEvent() {
+      this.$emit('joinNewClass', this.classroom._id)
     }
   },
   mounted() {

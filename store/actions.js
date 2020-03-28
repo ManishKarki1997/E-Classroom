@@ -20,6 +20,13 @@ const action = {
                 'Authorization': `Bearer ${state.jwtToken}`,
             }
         });
+    },
+    joinNewClass({ state, commit }, payload) {
+        return axios.post(`${process.env.baseUrl}/api/class/join`, payload, {
+            headers: {
+                'Authorization': `Bearer ${state.jwtToken}`,
+            }
+        });
     }
 
 }

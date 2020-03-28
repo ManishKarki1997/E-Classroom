@@ -79,7 +79,11 @@
 
     <!-- Modal that contains additional classroom information -->
     <div v-if="isShowingClassInfoModal" class="class-modal-wrapper">
-      <ClassInfoModal :classroom="currentlyOpenClass" @hideModal="hideTheModal" />
+      <ClassInfoModal
+        @joinNewClass="joinNewClass"
+        :classroom="currentlyOpenClass"
+        @hideModal="hideTheModal"
+      />
     </div>
   </div>
 </template>
@@ -201,6 +205,34 @@ export default {
     hideTheModal(value) {
       // always receives the boolean (true) to close the model
       this.isShowingClassInfoModal = !value //hide the model by setting this variable to false
+    },
+    async joinNewClass(classId) {
+      const response = await this.$store.dispatch('joinNewClass', {
+        classId,
+        userId: this.$store.state.user._id
+      })
+
+      const { error, message } = response.data
+
+      if (!error) {
+        this.$toast.open({
+          type: 'success',
+          message,
+          position: 'top-right',
+          duration: 1500
+        })
+        this.hideTheModal(true) // hide the modal
+        this.fetchAllClasses() // refetch all updated classes
+        this.$$forceUpdate() // hack, not preferred
+      } else {
+        this.$toast.open({
+          type: 'error',
+          message,
+          position: 'top-right',
+          duration: 1500
+        })
+        return false
+      }
     }
   },
   created() {
