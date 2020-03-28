@@ -37,6 +37,7 @@ export default {
       }
       const response = await this.$store.dispatch('login', this.user)
       const { user, jwtToken } = response.data.payload
+      console.log(response)
       if (!user.error) {
         this.$store.commit('setUser', { user, jwtToken })
         this.$toast.open({

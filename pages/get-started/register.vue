@@ -17,6 +17,10 @@
       <input v-model="confirmPassword" type="password" id="confirmPassword" name="confirmPassword" />
     </div>
     <div class="form-input">
+      <label for="contact">Contact</label>
+      <input v-model="user.contact" type="text" id="contact" name="contact" />
+    </div>
+    <div class="form-input">
       <label for="avatar">Avatar</label>
       <input @change="onFileChanged" type="file" id="avatar" name="avatar" />
     </div>
@@ -41,7 +45,8 @@ export default {
         email: '',
         password: '',
         avatarURL: '',
-        name: ''
+        name: '',
+        contact: ''
       },
       image: null,
       confirmPassword: '',
@@ -80,10 +85,12 @@ export default {
         formData.append('name', this.user.name)
         formData.append('email', this.user.email)
         formData.append('password', this.user.password)
-        formData.append('avatar', this.image)
+        formData.append('image', this.image)
+        formData.append('contact', this.user.contact)
 
         // dispatch an action to register, passsing formData as the payload
         const response = await this.$store.dispatch('register', formData)
+        console.log(response)
 
         // If there is an error, display a toast notification
         if (response.data.error) {

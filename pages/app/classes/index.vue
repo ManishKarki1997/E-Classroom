@@ -18,9 +18,13 @@
 
       <!-- If there are results, show them -->
       <div class="available-classes" v-if="searchResults.length>0">
-        <div v-for="availableClass in searchResults" :key="availableClass.id">
-          <ClassCard :courseclass="availableClass" />
-        </div>
+        <ClassCard
+          v-for="availableClass in searchResults"
+          :key="availableClass.id"
+          class="class-card"
+          :courseclass="availableClass"
+          @classroomClicked="showClassInfoModal"
+        />
       </div>
 
       <div v-else>
@@ -28,6 +32,8 @@
       </div>
       <!-- <ClassCard /> -->
     </div>
+
+    <!-- Create new class form -->
     <div class="create-class-wrapper" v-if="showCreateClassForm">
       <form @submit.prevent="createClass">
         <div class="form-input">
@@ -45,33 +51,52 @@
           />
         </div>
         <div class="form-input">
+          <label for="classShortInfo">Short Info</label>
+          <input v-model="newClass.shortInfo" type="text" name="shortInfo" id="shortInfo" />
+        </div>
+        <div class="form-input">
           <label for="classroomDescription">Description</label>
-          <input
+          <textarea
+            rows="6"
             v-model="newClass.description"
             type="text"
             name="classroomDescription"
             id="classroomDescription"
-          />
+          ></textarea>
         </div>
-        <div class="form-input">
-          <label for="classSubject">Subject</label>
-          <input v-model="newClass.subject" type="text" name="classSubject" id="classSubject" />
+        <div class="classroom-timeschedule">
+          <vue-timepicker v-model="newClass.startTime" format="hh:mm A"></vue-timepicker>
+          <vue-timepicker v-model="newClass.endTime" format="hh:mm A"></vue-timepicker>
         </div>
+
         <div>
           <input type="submit" value="Create" />
           <button :disabled="formSubmitting" @click="showCreateClassForm=false">Close</button>
         </div>
       </form>
     </div>
+    <!-- Create new class form ends here -->
+
+    <!-- Modal that contains additional classroom information -->
+    <div v-if="isShowingClassInfoModal" class="class-modal-wrapper">
+      <ClassInfoModal :classroom="currentlyOpenClass" @hideModal="hideTheModal" />
+    </div>
   </div>
 </template>
 
 <script>
 import ClassCard from '~/components/ClassCard'
+import ClassInfoModal from '~/components/DashboardComponents/ClassInfoModal'
+
+// Vue time picker
+import VueTimepicker from 'vue2-timepicker'
+import 'vue2-timepicker/dist/VueTimepicker.css'
 
 export default {
   components: {
-    ClassCard
+    ClassCard,
+    ClassInfoModal,
+    VueTimepicker
   },
   data() {
     return {
@@ -79,13 +104,18 @@ export default {
         name: '',
         description: '',
         createdBy: '',
-        subject: ''
+        shortInfo: '',
+        startTime: '',
+        endTime: ''
       },
       formSubmitting: false,
       classBackgroundImage: null,
       showCreateClassForm: false,
       searchText: '',
-      classes: []
+      classes: [],
+      currentlyOpenClassId: '',
+      currentlyOpenClass: {},
+      isShowingClassInfoModal: false
     }
   },
   computed: {
@@ -101,25 +131,37 @@ export default {
       if (
         this.newClass.name === '' ||
         this.newClass.description === '' ||
-        this.newClass.subject === ''
+        this.newClass.shortInfo === ''
       ) {
         this.$toast.open({
           type: 'error',
-          message: 'Please provide email, password & name at the very least.',
+          message: 'Please fill all the fields first.',
           position: 'top-right',
           duration: 1500
         })
         return false
+      } else if (
+        this.newClass.startTime === '' ||
+        this.newClass.endTime === ''
+      ) {
+        return this.$toast.open({
+          type: 'error',
+          message: 'Please specify start and end time of the class.',
+          position: 'top-right',
+          duration: false
+        })
       }
 
       this.newClass.createdBy = this.$store.state.user.email
 
       let formData = new FormData()
       formData.append('name', this.newClass.name)
-      formData.append('subject', this.newClass.subject)
-      formData.append('createdBy', this.$store.state.user.email)
+      formData.append('shortInfo', this.newClass.shortInfo)
+      formData.append('createdBy', this.$store.state.user._id)
       formData.append('description', this.newClass.description)
-      formData.append('avatar', this.classBackgroundImage)
+      formData.append('image', this.classBackgroundImage)
+      formData.append('startTime', this.newClass.startTime)
+      formData.append('endTime', this.newClass.endTime)
 
       const response = await this.$store.dispatch('createNewClass', formData)
       const { error, payload, message } = response.data
@@ -131,7 +173,13 @@ export default {
           duration: 1500
         })
       } else {
-        this.classes.push(payload.classroom)
+        this.classes.push(payload.result)
+        this.$toast.open({
+          type: 'success',
+          message: 'Class successfully created.',
+          position: 'top-right',
+          duration: 1500
+        })
       }
       this.formSubmitting = false
       this.showCreateClassForm = false
@@ -142,6 +190,17 @@ export default {
     async fetchAllClasses() {
       const response = await this.$store.dispatch('fetchAllClasses')
       this.classes = response.data.payload.classes
+    },
+    showClassInfoModal(classroom) {
+      this.isShowingClassInfoModal = true
+      this.currentlyOpenClassId = classroom._id
+      this.currentlyOpenClass = classroom
+    },
+    // when use clicks the cancel button in ClassInfoModal components, this method is called,
+    // and receives a 'true' value as the parameter
+    hideTheModal(value) {
+      // always receives the boolean (true) to close the model
+      this.isShowingClassInfoModal = !value //hide the model by setting this variable to false
     }
   },
   created() {
@@ -149,32 +208,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-.create-class-wrapper {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  box-shadow: 0 6px 31px -2px rgba(0, 0, 0, 0.1);
-  z-index: 10;
-  background-color: white;
-  padding: 1rem 2rem;
-  border-radius: 3px;
-}
-input[type='text'] {
-  padding: 10px 8px;
-}
-
-input[type='submit'],
-button {
-  margin-left: 8px;
-  border-radius: 2px;
-  padding: 10px 8px;
-  border: none;
-}
-
-input[type='file'] {
-  border: none;
-}
-</style>

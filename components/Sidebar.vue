@@ -1,7 +1,7 @@
 <template>
   <div id="sidebar">
     <div class="user-account">
-      <img :src="apiStaticUrl + '/uploads/users/' + user.avatar" alt />
+      <img :src="apiStaticUrl + '/uploads/images/' + user.avatar" alt />
       <!-- <img src="~/static/Images/Saber.jpg" alt="Picture of the user" /> -->
     </div>
     <div class="sidebar-menu">

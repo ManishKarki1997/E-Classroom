@@ -12,14 +12,14 @@
         <ClassIcon />
         <div class="user-meta-info">
           <h5>4</h5>
-          <p>Classes</p>
+          <p>Teaching</p>
         </div>
       </div>
       <div class="user-meta-item">
         <HugIcon />
         <div class="user-meta-info">
           <h5>24</h5>
-          <p>Friends</p>
+          <p>Enrolled</p>
         </div>
       </div>
     </div>
@@ -72,6 +72,7 @@ export default {
     color: rgb(173, 172, 172);
   }
 }
+
 .user-meta {
   margin-top: 8px;
   background-color: #434c5e;

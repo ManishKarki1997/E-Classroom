@@ -69,6 +69,7 @@ body[theme='dark']{
     .search-classes input[type='text'],
     .search-classes input[type='submit'] {
         background-color:$secondary-background-dark ;
+        color: $primary-text-dark;
     }
    
 
@@ -152,10 +153,32 @@ body[theme='dark']{
             border:none;
         }
 
-        // input[type='submit']{
-        //     background-color: $secondary-background-dark;
-        //     border:none;
-        //     color:$primary-text-dark;
-        // }
+      
+
+      
     }
+
+    .class-modal-wrapper{
+        background-color: $primary-background-dark;
+    }
+    .classroom-time-schedule {
+        span{
+            color: $primary-text-dark;
+        }
+    }
+  .classroom-action-buttons {
+      button{
+          &:first-child{
+              background-color: $secondary-background-dark;
+              border: none;
+          }
+
+          &:last-child{
+              border: none;
+              background-color: transparent;
+              color: $primary-text-dark;
+          }
+      }
+  }
+  
 }
