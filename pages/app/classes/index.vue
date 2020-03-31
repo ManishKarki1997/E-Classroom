@@ -81,9 +81,12 @@
     <div v-if="isShowingClassInfoModal" class="class-modal-wrapper">
       <ClassInfoModal
         @joinNewClass="joinNewClass"
+        @leaveClass="joinNewClass"
+        @editClass="editClass"
         :classroom="currentlyOpenClass"
         @hideModal="hideTheModal"
         teaching="false"
+        hideJoinButton="false"
       />
     </div>
   </div>
@@ -224,7 +227,7 @@ export default {
         })
         this.hideTheModal(true) // hide the modal
         this.fetchAllClasses() // refetch all updated classes
-        this.$$forceUpdate() // hack, not preferred
+        this.$forceUpdate() // hack, not preferred
       } else {
         this.$toast.open({
           type: 'error',
@@ -233,6 +236,54 @@ export default {
           duration: 1500
         })
         return false
+      }
+    },
+    async editClass(backgroundImage) {
+      if (
+        this.currentlyOpenClass.name === '' ||
+        this.currentlyOpenClass.description === '' ||
+        this.currentlyOpenClass.shortInfo === '' ||
+        this.currentlyOpenClass.startTime === '' ||
+        this.currentlyOpenClass.endTime === ''
+      ) {
+        this.$toast.open({
+          type: 'error',
+          message: 'Please fill all the required fields.',
+          position: 'top-right',
+          duration: 1500
+        })
+        return false
+      }
+
+      const classId = this.currentlyOpenClassId
+      let formData = new FormData()
+      formData.append('name', this.currentlyOpenClass.name)
+      formData.append('shortInfo', this.currentlyOpenClass.shortInfo)
+      formData.append('classId', classId)
+      formData.append('description', this.currentlyOpenClass.description)
+      formData.append('image', backgroundImage)
+      formData.append('startTime', this.currentlyOpenClass.startTime)
+      formData.append('endTime', this.currentlyOpenClass.endTime)
+
+      const response = await this.$store.dispatch('updateClass', formData)
+      const { error, payload, message } = response.data
+      if (error) {
+        this.$toast.open({
+          type: 'error',
+          message,
+          position: 'top-right',
+          duration: 1500
+        })
+      } else {
+        this.$toast.open({
+          type: 'success',
+          message: 'Class successfully updated.',
+          position: 'top-right',
+          duration: 1500
+        })
+        this.fetchAllClasses()
+        this.$forceUpdate()
+        this.hideTheModal(true)
       }
     }
   },

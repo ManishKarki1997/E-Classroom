@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="courseclass"
-    :style="`background-image:url(${apiUrl}/uploads/images/${courseclass.backgroundImage})`"
+    :style="{backgroundImage:'url(' + apiUrl + '/uploads/images/' +courseclass.backgroundImage + ')'}"
     @click="classroomClicked"
   >
     <div class="class-card-overlay"></div>

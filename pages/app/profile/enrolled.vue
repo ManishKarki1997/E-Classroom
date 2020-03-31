@@ -22,6 +22,8 @@
           hideJoinButton="false"
           :classroom="currentlyOpenClass"
           @hideModal="hideTheModal"
+          @leaveClass="leaveClassroom"
+          teaching="false"
         />
       </div>
     </div>
@@ -57,23 +59,55 @@ export default {
     hideTheModal(value) {
       // always receives the boolean (true) to close the model
       this.isShowingClassInfoModal = !value //hide the model by setting this variable to false
+    },
+    async fetchUserClasses() {
+      const result = await this.$store.dispatch('fetchUserClasses', {})
+      const { joinedClasses } = result.data.payload
+
+      if (result.data.error) {
+        this.$toast.open({
+          type: 'error',
+          message:
+            user.error.errorMessage ||
+            'Something went wrong. Please try again.',
+          position: 'top-right',
+          duration: 1500
+        })
+        return false
+      }
+      this.classes = joinedClasses
+    },
+    async leaveClassroom(classId) {
+      const response = await this.$store.dispatch('joinNewClass', {
+        classId,
+        userId: this.$store.state.user._id
+      })
+
+      const { error, message } = response.data
+
+      if (!error) {
+        this.$toast.open({
+          type: 'success',
+          message,
+          position: 'top-right',
+          duration: 1500
+        })
+        this.hideTheModal(true) // hide the modal
+        this.fetchUserClasses()
+        this.$forceUpdate() // hack, not preferred
+      } else {
+        this.$toast.open({
+          type: 'error',
+          message,
+          position: 'top-right',
+          duration: 1500
+        })
+        return false
+      }
     }
   },
-  async mounted() {
-    const result = await this.$store.dispatch('fetchUserClasses', {})
-    const { joinedClasses } = result.data.payload
-
-    if (result.data.error) {
-      this.$toast.open({
-        type: 'error',
-        message:
-          user.error.errorMessage || 'Something went wrong. Please try again.',
-        position: 'top-right',
-        duration: 1500
-      })
-      return false
-    }
-    this.classes = joinedClasses
+  mounted() {
+    this.fetchUserClasses()
   }
 }
 </script>

@@ -9,7 +9,7 @@
       <img v-else :src="backgroundImageUrl" alt="Classroom Imge" />
     </div>
 
-    <div v-if="teaching" class="edit-class-wrapper">
+    <div v-if="editMode" class="edit-class-wrapper">
       <form @submit.prevent="emitEditEvent">
         <div class="form-input">
           <label for="className">Name</label>
@@ -46,13 +46,13 @@
         </div>
 
         <div class="edit-class-buttons">
-          <input type="submit" value="Edit" />
-          <button :disabled="formSubmitting" @click="hideModal">Close</button>
+          <button type="submit">Edit</button>
+          <button @click="editMode=false">Close</button>
         </div>
       </form>
     </div>
 
-    <div class="classroom-info-wrapper" v-if="!teaching">
+    <div class="classroom-info-wrapper" v-else>
       <div class="teacher-info-wrapper">
         <img :src="`${apiUrl}/uploads/images/${classroom.createdBy.avatar}`" alt="Teacher Imge" />
         <div class="teacher-info">
@@ -100,9 +100,14 @@
 
       <!-- Start:  Classroom Join/Close Buttons -->
       <div class="classroom-action-buttons">
-        <button v-if="!hideJoinButton && !teaching" @click="emitJoinEvent">Join</button>
-        <button v-if="teaching" @click="emitEditEvent">Edit</button>
-        <button @click="hideModal">Cancel</button>
+        <button :disabled="formSubmitting" v-if="showJoinButton" @click="emitJoinEvent">Join</button>
+        <button v-if="showEditButton" @click="editMode=true">Edit</button>
+        <button
+          :disabled="formSubmitting"
+          v-if="!showJoinButton && showLeaveButton"
+          @click="emitLeaveClassEvent"
+        >Leave</button>
+        <button @click="hideModal">Close</button>
       </div>
       <!-- End:  Classroom Join/Close Buttons -->
     </div>
@@ -110,6 +115,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 import ClassIcon from '~/static/Icons/class.svg?inline'
 import HugIcon from '~/static/Icons/hug.svg?inline'
 
@@ -124,6 +131,9 @@ export default {
     HugIcon,
     VueTimepicker
   },
+  computed: mapState({
+    user: state => state.user
+  }),
   data() {
     return {
       apiUrl: this.$store.state.apiUrl,
@@ -131,12 +141,13 @@ export default {
       formSubmitting: false,
       classBackgroundImage: null,
       newBackgroundChosen: false,
-      backgroundImageUrl: ''
+      backgroundImageUrl: '',
+      userCreatedThisClass: false,
+      showLeaveButton: false,
+      showJoinButton: false,
+      showEditButton: false,
+      editMode: false
     }
-  },
-  created() {
-    // console.log(this.classroom)
-    this.editClassInfo = this.classroom
   },
   methods: {
     hideModal() {
@@ -152,9 +163,32 @@ export default {
       this.classBackgroundImage = e.target.files[0]
       this.newBackgroundChosen = true
       this.backgroundImageUrl = URL.createObjectURL(this.classBackgroundImage)
+    },
+    emitLeaveClassEvent() {
+      this.$emit('leaveClass', this.classroom._id)
     }
   },
   mounted() {
+    this.editClassInfo = this.classroom
+
+    // check if current user joined this classroom & the classroom wasn't created by this user
+    const userCreatedThisClass =
+      this.user._id === this.classroom.createdBy._id ? true : false
+    const userAlreadyJoinedClass =
+      this.classroom.users.indexOf(this.user._id) > -1 ? true : false
+
+    if (!userCreatedThisClass && !userAlreadyJoinedClass) {
+      this.showJoinButton = true
+    }
+
+    if (userAlreadyJoinedClass && !userCreatedThisClass) {
+      this.showLeaveButton = true
+    }
+
+    if (this.classroom.createdBy._id === this.user._id) {
+      this.showEditButton = true
+    }
+
     // if  the use presses escape key, emit the event to close the modal
     // stackoverflow ftw
     const that = this
@@ -177,7 +211,7 @@ export default {
 <style lang="scss" scoped>
 @import '../../assets/css/_base';
 .edit-class-wrapper {
-  width: 75%;
+  width: 60%;
   padding: 1.5rem 3rem;
 
   textarea {
@@ -195,6 +229,13 @@ export default {
 
   .edit-class-buttons {
     margin-top: 3rem;
+
+    button {
+      &:first-child {
+        background-color: #434c5e;
+        color: white;
+      }
+    }
   }
 }
 </style>

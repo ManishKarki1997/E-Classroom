@@ -32,12 +32,27 @@ export default {
       if (this.user.email === '' || this.user.password === '') {
         this.errorOccured = true
         this.errorMessage = 'Please provide both email and password'
-        alert(this.errorMessage)
+        this.$toast.open({
+          type: 'error',
+          message: this.errorMessage,
+          position: 'top-right',
+          duration: 1500
+        })
         return false
       }
       const response = await this.$store.dispatch('login', this.user)
-      const { user, jwtToken } = response.data.payload
-      if (!user.error) {
+      if (response.data.error) {
+        this.errorOccured = true
+        this.errorMessage = response.data.message
+        this.$toast.open({
+          type: 'error',
+          message: this.errorMessage,
+          position: 'top-right',
+          duration: 1500
+        })
+        return false
+      } else {
+        const { user, jwtToken } = response.data.payload
         this.$store.commit('setUser', { user, jwtToken })
         this.$toast.open({
           type: 'success',
@@ -48,16 +63,6 @@ export default {
         setTimeout(() => {
           this.$router.push('/app')
         }, 1500)
-      } else {
-        this.$toast.open({
-          type: 'error',
-          message:
-            user.error.errorMessage ||
-            'Something went wrong. Please try again.',
-          position: 'top-right',
-          duration: 1500
-        })
-        return false
       }
     }
   }
