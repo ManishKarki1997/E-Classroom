@@ -27,6 +27,20 @@ const action = {
                 'Authorization': `Bearer ${state.jwtToken}`,
             }
         });
+    },
+    fetchUserClasses({ state, commit }, payload) {
+        return axios.get(`${process.env.baseUrl}/api/user/classes`, {
+            headers: {
+                'Authorization': `Bearer ${state.jwtToken}`,
+            }
+        });
+    },
+    updateClass({ state, commit }, payload) {
+        return axios.put(`${process.env.baseUrl}/api/class`, payload, {
+            headers: {
+                'Authorization': `Bearer ${state.jwtToken}`
+            }
+        });
     }
 
 }

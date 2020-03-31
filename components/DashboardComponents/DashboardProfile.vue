@@ -86,8 +86,8 @@ export default {
   justify-content: space-between;
 }
 .user-meta svg {
-  width: 25px;
-  height: 25px;
+  width: 30px;
+  height: 30px;
   fill: rgrgb(143, 141, 141);
 }
 .user-meta,

@@ -180,5 +180,22 @@ body[theme='dark']{
           }
       }
   }
+
+  .edit-class-wrapper{
+      textarea{
+          background-color: $secondary-background-dark;
+      }
+      input{
+        background-color: $secondary-background-dark;
+        color: white;
+      }
+
+      .edit-class-buttons{
+          button{
+              background-color: transparent;
+              color: white;
+          }
+      }
+  }
   
 }

@@ -83,6 +83,7 @@
         @joinNewClass="joinNewClass"
         :classroom="currentlyOpenClass"
         @hideModal="hideTheModal"
+        teaching="false"
       />
     </div>
   </div>
