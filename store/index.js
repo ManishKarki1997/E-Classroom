@@ -6,7 +6,8 @@ const vuexLocalStorage = new VuexPersist({
     reducer: state => ({
         user: state.user,
         isLoggedIn: state.isLoggedIn,
-        jwtToken: state.jwtToken
+        jwtToken: state.jwtToken,
+        currentlyViewingClass: state.currentlyViewingClass
     })
 })
 

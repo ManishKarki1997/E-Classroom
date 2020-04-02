@@ -101,6 +101,8 @@
       <!-- Start:  Classroom Join/Close Buttons -->
       <div class="classroom-action-buttons">
         <button :disabled="formSubmitting" v-if="showJoinButton" @click="emitJoinEvent">Join</button>
+        <!-- <button v-if="showEditButton" @click="editMode=true">Edit</button> -->
+        <button v-if="showViewButton" @click="gotoSingleClassView">View</button>
         <button v-if="showEditButton" @click="editMode=true">Edit</button>
         <button
           :disabled="formSubmitting"
@@ -125,7 +127,7 @@ import VueTimepicker from 'vue2-timepicker'
 import 'vue2-timepicker/dist/VueTimepicker.css'
 
 export default {
-  props: ['classroom', 'teaching', 'hideJoinButton'],
+  props: ['classroom', 'teaching', 'hideJoinButton', 'allowDirectEdit'],
   components: {
     ClassIcon,
     HugIcon,
@@ -146,10 +148,17 @@ export default {
       showLeaveButton: false,
       showJoinButton: false,
       showEditButton: false,
-      editMode: false
+      editMode: false,
+      showViewButton: false
     }
   },
   methods: {
+    gotoSingleClassView() {
+      this.$router.push(`/app/classes/${this.classroom._id}`)
+      this.$store.commit('setCurrentlyViewingClass', {
+        currentlyViewingClass: this.classroom
+      })
+    },
     hideModal() {
       this.$emit('hideModal', true)
     },
@@ -157,6 +166,7 @@ export default {
       this.$emit('joinNewClass', this.classroom._id)
     },
     emitEditEvent() {
+      // this.$router.push(`/classes/${this.classroom._id}`)
       this.$emit('editClass', this.classBackgroundImage)
     },
     onFileChanged(e) {
@@ -185,8 +195,12 @@ export default {
       this.showLeaveButton = true
     }
 
-    if (this.classroom.createdBy._id === this.user._id) {
+    if (userCreatedThisClass && this.allowDirectEdit === 'true') {
       this.showEditButton = true
+      this.showViewButton = false
+    } else if (this.allowDirectEdit === 'false' && userCreatedThisClass) {
+      this.showEditButton = false
+      this.showViewButton = true
     }
 
     // if  the use presses escape key, emit the event to close the modal

@@ -47,6 +47,12 @@ export default {
     }
   },
   methods: {
+    gotoSingleClassView() {
+      this.$store.commit('setCurrentlyViewingClass', {
+        currentlyViewingClass: this.currentlyOpenClass
+      })
+      this.$router.push(`/app/classes/${this.classroom._id}`)
+    },
     showClassInfoModal(classroom) {
       this.isShowingClassInfoModal = true
       this.currentlyOpenClassId = classroom._id

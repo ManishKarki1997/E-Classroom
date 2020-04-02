@@ -87,6 +87,7 @@
         @hideModal="hideTheModal"
         teaching="false"
         hideJoinButton="false"
+        allowDirectEdit="false"
       />
     </div>
   </div>

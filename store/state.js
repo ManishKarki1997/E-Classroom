@@ -3,7 +3,8 @@ function state() {
         user: {},
         jwtToken: '',
         isLoggedIn: false,
-        apiUrl: process.env.baseUrl
+        apiUrl: process.env.baseUrl,
+        currentlyViewingClass: {}
     }
 }
 
