@@ -100,8 +100,8 @@
 
       <!-- Start:  Classroom Join/Close Buttons -->
       <div class="classroom-action-buttons">
+        <!-- <button @click="editMode=true">Edit</button> -->
         <button :disabled="formSubmitting" v-if="showJoinButton" @click="emitJoinEvent">Join</button>
-        <!-- <button v-if="showEditButton" @click="editMode=true">Edit</button> -->
         <button v-if="showViewButton" @click="gotoSingleClassView">View</button>
         <button v-if="showEditButton" @click="editMode=true">Edit</button>
         <button
@@ -154,10 +154,10 @@ export default {
   },
   methods: {
     gotoSingleClassView() {
-      this.$router.push(`/app/classes/${this.classroom._id}`)
       this.$store.commit('setCurrentlyViewingClass', {
         currentlyViewingClass: this.classroom
       })
+      this.$router.push(`/app/classes/${this.classroom._id}/resources`)
     },
     hideModal() {
       this.$emit('hideModal', true)

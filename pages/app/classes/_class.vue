@@ -13,13 +13,15 @@
       </div>
       <ul class="class-action-buttons-wrapper">
         <li>
-          <button @click="showClassInfoModal=true">View</button>
+          <p @click="showClassInfoModal=true">View</p>
         </li>
         <li>
-          <nuxt-link :to="'/app/classes/' + classroom._id + '/resources'">Resources</nuxt-link>
+          <p @click="goto('resources')">Resources</p>
+          <!-- <nuxt-link :to="'/app/classes/' + classroom._id + '/resources'">Resources</nuxt-link> -->
         </li>
         <li>
-          <nuxt-link :to="'/app/classes/' + classroom._id + '/pending_requests'">Pending Requests</nuxt-link>
+          <p @click="goto('pending_requests')">Pending Requests</p>
+          <!-- <nuxt-link :to="'/app/classes/' + classroom._id + '/pending_requests'">Pending Requests</nuxt-link> -->
         </li>
       </ul>
     </div>
@@ -34,6 +36,7 @@
         @hideModal="hideTheModal"
         teaching="true"
         allowDirectEdit="true"
+        c
       />
     </div>
   </div>
@@ -50,17 +53,22 @@ export default {
     return {
       classroom: {},
       apiStaticUrl: '',
-      showClassInfoModal: false
+      showClassInfoModal: false,
+      editButtonClicked: false
     }
   },
   methods: {
+    goto(route) {
+      this.$router.push(`/app/classes/${this.classroom._id}/${route}`)
+    },
     async editClass(backgroundImage) {
+      this.editButtonClicked = true
       if (
-        this.currentlyOpenClass.name === '' ||
-        this.currentlyOpenClass.description === '' ||
-        this.currentlyOpenClass.shortInfo === '' ||
-        this.currentlyOpenClass.startTime === '' ||
-        this.currentlyOpenClass.endTime === ''
+        this.classroom.name === '' ||
+        this.classroom.description === '' ||
+        this.classroom.shortInfo === '' ||
+        this.classroom.startTime === '' ||
+        this.classroom.endTime === ''
       ) {
         this.$toast.open({
           type: 'error',
@@ -71,15 +79,15 @@ export default {
         return false
       }
 
-      const classId = this.currentlyOpenClassId
+      const classId = this.classroom._id
       let formData = new FormData()
-      formData.append('name', this.currentlyOpenClass.name)
-      formData.append('shortInfo', this.currentlyOpenClass.shortInfo)
+      formData.append('name', this.classroom.name)
+      formData.append('shortInfo', this.classroom.shortInfo)
       formData.append('classId', classId)
-      formData.append('description', this.currentlyOpenClass.description)
+      formData.append('description', this.classroom.description)
       formData.append('image', backgroundImage)
-      formData.append('startTime', this.currentlyOpenClass.startTime)
-      formData.append('endTime', this.currentlyOpenClass.endTime)
+      formData.append('startTime', this.classroom.startTime)
+      formData.append('endTime', this.classroom.endTime)
 
       const response = await this.$store.dispatch('updateClass', formData)
       const { error, payload, message } = response.data
@@ -102,11 +110,14 @@ export default {
       }
     },
     hideTheModal() {
+      if (!this.editButtonClicked) {
+        this.classroom = { ...this.$store.state.currentlyViewingClass }
+      }
       this.showClassInfoModal = false
     }
   },
   mounted() {
-    this.classroom = this.$store.state.currentlyViewingClass
+    this.classroom = { ...this.$store.state.currentlyViewingClass }
     this.apiStaticUrl = process.env.baseUrl
   }
 }
@@ -139,6 +150,16 @@ export default {
     .class-teacher-info {
       margin-left: 8px;
     }
+  }
+}
+.class-action-buttons-wrapper {
+  padding: 8px 12px;
+  margin-top: 2rem;
+
+  p {
+    cursor: pointer;
+    font-size: 14px;
+    margin-bottom: 1rem;
   }
 }
 </style>

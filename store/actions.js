@@ -41,7 +41,14 @@ const action = {
                 'Authorization': `Bearer ${state.jwtToken}`
             }
         });
-    }
+    },
+    fetchClassPendingRequests({ state, commit }, { classId }) {
+        return axios.get(`${process.env.baseUrl}/api/class/pendingrequests/${classId}`, {
+            headers: {
+                'Authorization': `Bearer ${state.jwtToken}`,
+            }
+        });
+    },
 
 }
 
