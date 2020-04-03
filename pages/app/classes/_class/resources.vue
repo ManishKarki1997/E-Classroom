@@ -96,7 +96,6 @@ export default {
 <style lang="scss" scoped>
 #resources {
   // padding: 14px 2rem;
-  margin-left: 4rem;
   color: black;
   display: flex;
   width: 100%;

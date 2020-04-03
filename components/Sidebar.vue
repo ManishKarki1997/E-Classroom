@@ -41,9 +41,12 @@
             <SettingsIcon />
           </nuxt-link>
         </li>
-        <li @click="toggleTheme">
+        <li style="margin-left:12px;" @click="toggleTheme">
           <SunIcon v-if="themeMode==='dark'" />
           <MoonIcon v-if="themeMode===''" />
+        </li>
+        <li style="margin-left:2px;" @click="logout">
+          <LogoutIcon />
         </li>
       </ul>
     </div>
@@ -61,6 +64,7 @@ import SettingsIcon from '~/static/Icons/settings.svg?inline'
 import SunIcon from '~/static/Icons/sun.svg?inline'
 import MoonIcon from '~/static/Icons/moon.svg?inline'
 import RocketIcon from '~/static/Icons/start.svg?inline'
+import LogoutIcon from '~/static/Icons/logout.svg?inline'
 
 export default {
   components: {
@@ -71,7 +75,8 @@ export default {
     SettingsIcon,
     SunIcon,
     MoonIcon,
-    RocketIcon
+    RocketIcon,
+    LogoutIcon
   },
   data() {
     return {
@@ -102,6 +107,10 @@ export default {
         'eclasses-theme',
         JSON.stringify(this.themeMode || themeMode)
       )
+    },
+    logout() {
+      this.$store.commit('logout')
+      this.$router.push('/get-started/login')
     }
   },
   mounted() {

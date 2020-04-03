@@ -6,6 +6,12 @@ const mutation = {
     },
     setCurrentlyViewingClass(state, { currentlyViewingClass }) {
         state.currentlyViewingClass = currentlyViewingClass;
+    },
+    logout(state, payload) {
+        state.user = {}
+        state.jwtToken = ''
+        state.isLoggedIn = false
+        state.currentlyViewingClass = {}
     }
 }
 
