@@ -49,6 +49,14 @@ const action = {
             }
         });
     },
+    // class teacher accepts or rejects the request
+    pendingRequestDecision({ state, commit }, payload) {
+        return axios.post(`${process.env.baseUrl}/api/class/pendingrequests/accept`, payload, {
+            headers: {
+                'Authorization': `Bearer ${state.jwtToken}`
+            }
+        });
+    },
 
 }
 

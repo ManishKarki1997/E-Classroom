@@ -22,6 +22,7 @@
           :classroom="currentlyOpenClass"
           @hideModal="hideTheModal"
           teaching="true"
+          allowDirectEdit="true"
         />
       </div>
     </div>
