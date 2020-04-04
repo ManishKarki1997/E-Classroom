@@ -1,5 +1,5 @@
 <template>
-  <div id="single-class">
+  <div id="single-class" :class="{darken:addResourceModalActive}">
     <div class="classroom-sidebar">
       <div class="classroom-info">
         <img
@@ -26,7 +26,7 @@
       </ul>
     </div>
     <div class="classroom-individual-content">
-      <nuxt-child />
+      <nuxt-child @addResourceModalActive="hello" />
     </div>
 
     <div v-if="showClassInfoModal" class="class-modal-wrapper">
@@ -36,7 +36,6 @@
         @hideModal="hideTheModal"
         teaching="true"
         allowDirectEdit="true"
-        c
       />
     </div>
   </div>
@@ -54,10 +53,14 @@ export default {
       classroom: {},
       apiStaticUrl: '',
       showClassInfoModal: false,
-      editButtonClicked: false
+      editButtonClicked: false,
+      addResourceModalActive: false
     }
   },
   methods: {
+    hello(value) {
+      this.addResourceModalActive = value
+    },
     goto(route) {
       this.$router.push(`/app/classes/${this.classroom._id}/${route}`)
     },

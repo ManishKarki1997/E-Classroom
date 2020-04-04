@@ -57,6 +57,21 @@ const action = {
             }
         });
     },
+    fetchAllResources({ state, commit }, { classId }) {
+        return axios.get(`${process.env.baseUrl}/api/resource/${classId}`, {
+            headers: {
+                'Authorization': `Bearer ${state.jwtToken}`
+            }
+        });
+    },
+    addNewResource({ state, commit }, { newResource }) {
+        return axios.post(`${process.env.baseUrl}/api/resource`, newResource, {
+            headers: {
+                'Authorization': `Bearer ${state.jwtToken}`
+            }
+        });
+    }
+
 
 }
 

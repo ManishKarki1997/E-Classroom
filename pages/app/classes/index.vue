@@ -70,7 +70,7 @@
         </div>
 
         <div>
-          <input type="submit" value="Create" />
+          <button type="submit">Create</button>
           <button :disabled="formSubmitting" @click="showCreateClassForm=false">Close</button>
         </div>
       </form>
@@ -129,8 +129,14 @@ export default {
   },
   computed: {
     searchResults() {
-      return this.classes.filter(courseClass =>
-        courseClass.name.toLowerCase().includes(this.searchText.toLowerCase())
+      return this.classes.filter(
+        courseClass =>
+          courseClass.name
+            .toLowerCase()
+            .includes(this.searchText.toLowerCase()) ||
+          courseClass.description
+            .toLowerCase()
+            .includes(this.searchText.toLowerCase())
       )
     }
   },
@@ -290,6 +296,23 @@ export default {
   },
   created() {
     this.fetchAllClasses()
+    // if  the use presses escape key, emit the event to close the modal
+    // stackoverflow ftw
+  },
+  mounted() {
+    const that = this
+    document.onkeydown = function(evt) {
+      evt = evt || window.event
+      var isEscape = false
+      if ('key' in evt) {
+        isEscape = evt.key === 'Escape' || evt.key === 'Esc'
+      } else {
+        isEscape = evt.keyCode === 27
+      }
+      if (isEscape) {
+        that.showCreateClassForm = false
+      }
+    }
   }
 }
 </script>

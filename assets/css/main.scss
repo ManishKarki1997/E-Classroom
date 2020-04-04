@@ -72,6 +72,11 @@ button{
     opacity: 0;
 }
 
+.darken {
+    background-color: #444444;
+    color: #111;
+  }
+
 @import './darktheme.scss';
 @import './sidebar.scss';
 @import './dashboard.scss';

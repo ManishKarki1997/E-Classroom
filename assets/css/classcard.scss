@@ -28,6 +28,8 @@
   
   .search-classes{
     margin-bottom: 2rem;
+
+
     input[type='text']{
       padding: 8px;
     }
@@ -37,6 +39,8 @@
       cursor: pointer;
       background-color: lightblue;
       background-color: #434c5e;
+      margin-bottom: 14px;
+      margin-left: 1rem;
       color: white;
     }
   }
@@ -128,22 +132,45 @@
   transform: translate(-50%, -50%);
   box-shadow: 0 6px 31px -2px rgba(0, 0, 0, 0.1);
   z-index: 10;
-  background-color: #2c5364;
-  padding: 1rem 2rem;
+  background-color: white;
+  // color: $primary-text-dark;
+  padding: 2rem 2rem;
   border-radius: 3px;
+  width: 40vw;
+
+  button {
+    border-radius: 3px;
+    padding: 8px 20px;
+    cursor: pointer;
+  }
+  
+  button:first-child {
+    background-color: $tertiary-background-dark;
+    border: 1px solid $tertiary-background-dark;
+    color: white;
+  }
+  button:last-child {
+    border: none;
+    // border: 1px solid $tertiary-background-dark;
+    background-color: transparent;
+    color: white;
+  }
+
 }
 input[type='text'],
 textarea {
   padding: 10px 8px;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
 }
 
 textarea {
   border-radius: 3px;
   border: 1px solid #eee;
+  margin-top: 10px;
 }
 input[type='submit'],
 button {
-  margin-left: 8px;
+  margin-top: 1rem;
   border-radius: 2px;
   // padding: 10px 8px;
   padding: 8px 16px;
@@ -156,3 +183,4 @@ input[type='submit'] {
 input[type='file'] {
   border: none;
 }
+

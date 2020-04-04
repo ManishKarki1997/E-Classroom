@@ -9,6 +9,10 @@ body[theme='dark']{
         color: #858ea1;
     }
 
+
+    .darken{
+        background-color: $secondary-background-dark;
+    }
     
 
 
@@ -67,7 +71,7 @@ body[theme='dark']{
     }
     
     .search-classes input[type='text'],
-    .search-classes input[type='submit'] {
+    .search-classes button {
         background-color:$secondary-background-dark ;
         color: $primary-text-dark;
     }
@@ -158,6 +162,13 @@ body[theme='dark']{
       
     }
 
+    .class-teacher-info p{
+        color: $primary-text-dark;
+    }
+    .class-description p{
+        color: $primary-text-dark;
+    }
+
     .class-modal-wrapper{
         background-color: $primary-background-dark;
     }
@@ -197,5 +208,36 @@ body[theme='dark']{
           }
       }
   }
+
+    .add-resource-wrapper {
+        input, textarea{
+            background-color: $primary-background-dark;
+            color: $primary-text-dark;
+        }
+    }
+
+    .add-resource-wrapper,
+    .create-class-wrapper{
+            background-color: $primary-background-dark;
+
+            input[type='text'],
+            textarea{
+                background-color: $secondary-background-dark;
+                color: white;
+            }
+
+            textarea{
+                border: none;
+            }
+
+            button:first-child{
+                background-color: $primary-background-dark;
+            }
+            button:last-child{
+                background-color: transparent;
+                border:none;
+                color: white;
+            }
+    }
   
 }

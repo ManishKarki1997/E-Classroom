@@ -1,5 +1,5 @@
 <template>
-  <div class="resource">
+  <div class="resources">
     <h4>{{this.$route.params.resource}}</h4>
     <table class="resource-table">
       <thead>
