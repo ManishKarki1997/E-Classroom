@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 const action = {
+
     login({ state, commit }, payload) {
         return axios.post(`${process.env.baseUrl}/api/user/login`, payload);
     },
@@ -70,6 +71,17 @@ const action = {
                 'Authorization': `Bearer ${state.jwtToken}`
             }
         });
+    },
+    deleteResource({ state, commit }, payload) {
+        return axios.delete(`${process.env.baseUrl}/api/resource`, {
+            headers: {
+                'Authorization': `Bearer ${state.jwtToken}`
+            },
+            data: {
+                payload
+            }
+        })
+
     }
 
 

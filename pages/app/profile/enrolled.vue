@@ -24,6 +24,7 @@
           @hideModal="hideTheModal"
           @leaveClass="leaveClassroom"
           teaching="false"
+          showAttendButton="true"
         />
       </div>
     </div>

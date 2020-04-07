@@ -19,6 +19,7 @@
     "nuxt": "^2.0.0",
     "sweetalert2": "^9.10.5",
     "vue-codemirror": "^4.0.6",
+    "vue-socket.io": "^3.0.7",
     "vue-toast-notification": "^0.2.0",
     "vue2-timepicker": "^1.0.8",
     "vuex-persist": "^2.2.0"

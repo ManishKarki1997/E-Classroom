@@ -192,15 +192,23 @@ export default {
   mounted() {
     this.screenVideoContainer = document.getElementById('teacher-screen-video')
     this.apiStaticUrl = process.env.baseUrl
-    // this.$socket.emit('get_all_online_users',)
+    this.$socket.emit('join_class', {
+      classroomId: this.$route.params.classroomId
+    })
+    this.$socket.emit('get_all_online_users', this.$route.params.classroomId)
   },
   sockets: {
     class_active_users(activeUsers) {
       this.onlineUsers = activeUsers
     }
   },
+  beforeMount() {
+    window.addEventListener('beforeunload', event => {
+      this.$socket.emit('leave_classroom', this.$route.params.classroomId)
+    })
+  },
   beforeRouteLeave(to, from, next) {
-    this.$socket.emit('leave_classroom')
+    this.$socket.emit('leave_classroom', this.$route.params.classroomId)
   }
 }
 </script>

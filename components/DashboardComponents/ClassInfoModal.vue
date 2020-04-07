@@ -102,8 +102,10 @@
       <div class="classroom-action-buttons">
         <!-- <button @click="editMode=true">Edit</button> -->
         <button :disabled="formSubmitting" v-if="showJoinButton" @click="emitJoinEvent">Join</button>
-        <button v-if="showViewButton" @click="gotoSingleClassView">View</button>
+        <!-- <button v-if="showViewButton" @click="gotoSingleClassView">View</button> -->
+        <button @click="gotoSingleClassView">View</button>
         <button v-if="showEditButton" @click="editMode=true">Edit</button>
+        <button v-if="showAttendButton" @click="attendClass">Attend</button>
         <button
           :disabled="formSubmitting"
           v-if="!showJoinButton && showLeaveButton"
@@ -127,7 +129,13 @@ import VueTimepicker from 'vue2-timepicker'
 import 'vue2-timepicker/dist/VueTimepicker.css'
 
 export default {
-  props: ['classroom', 'teaching', 'hideJoinButton', 'allowDirectEdit'],
+  props: [
+    'classroom',
+    'teaching',
+    'hideJoinButton',
+    'allowDirectEdit',
+    'showAttendButton'
+  ],
   components: {
     ClassIcon,
     HugIcon,
@@ -176,6 +184,13 @@ export default {
     },
     emitLeaveClassEvent() {
       this.$emit('leaveClass', this.classroom._id)
+    },
+    attendClass() {
+      this.$socket.emit('join_class', {
+        userId: this.$store.state.user._id,
+        classroomId: this.classroom._id
+      })
+      this.$router.push(`/app/classes/live/${this.classroomId}`)
     }
   },
   mounted() {
@@ -197,10 +212,10 @@ export default {
 
     if (userCreatedThisClass && this.allowDirectEdit === 'true') {
       this.showEditButton = true
-      this.showViewButton = false
+      // this.showViewButton = false
     } else if (this.allowDirectEdit === 'false' && userCreatedThisClass) {
       this.showEditButton = false
-      this.showViewButton = true
+      // this.showViewButton = true
     }
 
     // if  the use presses escape key, emit the event to close the modal

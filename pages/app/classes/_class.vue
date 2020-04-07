@@ -11,15 +11,19 @@
           <p v-if="classroom.createdBy">{{classroom.createdBy.name}}</p>
         </div>
       </div>
+      <button
+        @click="streamClass"
+        style="background-color:black; color:white; cursor-pointer;"
+      >Start Class</button>
       <ul class="class-action-buttons-wrapper">
-        <li>
+        <li v-if="isClassroomCreator">
           <p @click="showClassInfoModal=true">View</p>
         </li>
         <li>
           <p @click="goto('resources')">Resources</p>
           <!-- <nuxt-link :to="'/app/classes/' + classroom._id + '/resources'">Resources</nuxt-link> -->
         </li>
-        <li>
+        <li v-if="isClassroomCreator">
           <p @click="goto('pending_requests')">Pending Requests</p>
           <!-- <nuxt-link :to="'/app/classes/' + classroom._id + '/pending_requests'">Pending Requests</nuxt-link> -->
         </li>
@@ -54,7 +58,8 @@ export default {
       apiStaticUrl: '',
       showClassInfoModal: false,
       editButtonClicked: false,
-      addResourceModalActive: false
+      addResourceModalActive: false,
+      isClassroomCreator: false
     }
   },
   methods: {
@@ -117,10 +122,22 @@ export default {
         this.classroom = { ...this.$store.state.currentlyViewingClass }
       }
       this.showClassInfoModal = false
+    },
+    streamClass() {
+      this.$socket.emit('class_streaming_started', {
+        classroomName: this.classroom.name,
+        classroomId: this.classroom._id,
+        classroomTeacher: this.classroom.createdBy.name
+      })
+      // this.$socket.emit('join_class', this.classroom._id)
+      this.$router.push(`/app/classes/live/${this.classroom._id}`)
     }
   },
   mounted() {
     this.classroom = { ...this.$store.state.currentlyViewingClass }
+    if (this.classroom._id === this.$store.state.user._id) {
+      this.isClassroomCreator = true
+    }
     this.apiStaticUrl = process.env.baseUrl
   }
 }

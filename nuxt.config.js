@@ -38,7 +38,8 @@ export default {
   plugins: [
     '~/plugins/VueWindow.js',
     '~/plugins/VueEditor.js',
-    '~/plugins/vue-toast.js'
+    '~/plugins/vue-toast.js',
+    '~/plugins/VueSocket.js'
 
   ],
   /*

@@ -6,7 +6,7 @@
     <div class="resource-files">
       <div class="resource">
         <h4>{{this.$route.params.resource}}</h4>
-        <table class="resource-table">
+        <table class="resource-table" v-if="resources && resources.length>0">
           <thead>
             <tr>
               <th>#</th>
@@ -15,12 +15,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr
-              @click="gotoResourceURL(`${apiStaticUrl}/uploads/resources/${file.resourceUrl}`)"
-              v-for="(file,index) in resources"
-              :key="file.resourceId"
-              class="resource-file"
-            >
+            <tr v-for="(file,index) in resources" :key="file.resourceId" class="resource-file">
               <td>
                 {{index+1}}
                 <!--                 
@@ -28,11 +23,17 @@
                 <PictureIcon v-if="file.fileType==='image'" />
                 <PDFIcon v-if="file.fileType==='office'" />-->
               </td>
-              <td>{{file.name}}</td>
+              <td
+                @click="gotoResourceURL(`${apiStaticUrl}/uploads/resources/${file.resourceUrl}`)"
+              >{{file.name}}</td>
               <td>{{file.createdAt}}</td>
+              <td class="delete-icon">
+                <DeleteIcon @click="deleteResource(file._id)" />
+              </td>
             </tr>
           </tbody>
         </table>
+        <p v-else>No Resources</p>
       </div>
     </div>
     <AddResourceModal
@@ -50,6 +51,7 @@ import AddResourceModal from '~/components/DashboardComponents/AddResourceModal'
 import FileIcon from '~/static/Icons/file.svg?inline'
 import PictureIcon from '~/static/Icons/picture.svg?inline'
 import PDFIcon from '~/static/Icons/pdf.svg?inline'
+import DeleteIcon from '~/static/Icons/bin.svg?inline'
 
 import { mapState } from 'vuex'
 
@@ -58,7 +60,8 @@ export default {
     FileIcon,
     PictureIcon,
     PDFIcon,
-    AddResourceModal
+    AddResourceModal,
+    DeleteIcon
   },
   data() {
     return {
@@ -116,7 +119,6 @@ export default {
       const response = await this.$store.dispatch('fetchAllResources', {
         classId: this.currentlyViewingClass._id
       })
-
       if (response.error) {
         this.$toast.open({
           type: 'error',
@@ -157,11 +159,36 @@ export default {
 
         // hide the modal
         this.showAddResourceModal = false
+        this.$emit('addResourceModalActive', this.showAddResourceModal)
+      }
+    },
+    async deleteResource(resourceId) {
+      const response = await this.$store.dispatch('deleteResource', {
+        userId: this.userId,
+        classId: this.classId,
+        resourceId
+      })
+
+      console.log(response)
+
+      if (response.data.error) {
+        this.$toast.open({
+          type: 'error',
+          message: this.response.data.message,
+          position: 'top-right',
+          duration: 1500
+        })
+        return false
+      } else {
+        this.fetchAllResources()
+        this.$forceUpdate()
       }
     }
   },
   computed: mapState({
-    currentlyViewingClass: state => state.currentlyViewingClass
+    currentlyViewingClass: state => state.currentlyViewingClass,
+    userId: state => state.user._id,
+    classId: state => state.currentlyViewingClass._id
   }),
   mounted() {
     this.fetchAllResources()
@@ -216,12 +243,24 @@ export default {
   tr {
     transition: all 0.3s ease-in;
   }
-  tr:hover {
-    // background-color: white;
-    cursor: pointer;
-  }
+
   tr:hover td {
     color: #434c5e;
+  }
+  .delete-icon {
+    text-align: center;
+    width: 40px;
+    height: auto;
+    svg {
+      display: none;
+      width: 14px;
+      height: 14px;
+      fill: lightcoral;
+      cursor: pointer;
+    }
+  }
+  tr:hover .delete-icon svg {
+    display: block;
   }
   thead tr:hover {
     background-color: transparent;
