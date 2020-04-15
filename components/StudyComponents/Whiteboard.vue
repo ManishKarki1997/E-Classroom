@@ -50,23 +50,57 @@ export default {
         mousePosition: {
           x: 0,
           y: 0
-        }
+        },
+        current: {}
+      },
+      classroomId: '',
+      drawingCanvas: null,
+      context: null
+    }
+  },
+  sockets: {
+    // drawing_data(drawingData) {
+    //   const { x, y, color, lineWidth } = drawingData
+    //   // this.drawLine(x, y, color, lineWidth, true)
+    // }
+  },
+  methods: {
+    drawLine(x, y, color, lineWidth, emit) {
+      this.context.lineTo(x, y)
+      this.context.stroke()
+      this.context.beginPath()
+      this.context.strokeStyle = color
+      this.context.lineWidth = this.canvas.lineWidth
+      this.context.moveTo(x, y)
+
+      if (!emit) {
+        return
       }
+
+      this.$socket.emit('someone_drew', {
+        classroomId: this.classroomId,
+        drawing: {
+          x,
+          y,
+          color,
+          lineWidth
+        }
+      })
     }
   },
   mounted() {
+    this.classroomId = this.$route.params.classroomId
+
     const canvas = document.getElementById('whiteboard-canvas')
-    const ctx = canvas.getContext('2d')
+    const context = canvas.getContext('2d')
+    this.drawingCanvas = canvas
+    this.context = context
 
-    const startPosition = e => {
-      this.canvas.currentlyPainting = true
-      draw(e)
-    }
+    var drawing = false
 
-    const finishedPosition = () => {
-      this.canvas.currentlyPainting = false
-      ctx.beginPath()
-    }
+    this.$socket.on('drawing_data', data => {
+      console.log(data)
+    })
 
     const getMousePos = e => {
       const rect = canvas.getBoundingClientRect()
@@ -76,24 +110,99 @@ export default {
       }
     }
 
-    const draw = e => {
-      if (!this.canvas.currentlyPainting) return
-      ctx.lineWidth = this.canvas.lineWidth
-      ctx.lineCap = 'round'
-      ctx.strokeStyle = this.canvas.selectedColor
-      //   after canvas is resized, the actual mouse position changes
-      // the e.clientX and e.clientY only works in normal canvas size
-      const { mouseX, mouseY } = getMousePos(e)
-      ctx.imageSmoothingEnabled = false
-      ctx.lineTo(mouseX, mouseY)
-      ctx.stroke()
-      ctx.beginPath()
-      ctx.moveTo(mouseX, mouseY)
+    const drawLine = (x1, y1, color, emit) => {
+      context.lineTo(x1, y1)
+      context.stroke()
+      context.beginPath()
+      context.strokeStyle = color
+      context.lineWidth = this.canvas.lineWidth
+      context.moveTo(x1, y1)
+
+      if (!emit) {
+        return
+      }
+      var w = canvas.width
+      var h = canvas.height
+
+      this.$socket.emit('someone_drew', {
+        classroomId: this.classroomId,
+        drawing: {
+          x: this.canvas.current.x,
+          y: this.canvas.current.y,
+          color: this.canvas.selectedColor,
+          lineWidth: this.canvas.lineWidth
+        }
+      })
     }
 
-    canvas.addEventListener('mousedown', startPosition)
-    canvas.addEventListener('mouseup', finishedPosition)
-    canvas.addEventListener('mousemove', draw)
+    const onMouseDown = e => {
+      drawing = true
+      context.beginPath()
+
+      this.canvas.current.x = (e.offsetX * canvas.width) / canvas.clientWidth
+      this.canvas.current.y = (e.offsetY * canvas.height) / canvas.clientHeight
+    }
+
+    const onMouseUp = e => {
+      if (!drawing) {
+        return
+      }
+      drawing = false
+      drawLine(
+        (e.offsetX * canvas.width) / canvas.clientWidth || 0,
+        (e.offsetY * canvas.height) / canvas.clientHeight || 0,
+        // e.clientX || e.touches[0].clientX,
+        // e.clientY || e.touches[0].clientY,
+        this.canvas.selectedColor,
+        true
+      )
+    }
+
+    const onMouseMove = e => {
+      if (!drawing) {
+        return
+      }
+      drawLine(
+        (e.offsetX * canvas.width) / canvas.clientWidth || 0,
+        (e.offsetY * canvas.height) / canvas.clientHeight || 0,
+        this.canvas.selectedColor,
+        true
+      )
+      this.canvas.current.x = e.clientX || e.touches[0].clientX
+      this.canvas.current.y = e.clientY || e.touches[0].clientY
+    }
+
+    // limit the number of events per second
+    const throttle = (callback, delay) => {
+      var previousCall = new Date().getTime()
+      return function() {
+        var time = new Date().getTime()
+
+        if (time - previousCall >= delay) {
+          previousCall = time
+          callback.apply(null, arguments)
+        }
+      }
+    }
+
+    // const onDrawingEvent = data => {
+    //   var w = canvas.width
+    //   var h = canvas.height
+    //   // drawLine(data.x0 * w, data.y0 * h, data.x1 * w, data.y1 * h, data.color)
+    // }
+
+    // make the canvas fill its parent
+    const onResize = () => {
+      canvas.width = window.innerWidth
+      canvas.height = window.innerHeight
+    }
+
+    window.addEventListener('resize', onResize, false)
+    onResize()
+    canvas.addEventListener('mousedown', onMouseDown, false)
+    canvas.addEventListener('mouseup', onMouseUp, false)
+    canvas.addEventListener('mouseout', onMouseUp, false)
+    canvas.addEventListener('mousemove', throttle(onMouseMove, 10), false)
   }
 }
 </script>

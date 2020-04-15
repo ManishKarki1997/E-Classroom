@@ -12,9 +12,13 @@
         </div>
       </div>
       <button
+        @click="gotoClass"
+        style="background-color:black; color:white; cursor-pointer;"
+      >Goto Class</button>
+      <!-- <button
         @click="streamClass"
         style="background-color:black; color:white; cursor-pointer;"
-      >Start Class</button>
+      >Start Class</button>-->
       <ul class="class-action-buttons-wrapper">
         <li v-if="isClassroomCreator">
           <p @click="showClassInfoModal=true">View</p>
@@ -129,7 +133,15 @@ export default {
         classroomId: this.classroom._id,
         classroomTeacher: this.classroom.createdBy.name
       })
+
+      // console.log(this.classroom)
       // this.$socket.emit('join_class', this.classroom._id)
+      this.$store.commit('setCurrentlyViewingClass', {
+        currentlyViewingClass: this.classroom
+      })
+      this.$router.push(`/app/classes/live/${this.classroom._id}`)
+    },
+    gotoClass() {
       this.$router.push(`/app/classes/live/${this.classroom._id}`)
     }
   },

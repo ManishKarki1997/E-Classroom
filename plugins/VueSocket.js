@@ -5,7 +5,7 @@ import Vue from 'vue'
 import store from '~/store/index'
 
 Vue.use(new VueSocketIo({
-    debug: true,
+    // debug: true,
     connection: process.env.baseUrl,
     vuex: {
         store

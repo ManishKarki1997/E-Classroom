@@ -1,3 +1,5 @@
+import path from 'path'
+import fs from 'fs'
 
 export default {
   mode: 'spa',
@@ -16,11 +18,22 @@ export default {
       { href: "https://fonts.googleapis.com/css?family=Chivo:300,400&display=swap", rel: "stylesheet" },
       { href: "https://fonts.googleapis.com/css?family=Asul:400,700&display=swap", rel: "stylesheet" },
       { href: "https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&display=swap", rel: "stylesheet" },
-
+    ],
+    script: [
+      {
+        src: 'https://rtcmulticonnection.herokuapp.com/dist/RTCMultiConnection.min.js'
+      },
+      {
+        src: 'https://rtcmulticonnection.herokuapp.com/socket.io/socket.io.js'
+      }
     ]
   },
   server: {
-    port: 8080
+    port: 8080,
+    https: {
+      key: fs.readFileSync(path.resolve(__dirname, 'server.key')),
+      cert: fs.readFileSync(path.resolve(__dirname, 'server.crt'))
+    }
   },
   /*
   ** Customize the progress-bar color

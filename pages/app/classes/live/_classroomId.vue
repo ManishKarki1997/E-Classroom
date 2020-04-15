@@ -69,16 +69,25 @@
         </ul>
       </div>
 
+      <!-- <div class="video-wrapper"></div> -->
+      <video
+        style="width:100%; height:250px; background-color:lightblue;"
+        class="receivedStream"
+        autoplay
+      />
       <StreamsWrapper ref="webcamStreamsWrapper" class="stream-wrapper" />
     </div>
   </div>
 </template>
 
 <script>
+import Peer from 'simple-peer'
+
 import StreamsWrapper from '~/components/StudyComponents/StreamsWrapper'
 import Whiteboard from '~/components/StudyComponents/Whiteboard'
 import CodeEditor from '~/components/StudyComponents/CodeEditor'
 import Chat from '~/components/StudyComponents/Chat'
+import { mapState } from 'vuex'
 
 // import 'codemirror/mode/javascript/javascript.js'
 // import 'codemirror/mode/python/python.js'
@@ -144,19 +153,37 @@ export default {
         audio: 'false'
       },
       screenVideoContainer: null,
-      onlineUsers: []
+      onlineUsers: [],
+      stream: null,
+      client: {},
+      receivedStream: null,
+      initiator: false,
+      connection: null,
+      isClassroomTeacher: false
     }
   },
-  methods: {
-    async startScreenSharing() {
-      try {
-        this.screenVideoContainer.srcObject = await navigator.mediaDevices.getDisplayMedia(
-          this.displayMediaOptions
-        )
-      } catch (error) {
-        console.error(error)
-      }
+  sockets: {
+    class_active_users(activeUsers) {
+      this.onlineUsers = activeUsers
     },
+    backAnswer(data) {
+      this.signalAnswer(data)
+    },
+    sessionActive() {
+      this.sessionActive()
+    },
+    backOffer(data) {
+      this.frontAnswer(data)
+    },
+    createPeer() {
+      this.makePeer()
+    }
+  },
+  computed: mapState({
+    user: state => state.user,
+    currentlyViewingClass: state => state.currentlyViewingClass
+  }),
+  methods: {
     stopScreenSharing() {
       let tracks = this.screenVideoContainer.srcObject.getTracks()
       tracks.forEach(track => track.stop())
@@ -170,6 +197,7 @@ export default {
         this.startScreenSharing()
         this.screenSharing.highlightIcon = true
       }
+
       this.screenSharing.share = !this.screenSharing.share
     },
     handleWebcamSharing() {
@@ -187,29 +215,89 @@ export default {
     },
     toggleCodeEditor() {
       this.codeEditorOpen = !this.codeEditorOpen
+    },
+
+    async startScreenSharing() {
+      try {
+        // this.stream = await navigator.mediaDevices.getDisplayMedia(
+        //   this.displayMediaOptions
+        // )
+        // this.screenVideoContainer.srcObject = this.stream
+        // this.$socket.emit('makeConnection', {
+        //   classroomId: this.$route.params.classroomId
+        // })
+        this.$socket.emit('class_streaming_started', {
+          classroomName: this.currentlyViewingClass.name,
+          classroomId: this.currentlyViewingClass._id,
+          classroomTeacher: this.currentlyViewingClass.createdBy.name
+        })
+      } catch (error) {
+        console.error(error)
+      }
     }
   },
   mounted() {
     this.screenVideoContainer = document.getElementById('teacher-screen-video')
-    this.apiStaticUrl = process.env.baseUrl
-    this.$socket.emit('join_class', {
-      classroomId: this.$route.params.classroomId
-    })
-    this.$socket.emit('get_all_online_users', this.$route.params.classroomId)
-  },
-  sockets: {
-    class_active_users(activeUsers) {
-      this.onlineUsers = activeUsers
+
+    if (this.currentlyViewingClass.createdBy !== undefined) {
+      this.isClassroomTeacher =
+        this.currentlyViewingClass.createdBy._id === this.user._id
     }
-  },
-  beforeMount() {
-    window.addEventListener('beforeunload', event => {
-      this.$socket.emit('leave_classroom', this.$route.params.classroomId)
-    })
-  },
-  beforeRouteLeave(to, from, next) {
-    this.$socket.emit('leave_classroom', this.$route.params.classroomId)
+
+    // if (!this.isClassroomTeacher) {
+    this.connection = new RTCMultiConnection()
+    this.connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/'
+    this.connection.sdpConstraints.mandatory = {
+      OfferToReceiveAudio: true,
+      OfferToReceiveVideo: true
+    }
+
+    this.connection.session = {
+      audio: true,
+      video: true
+    }
+
+    this.connection.onstream = function(event) {
+      console.log('new stream event ', event)
+      // this.screenVideoContainer.srcObject = event.stream
+
+      if (this.isClassroomTeacher) {
+        if (event.type === 'local') {
+          document.getElementById('teacher-screen-video').srcObject =
+            event.stream
+        } else {
+          document.querySelector('.receivedStream').srcObject = event.stream
+        }
+      } else {
+        if (event.type === 'local') {
+          document.querySelector('.receivedStream').srcObject = event.stream
+        } else {
+          document.getElementById('teacher-screen-video').srcObject =
+            event.stream
+        }
+      }
+    }
+    this.connection.openOrJoin(this.$route.params.classroomId)
+    // }
+
+    this.apiStaticUrl = process.env.baseUrl
+    // if (!this.isClassroomTeacher) {
+    //   this.$socket.emit('join_class', {
+    //     classroomId: this.$route.params.classroomId,
+    //     isClassroomTeacher: this.isClassroomTeacher
+    //   })
+    // }
+    this.$socket.emit('get_all_online_users', this.$route.params.classroomId)
   }
+
+  // beforeMount() {
+  //   window.addEventListener('beforeunload', event => {
+  //     this.$socket.emit('leave_classroom', this.$route.params.classroomId)
+  //   })
+  // },
+  // beforeRouteLeave(to, from, next) {
+  //   this.$socket.emit('leave_classroom', this.$route.params.classroomId)
+  // }
 }
 </script>
 
