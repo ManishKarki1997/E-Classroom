@@ -1,31 +1,32 @@
 <template>
   <div class="resources">
     <h4>{{this.$route.params.resource}}</h4>
-    <table class="resource-table">
+    <table class="resource-table" v-if="resources.resources && resources.resources.length>0">
       <thead>
         <tr>
           <th>#</th>
           <th>Name</th>
+          <th>Description</th>
           <th>Date</th>
         </tr>
       </thead>
       <tbody>
         <tr
-          @click="gotoResourceURL(file.resourceURL)"
-          v-for="file in resource"
-          :key="file.resourceId"
+          @click="gotoResourceURL(resource.resourceUrl)"
+          v-for="resource in resources.resources"
+          :key="resource._id"
           class="resource-file"
         >
           <td>
-            <FileIcon v-if="file.resourceType==='other'" />
-            <PictureIcon v-if="file.resourceType==='image'" />
-            <PDFIcon v-if="file.resourceType==='office'" />
+            <FileIcon />
           </td>
-          <td>{{file.resourceName}}</td>
-          <td>{{file.uploadDate}}</td>
+          <td>{{resource.name}}</td>
+          <td>{{resource.description}}</td>
+          <td>{{resource.createdAt}}</td>
         </tr>
       </tbody>
     </table>
+    <p v-else>No resources available.</p>
   </div>
 </template>
 
@@ -35,6 +36,8 @@ import FileIcon from '~/static/Icons/file.svg?inline'
 import PictureIcon from '~/static/Icons/picture.svg?inline'
 import PDFIcon from '~/static/Icons/pdf.svg?inline'
 
+import { mapState } from 'vuex'
+
 export default {
   components: {
     FileIcon,
@@ -43,49 +46,22 @@ export default {
   },
   data() {
     return {
-      resource: [
-        {
-          resourceId: 'resource001',
-          resourceType: 'office',
-          resourceURL: 'http://google.com',
-          uploadDate: '7th March, 2020',
-          resourceName: 'Unit 1 Notes'
-        },
-        {
-          resourceId: 'resource002',
-          resourceType: 'office',
-          resourceURL: 'http://google.com',
-          uploadDate: '12th March, 2020',
-          resourceName: 'Unit 2 Notes'
-        },
-        {
-          resourceId: 'resource003',
-          resourceType: 'office',
-          resourceURL: 'http://google.com',
-          uploadDate: '15th March, 2020',
-          resourceName: 'Unit 3 Notes'
-        },
-        {
-          resourceId: 'resource004',
-          resourceType: 'image',
-          resourceURL: 'http://google.com',
-          uploadDate: '13th March, 2020',
-          resourceName: 'ER Diagram Schema'
-        },
-        {
-          resourceId: 'resource005',
-          resourceType: 'other',
-          resourceURL: 'http://google.com',
-          uploadDate: '19th March, 2020',
-          resourceName: 'Podcast'
-        }
-      ]
+      apiStaticUrl: ''
     }
   },
+  computed: mapState({
+    resources: state => state.selectedResourceContents
+  }),
   methods: {
-    gotoResourceURL(url) {
-      window.open(url, '_blank')
+    gotoResourceURL(fileName) {
+      window.open(
+        `${this.apiStaticUrl}/uploads/resources/${fileName}`,
+        '_blank'
+      )
     }
+  },
+  mounted() {
+    this.apiStaticUrl = process.env.baseUrl
   }
 }
 </script>

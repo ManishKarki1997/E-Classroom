@@ -12,6 +12,9 @@ const mutation = {
         state.jwtToken = ''
         state.isLoggedIn = false
         state.currentlyViewingClass = {}
+    },
+    setSelectedResourceContents(state, payload) {
+        state.selectedResourceContents = payload
     }
 }
 

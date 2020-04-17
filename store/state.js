@@ -4,7 +4,8 @@ function state() {
         jwtToken: '',
         isLoggedIn: false,
         apiUrl: process.env.baseUrl,
-        currentlyViewingClass: {}
+        currentlyViewingClass: {},
+        selectedResourceContents: {}
     }
 }
 

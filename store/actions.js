@@ -82,7 +82,14 @@ const action = {
             }
         })
 
-    }
+    },
+    fetchUserClassResources({ state, commit }, payload) {
+        return axios.get(`${process.env.baseUrl}/api/resource/user/resources`, {
+            headers: {
+                'Authorization': `Bearer ${state.jwtToken}`
+            }
+        });
+    },
 
 
 }

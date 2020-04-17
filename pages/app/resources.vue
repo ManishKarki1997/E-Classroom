@@ -5,23 +5,33 @@
         <h4>Class Resources</h4>
         <ul class="all-resources resources">
           <li
+            v-for="classResource in allResources"
+            :key="classResource.classId"
+            :class="{selectedResource:selectedResource===classResource.classId}"
+            @click="openFolderContents(classResource)"
+          >
+            <FolderIcon />
+            <p>{{classResource.className}}</p>
+          </li>
+
+          <!-- <li
             @click="openFolderContents('Web Development')"
             :class="{selectedResource:selectedResource==='Web Development'}"
           >
             <FolderIcon />
             <p>Web Development</p>
-          </li>
-          <li
+          </li>-->
+          <!-- <li
             @click="openFolderContents('Mobile App Development')"
             :class="{selectedResource:selectedResource==='Mobile App Development'}"
           >
             <FolderIcon />
             <p>Mobile App Development</p>
-          </li>
+          </li>-->
         </ul>
       </div>
 
-      <div class="resource-wrapper">
+      <!-- <div class="resource-wrapper">
         <h4>Starred</h4>
         <ul class="all-resources resources">
           <li
@@ -32,7 +42,7 @@
             <p>Project Resources</p>
           </li>
         </ul>
-      </div>
+      </div>-->
     </div>
     <div class="resource-files">
       <nuxt-child />
@@ -49,14 +59,32 @@ export default {
   },
   data() {
     return {
-      selectedResource: ''
+      selectedResource: '',
+      allResources: [],
+      selectedResourceContents: {}
     }
   },
   methods: {
-    openFolderContents(folderName) {
+    async fetchAllResources(folderName) {
       this.selectedResource = folderName
       this.$router.push(`/app/resources/${folderName}`)
+      const resources = await this.$store.dispatch('fetchUserClassResources')
+      // console.log(resources)
+      this.allResources = resources.data
+    },
+    openFolderContents(classResource) {
+      this.$store.commit('setSelectedResourceContents', classResource)
+      this.$router.push(`/app/resources/${classResource.className}`)
+      // console.log(classResource)
+      // console.log(classId)
+      // this.selectedResourceContents = this.allResources.filter(
+      //   resource => classId === resource.classId
+      // )
+      // console.log(this.selectedResourceContents)
     }
+  },
+  mounted() {
+    this.fetchAllResources()
   }
 }
 </script>

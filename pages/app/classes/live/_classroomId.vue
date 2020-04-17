@@ -165,6 +165,7 @@ export default {
   sockets: {
     class_active_users(activeUsers) {
       this.onlineUsers = activeUsers
+      console.log(activeUsers)
     },
     backAnswer(data) {
       this.signalAnswer(data)
@@ -238,6 +239,7 @@ export default {
   },
   mounted() {
     this.screenVideoContainer = document.getElementById('teacher-screen-video')
+    this.$socket.emit('get_all_online_users', this.$route.params.classroomId)
 
     if (this.currentlyViewingClass.createdBy !== undefined) {
       this.isClassroomTeacher =
@@ -258,7 +260,6 @@ export default {
     }
 
     this.connection.onstream = function(event) {
-      console.log('new stream event ', event)
       // this.screenVideoContainer.srcObject = event.stream
 
       if (this.isClassroomTeacher) {
@@ -281,13 +282,10 @@ export default {
     // }
 
     this.apiStaticUrl = process.env.baseUrl
-    // if (!this.isClassroomTeacher) {
-    //   this.$socket.emit('join_class', {
-    //     classroomId: this.$route.params.classroomId,
-    //     isClassroomTeacher: this.isClassroomTeacher
-    //   })
-    // }
-    this.$socket.emit('get_all_online_users', this.$route.params.classroomId)
+    this.$socket.emit('join_class', {
+      classroomId: this.$route.params.classroomId,
+      isClassroomTeacher: this.isClassroomTeacher
+    })
   }
 
   // beforeMount() {

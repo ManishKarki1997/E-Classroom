@@ -16,7 +16,7 @@
     </div>
 
     <form @submit.prevent="sendMessage" class="chat-form">
-      <input v-model="message" type="text" placeholder="type a message" />
+      <input v-model="message" @focus="someoneIsTyping" type="text" :placeholder="placeholder" />
       <input type="submit" value="Send" />
     </form>
     <!-- <img :src="`/Images/${courseclass.teacher.avatar}`" alt="User Avatar" /> -->
@@ -24,56 +24,20 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
   data() {
     return {
       message: '',
       sendingMessage: false,
-      messages: [
-        {
-          messageId: 'message001',
-          sender: {
-            name: 'Saber',
-            avatar: 'Saber.jpg'
-          },
-          timestamp: '2:53 pm',
-          message: 'Well hello there',
-          sentByMe: false
-        },
-        {
-          messageId: 'message002',
-          sender: {
-            name: 'UwU',
-            avatar: 'Saber.jpg'
-          },
-          timestamp: '2:54 pm',
-          message: 'Hi Hi Hi',
-          sentByMe: true
-        },
-        {
-          messageId: 'message003',
-          sender: {
-            name: 'Saber',
-            avatar: 'Saber.jpg'
-          },
-          timestamp: '2:55 pm',
-          message: 'This has been an interesting chat',
-          sentByMe: false
-        },
-        {
-          messageId: 'message004',
-          sender: {
-            name: 'UwU',
-            avatar: 'Saber.jpg'
-          },
-          timestamp: '2:55 pm',
-          message:
-            'Shut up ugh. The girl in the animation is named Mikumo Guynemer from the anime Macross Delta. She is the lead singer of the fictional idol group known as "Walküre"',
-          sentByMe: true
-        }
-      ]
+      messages: [],
+      placeholder: 'type something'
     }
   },
+  computed: mapState({
+    user: state => state.user
+  }),
   methods: {
     sendMessage() {
       this.sendingMessage = true
@@ -87,13 +51,57 @@ export default {
         }
       }
 
-      setTimeout(() => {
-        if (this.sendingMessage) {
-          this.messages.push(message)
-          this.message = ''
-          this.sendingMessage = false
+      if (this.sendingMessage) {
+        this.messages.push(message)
+        // this.message = ''
+        // this.sendingMessage = false
+      }
+
+      this.$socket.emit('message_sent', {
+        classroomId: this.$route.params.classroomId,
+        message: {
+          message: this.message,
+          timestamp: Date.now(),
+          sentBy: {
+            name: this.user.name,
+            avatar: this.user.avatar,
+            userId: this.user._id
+          }
         }
-      }, 1500)
+      })
+      this.message = ''
+      this.sendingMessage = false
+    },
+    someoneIsTyping() {
+      this.$socket.emit('someoneIsTyping', {
+        name: this.user.name,
+        userId: this.user._id,
+        classroomId: this.$route.params.classroomId
+      })
+    }
+  },
+  sockets: {
+    message_received(message) {
+      if (message.sentBy.userId !== this.user._id) {
+        this.messages.push({
+          message: message.message,
+          timestamp: message.timestamp,
+          sender: {
+            name: message.sentBy.name,
+            avatar: message.sentBy.avatar
+          },
+          messageId: message.timestamp,
+          sentByMe: false
+        })
+      }
+    },
+    someone_is_typing(message) {
+      if (message.userId !== this.user._id) {
+        this.placeholder = `${message.name} is typing`
+        setTimeout(() => {
+          this.placeholder = 'type something'
+        }, 5000)
+      }
     }
   }
 }
