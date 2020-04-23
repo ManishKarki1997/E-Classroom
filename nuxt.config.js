@@ -20,11 +20,12 @@ export default {
       { href: "https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&display=swap", rel: "stylesheet" },
     ],
     script: [
-      {
-        src: 'https://rtcmulticonnection.herokuapp.com/dist/RTCMultiConnection.min.js'
-      },
+
       {
         src: 'https://rtcmulticonnection.herokuapp.com/socket.io/socket.io.js'
+      },
+      {
+        src: '/js/RTCMultiConnection.min.js'
       }
     ]
   },

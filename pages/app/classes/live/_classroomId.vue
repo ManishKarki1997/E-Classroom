@@ -70,12 +70,19 @@
       </div>
 
       <!-- <div class="video-wrapper"></div> -->
-      <video
-        style="width:100%; height:250px; background-color:lightblue;"
-        class="receivedStream"
-        autoplay
-      />
-      <StreamsWrapper ref="webcamStreamsWrapper" class="stream-wrapper" />
+      <div>
+        <p>Teacher's webcam view</p>
+        <video
+          style="width:100%; height:250px; background-color:lightblue;"
+          class="receivedStream"
+          autoplay
+        />
+      </div>
+      <div>
+        <p>My Screen View</p>
+        <video style="width:100%;height:100%;" id="my-webcam-view" autoplay />
+      </div>
+      <!-- <StreamsWrapper ref="webcamStreamsWrapper" class="stream-wrapper" /> -->
     </div>
   </div>
 </template>
@@ -159,13 +166,28 @@ export default {
       receivedStream: null,
       initiator: false,
       connection: null,
-      isClassroomTeacher: false
+      isClassroomTeacher: false,
+      streams: {
+        teacherStream: {
+          webcamStream: {
+            streamId: '',
+            stream: {}
+          },
+          screenStream: {
+            streamId: '',
+            stream: {}
+          }
+        },
+        studentStream: {
+          streamId: '',
+          stream: {}
+        }
+      }
     }
   },
   sockets: {
     class_active_users(activeUsers) {
       this.onlineUsers = activeUsers
-      console.log(activeUsers)
     },
     backAnswer(data) {
       this.signalAnswer(data)
@@ -192,7 +214,8 @@ export default {
     },
     handleScreenSharing() {
       if (this.screenSharing.share) {
-        this.stopScreenSharing()
+        // this.stopScreenSharing()
+        alert('screen sharing stopped')
         this.screenSharing.highlightIcon = false
       } else {
         this.startScreenSharing()
@@ -202,11 +225,81 @@ export default {
       this.screenSharing.share = !this.screenSharing.share
     },
     handleWebcamSharing() {
+      // teacher-screen-stream
       if (this.webcamSharing.share) {
-        this.$refs.webcamStreamsWrapper.stopCameraShare()
+        // this.$refs.webcamStreamsWrapper.stopCameraShare()
+        this.connection.streamEvents
+          .selectAll({ local: true })
+          .forEach(function(streamEvent) {
+            // console.log(streamEvent)
+            streamEvent.stream.getAudioTracks()[0].stop()
+            streamEvent.stream.getVideoTracks()[0].stop()
+          })
+        this.connection.removeStream(
+          this.streams.teacherStream.webcamStream.streamId
+        )
+
         this.webcamSharing.highlightIcon = false
       } else {
-        this.$refs.webcamStreamsWrapper.shareCameraStream()
+        // this.$refs.webcamStreamsWrapper.shareCameraStream()
+        try {
+          // this.stream = await navigator.mediaDevices.getDisplayMedia(
+          //   this.displayMediaOptions
+          // )
+          // this.screenVideoContainer.srcObject = this.stream
+          // this.$socket.emit('makeConnection', {
+          //   classroomId: this.$route.params.classroomId
+          // })
+          this.connection = new RTCMultiConnection()
+          this.connection.socketURL =
+            'https://rtcmulticonnection.herokuapp.com:443/'
+          this.connection.sdpConstraints.mandatory = {
+            OfferToReceiveAudio: true,
+            OfferToReceiveVideo: true
+          }
+
+          this.connection.session = {
+            audio: true,
+            video: true
+          }
+
+          this.connection.extra = {
+            sentByTeacher: true,
+            screenShare: false,
+            webcamShare: true
+          }
+
+          this.connection.openOrJoin(this.$route.params.classroomId)
+
+          const that = this
+
+          this.connection.onstream = function(event) {
+            // this.screenVideoContainer.srcObject = event.stream
+            if (event.type === 'local' && event.extra.webcamShare) {
+              document.getElementById('my-webcam-view').srcObject = event.stream
+              // console.log(event)
+              that.streams.teacherStream.webcamStream.stream = event.stream
+              that.streams.teacherStream.webcamStream.streamId = event.streamid
+            } else if (
+              event.type === 'local' &&
+              event.extra.screenShare === true
+            ) {
+              document.getElementById('teacher-screen-video').srcObject =
+                event.stream
+
+              that.streams.teacherStream.screenStream.stream = event.stream
+              that.streams.teacherStream.screenStream.streamId = event.streamid
+            }
+          }
+
+          this.$socket.emit('class_streaming_started', {
+            classroomName: this.currentlyViewingClass.name,
+            classroomId: this.currentlyViewingClass._id,
+            classroomTeacher: this.currentlyViewingClass.createdBy.name
+          })
+        } catch (error) {
+          console.error(error)
+        }
         this.webcamSharing.highlightIcon = true
       }
       this.webcamSharing.share = !this.webcamSharing.share
@@ -219,26 +312,44 @@ export default {
     },
 
     async startScreenSharing() {
-      try {
-        // this.stream = await navigator.mediaDevices.getDisplayMedia(
-        //   this.displayMediaOptions
-        // )
-        // this.screenVideoContainer.srcObject = this.stream
-        // this.$socket.emit('makeConnection', {
-        //   classroomId: this.$route.params.classroomId
-        // })
-        this.$socket.emit('class_streaming_started', {
-          classroomName: this.currentlyViewingClass.name,
-          classroomId: this.currentlyViewingClass._id,
-          classroomTeacher: this.currentlyViewingClass.createdBy.name
-        })
-      } catch (error) {
-        console.error(error)
+      // this.connection.session = {
+      //   audio: false,
+      //   screen: true
+      // }
+      // this.connection.extra = {
+      //   sentByTeacher: true,
+      //   screenShare: true,
+      //   webcamShare: false
+      // }
+      this.$socket.emit('screenShared', {
+        classroomId: this.$route.params.classroomId,
+        screenShared: true
+      })
+      this.connection.extra = {
+        sentByTeacher: true,
+        screenShare: true,
+        webcamShare: false
       }
+      this.connection.updateExtraData()
+
+      const that = this
+      this.connection.addStream({
+        screen: true,
+        oneway: true,
+        streamCallback: function(stream) {
+          console.log('teacher screen stream', stream)
+          document.getElementById('teacher-screen-video').srcObject = stream
+
+          that.streams.teacherStream.screenStream.stream = stream
+
+          that.streams.teacherStream.screenStream.streamId = stream.streamid
+        }
+      })
     }
   },
   mounted() {
-    this.screenVideoContainer = document.getElementById('teacher-screen-video')
+    this.apiStaticUrl = process.env.baseUrl
+    this.screenVideoContainer = document.getElementById('my-webcam-view')
     this.$socket.emit('get_all_online_users', this.$route.params.classroomId)
 
     if (this.currentlyViewingClass.createdBy !== undefined) {
@@ -246,46 +357,80 @@ export default {
         this.currentlyViewingClass.createdBy._id === this.user._id
     }
 
-    // if (!this.isClassroomTeacher) {
-    this.connection = new RTCMultiConnection()
-    this.connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/'
-    this.connection.sdpConstraints.mandatory = {
-      OfferToReceiveAudio: true,
-      OfferToReceiveVideo: true
-    }
+    if (!this.isClassroomTeacher) {
+      this.connection = new RTCMultiConnection()
+      this.connection.socketURL =
+        'https://rtcmulticonnection.herokuapp.com:443/'
+      this.connection.sdpConstraints.mandatory = {
+        OfferToReceiveAudio: true,
+        OfferToReceiveVideo: true
+      }
 
-    this.connection.session = {
-      audio: true,
-      video: true
-    }
+      this.connection.session = {
+        audio: true,
+        video: true
+      }
+      this.connection.openOrJoin(this.$route.params.classroomId)
 
-    this.connection.onstream = function(event) {
-      // this.screenVideoContainer.srcObject = event.stream
+      const that = this
 
-      if (this.isClassroomTeacher) {
-        if (event.type === 'local') {
-          document.getElementById('teacher-screen-video').srcObject =
-            event.stream
-        } else {
-          document.querySelector('.receivedStream').srcObject = event.stream
+      this.connection.onstreamended = function(event) {
+        // console.log(event)
+        const doc = document.getElementsByClassName(event.streamid)
+        // console.log(doc[0].parentNode)
+        if (doc[0]) {
+          doc[0].pause()
+          doc[0].removeAttribute('srcObject')
+          doc[0].load()
         }
-      } else {
+      }
+
+      this.connection.onstream = function(event) {
+        const receivedStreamContainer = document.querySelector(
+          '.receivedStream'
+        )
+
+        const mainTeacherViewContainer = document.getElementById(
+          'teacher-screen-video'
+        )
+
+        // this.screenVideoContainer.srcObject = event.stream
+
         if (event.type === 'local') {
-          document.querySelector('.receivedStream').srcObject = event.stream
+          that.streams.studentStream.streamId = event.streamid
+          that.streams.studentStream.stream = event.stream
+          document.getElementById('my-webcam-view').srcObject = event.stream
         } else {
-          document.getElementById('teacher-screen-video').srcObject =
-            event.stream
+          if (
+            event.extra.sentByTeacher !== undefined &&
+            event.extra.sentByTeacher &&
+            mainTeacherViewContainer.srcObject === null
+          ) {
+            console.log(mainTeacherViewContainer.srcObject)
+            mainTeacherViewContainer.srcObject = event.stream
+            mainTeacherViewContainer.classList.add(event.streamid)
+
+            that.streams.teacherStream.webcamStream.stream = event.stream
+            that.streams.teacherStream.streamId = event.streamid
+          } else if (
+            event.extra.sentByTeacher !== undefined &&
+            event.extra.sentByTeacher &&
+            mainTeacherViewContainer.srcObject !== null
+          ) {
+            receivedStreamContainer.srcObject = event.stream
+            receivedStreamContainer.classList.add(event.streamid)
+            that.streams.teacherStream.screenStream.stream = event.stream
+
+            that.streams.teacherStream.screenStream.streamId = event.streamid
+          }
         }
       }
     }
-    this.connection.openOrJoin(this.$route.params.classroomId)
-    // }
 
-    this.apiStaticUrl = process.env.baseUrl
-    this.$socket.emit('join_class', {
-      classroomId: this.$route.params.classroomId,
-      isClassroomTeacher: this.isClassroomTeacher
-    })
+    // this.$socket.emit('join_class', {
+    //   classroomId: this.$route.params.classroomId,
+    //   isClassroomTeacher: this.isClassroomTeacher
+    // })
   }
 
   // beforeMount() {
