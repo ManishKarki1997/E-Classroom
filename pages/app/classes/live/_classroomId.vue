@@ -20,11 +20,7 @@
         </div>
         <div class="floating-window-actions">
           <p style="margin-right:12px;">Tools</p>
-          <WhiteboardIcon
-            v-if="isClassroomTeacher"
-            :class="{currentlyActive:whiteboardOpen}"
-            @click="toggleWhiteboard"
-          />
+          <WhiteboardIcon :class="{currentlyActive:whiteboardOpen}" @click="toggleWhiteboard" />
           <CodeEditorIcon
             v-if="isClassroomTeacher"
             :class="{currentlyActive:codeEditorOpen}"
@@ -38,11 +34,13 @@
           <SwapIcon @click="swapStream" />
         </div>
       </div>
+
       <Whiteboard v-if="whiteboardOpen" />
-      <p
+      <!-- <Whiteboard v-if="whiteboardOpen" /> -->
+      <!-- <p
         style="margin-left:1rem;margin-top:1rem; font-size:14px;"
         v-if="!classHasStarted"
-      >Start the classroom by broadcasting yourself or your screen by clicking on the Share icons above.</p>
+      >Start the classroom by broadcasting yourself or your screen by clicking on the Share icons above.</p>-->
       <video id="teacher-screen-video" autoplay></video>
     </div>
 
@@ -102,7 +100,8 @@
 import Peer from 'simple-peer'
 
 import StreamsWrapper from '~/components/StudyComponents/StreamsWrapper'
-import Whiteboard from '~/components/StudyComponents/Whiteboard'
+// import Whiteboard from '~/components/StudyComponents/Whiteboard'
+import Whiteboard from '~/components/StudyComponents/Whiteboard1'
 import CodeEditor from '~/components/StudyComponents/CodeEditor'
 import Chat from '~/components/StudyComponents/Chat'
 
@@ -353,7 +352,6 @@ export default {
         screen: true,
         oneway: true,
         streamCallback: function(stream) {
-          console.log('teacher screen stream', stream)
           document.getElementById('teacher-screen-video').srcObject = stream
 
           that.streams.teacherStream.screenStream.stream = stream
@@ -465,5 +463,8 @@ export default {
 <style lang="scss" scoped>
 .currentlyActive {
   fill: rgb(226, 46, 46);
+}
+#classroom {
+  color: black !important;
 }
 </style>
