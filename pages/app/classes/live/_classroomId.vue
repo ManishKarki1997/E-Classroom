@@ -5,14 +5,22 @@
       <button @click="stopScreenSharing">Stop Capture</button>-->
       <div class="classroom-action-buttons-wrapper">
         <div v-if="isClassroomTeacher" class="camera-actions">
-          <p style="margin-right:12px;">Share</p>
+          <!-- <p style="margin-right:12px;">Share</p> -->
           <!-- <p >Notify</p> -->
-          <ShoutIcon @click="notifyClassStart" />
+          <ShoutIcon
+            v-tooltip="{content:'Notify Students',offset:'26px'}"
+            style="width:16px;height:16px;"
+            @click="notifyClassStart"
+          />
           <WebcamIcon
+            v-tooltip="{content:'Share Webcam',offset:'26px'}"
+            style="width:16px;height:16px;"
             @click="handleWebcamSharing"
             :class="{currentlyActive:webcamSharing.highlightIcon}"
           />
           <TelevisionIcon
+            v-tooltip="{content:'Share Screen',offset:'26px'}"
+            style="width:16px;height:16px;"
             @click="handleScreenSharing"
             :style="{classroomIconActive:screenSharing.highlightIcon}"
             :class="{currentlyActive:screenSharing.highlightIcon}"
@@ -20,18 +28,24 @@
         </div>
         <div class="floating-window-actions">
           <p style="margin-right:12px;">Tools</p>
-          <WhiteboardIcon :class="{currentlyActive:whiteboardOpen}" @click="toggleWhiteboard" />
+          <WhiteboardIcon
+            v-tooltip="{content:'Open Whiteboard',offset:'26px'}"
+            style="width:16px;height:16px;"
+            :class="{currentlyActive:whiteboardOpen}"
+            @click="toggleWhiteboard"
+          />
           <CodeEditorIcon
+            v-tooltip="{content:'Open Editor',offset:'26px'}"
             v-if="isClassroomTeacher"
             :class="{currentlyActive:codeEditorOpen}"
             @click="toggleCodeEditor"
           />
           <ChatIcon
-            style="width:22px;height:22px;"
+            v-tooltip="{content:'Open Chat',offset:'26px'}"
             :class="{currentlyActive:chatboxOpen,openChat:chatboxOpen}"
             @click="chatboxOpen=!chatboxOpen"
           />
-          <SwapIcon @click="swapStream" />
+          <SwapIcon v-tooltip="{content:'Swap Stream',offset:'26px'}" @click="determineSwap" />
         </div>
       </div>
 
@@ -62,7 +76,7 @@
     <div class="classroom-right-side">
       <Chat v-if="chatboxOpen" />
       <div class="online-students-wrapper">
-        <h4>Online Students</h4>
+        <h4>Online</h4>
         <ul class="online-students">
           <li v-for="onlineUser in onlineUsers" :key="onlineUser.email">
             <div class="online-student-info">
@@ -80,15 +94,11 @@
 
       <!-- <div class="video-wrapper"></div> -->
       <div>
-        <p>Teacher's webcam view</p>
-        <video
-          style="width:100%; height:250px; background-color:lightblue;"
-          class="receivedStream"
-          autoplay
-        />
+        <!-- <p>Teacher's webcam view</p> -->
+        <video style="width:100%; max-height:230px;" class="receivedStream" autoplay />
       </div>
       <div>
-        <p>My Screen View</p>
+        <!-- <p>My Screen View</p> -->
         <video style="width:100%;height:100%;" id="my-webcam-view" autoplay />
       </div>
       <!-- <StreamsWrapper ref="webcamStreamsWrapper" class="stream-wrapper" /> -->
@@ -206,6 +216,33 @@ export default {
     currentlyViewingClass: state => state.currentlyViewingClass
   }),
   methods: {
+    determineSwap() {
+      this.isClassroomTeacher ? this.teacherSwapStream() : this.swapStream()
+    },
+    teacherSwapStream() {
+      try {
+        let webcamStream = document.querySelector('#my-webcam-view')
+        let mainStream = document.querySelector('#teacher-screen-video')
+        let tempStreamContainer = webcamStream.srcObject || mainStream.srcObject
+        // if both sources are null, alert the user to at least share one stream
+        if (webcamStream.srcObject === null && mainStream.srcObject === null) {
+          this.$toast.open({
+            type: 'error',
+            message: 'Please share at least one stream first!',
+            position: 'top-right',
+            duration: 1500
+          })
+          return false
+        } else {
+          console.log(tempStreamContainer)
+          webcamStream.srcObject = mainStream.srcObject
+          mainStream.srcObject = tempStreamContainer
+        }
+        // console.log(tempStreamContainer)
+      } catch (error) {
+        console.error(error)
+      }
+    },
     swapStream() {
       if (
         this.streams.remoteStreams.first !== null &&
@@ -290,11 +327,24 @@ export default {
             webcamShare: true
           }
 
+          this.connection.mediaConstraints = {
+            audio: true,
+            video: {
+              mandatory: {
+                minWidth: 1280,
+                maxWidth: 1280,
+                minHeight: 720,
+                maxHeight: 1280
+              }
+            }
+          }
+
           this.connection.openOrJoin(this.$route.params.classroomId)
 
           const that = this
 
           this.connection.onstream = function(event) {
+            console.log(event)
             // this.screenVideoContainer.srcObject = event.stream
             if (
               event.type === 'local' &&
@@ -328,37 +378,104 @@ export default {
     toggleCodeEditor() {
       this.codeEditorOpen = !this.codeEditorOpen
     },
+    displayVideo(event) {
+      if (event.type === 'local') {
+        // console.log(event)
+        this.streams.localStream = event.streamid
+        this.streams.localStream = event.stream
+        document.getElementById(
+          'my-webcam-view'
+        ).srcObject = this.streams.localStream
+      } else {
+        if (
+          event.type === 'remote' &&
+          event.extra.sentByTeacher !== undefined &&
+          event.extra.sentByTeacher &&
+          this.streams.remoteStreams.first === null
+        ) {
+          this.streams.remoteStreams.first = event.stream
+
+          this.mainTeacherViewContainer.srcObject = this.streams.remoteStreams.first
+          this.mainTeacherViewContainer.classList.add(event.streamid)
+          // that.streams.teacherStream.webcamStream.stream = event.stream
+          // that.streams.teacherStream.streamId = event.streamid
+        } else if (
+          event.type === 'remote' &&
+          event.extra.sentByTeacher !== undefined &&
+          event.extra.sentByTeacher &&
+          this.streams.remoteStreams.first !== null
+        ) {
+          this.receivedStreamContainer.classList.add(event.streamid)
+
+          this.streams.remoteStreams.second = event.stream
+          this.receivedStreamContainer.srcObject = this.streams.remoteStreams.second
+        }
+      }
+    },
 
     async startScreenSharing() {
-      // this.connection.session = {
-      //   audio: false,
-      //   screen: true
-      // }
-      // this.connection.extra = {
-      //   sentByTeacher: true,
-      //   screenShare: true,
-      //   webcamShare: false
-      // }
-
-      // this.connection.extra = {
-      //   sentByTeacher: true,
-      //   screenShare: true,
-      //   webcamShare: false
-      // }
-      // this.connection.updateExtraData()
-
       const that = this
-      this.connection.addStream({
-        screen: true,
-        oneway: true,
-        streamCallback: function(stream) {
-          document.getElementById('teacher-screen-video').srcObject = stream
-
-          that.streams.teacherStream.screenStream.stream = stream
-
-          that.streams.teacherStream.screenStream.streamId = stream.streamid
+      if (this.webcamSharing.highlightIcon) {
+        this.connection.mediaConstraints = {
+          audio: true,
+          video: {
+            mandatory: {
+              minWidth: 1280,
+              maxWidth: 1280,
+              minHeight: 1280,
+              maxHeight: 1280
+            }
+          }
         }
-      })
+
+        this.connection.addStream({
+          screen: true,
+          oneway: true,
+          streamCallback: function(stream) {
+            document.getElementById('teacher-screen-video').srcObject = stream
+
+            that.streams.teacherStream.screenStream.stream = stream
+
+            that.streams.teacherStream.screenStream.streamId = stream.streamid
+          }
+        })
+      } else {
+        this.connection = new RTCMultiConnection()
+        this.connection.socketURL =
+          'https://rtcmulticonnection.herokuapp.com:443/'
+
+        this.connection.session = {
+          screen: true,
+          oneway: true
+        }
+
+        this.connection.sdpConstraints.mandatory = {
+          OfferToReceiveAudio: true,
+          OfferToReceiveVideo: true
+        }
+        this.connection.mediaConstraints = {
+          audio: true,
+          video: {
+            mandatory: {
+              minWidth: 1280,
+              maxWidth: 1280,
+              minHeight: 1280,
+              maxHeight: 1280
+            }
+          }
+        }
+
+        this.connection.extra = {
+          sentByTeacher: true,
+          screenShare: true,
+          webcamShare: false
+        }
+        this.connection.openOrJoin(this.$route.params.classroomId)
+
+        this.connection.onstream = function(event) {
+          that.displayVideo(event)
+        }
+      }
     }
   },
   mounted() {
@@ -378,6 +495,7 @@ export default {
         'teacher-screen-video'
       )
       this.connection = new RTCMultiConnection()
+
       this.connection.socketURL =
         'https://rtcmulticonnection.herokuapp.com:443/'
       this.connection.sdpConstraints.mandatory = {
@@ -388,6 +506,18 @@ export default {
       this.connection.session = {
         audio: true,
         video: true
+      }
+      this.connection.mediaConstraints = {
+        audio: true,
+        video: {
+          mandatory: {
+            minWidth: 1280,
+            maxWidth: 1280,
+            minHeight: 860,
+            maxHeight: 1280
+          },
+          optional: []
+        }
       }
       this.connection.openOrJoin(this.$route.params.classroomId)
 
@@ -406,40 +536,7 @@ export default {
 
       this.connection.onstream = function(event) {
         // this.screenVideoContainer.srcObject = event.stream
-        if (event.type === 'local') {
-          // console.log(event)
-          that.streams.localStream = event.streamid
-          that.streams.localStream = event.stream
-          document.getElementById('my-webcam-view').srcObject =
-            that.streams.localStream
-        } else {
-          console.log(event)
-          if (
-            event.type === 'remote' &&
-            event.extra.sentByTeacher !== undefined &&
-            event.extra.sentByTeacher &&
-            that.streams.remoteStreams.first === null
-          ) {
-            that.streams.remoteStreams.first = event.stream
-
-            that.mainTeacherViewContainer.srcObject =
-              that.streams.remoteStreams.first
-            that.mainTeacherViewContainer.classList.add(event.streamid)
-            // that.streams.teacherStream.webcamStream.stream = event.stream
-            // that.streams.teacherStream.streamId = event.streamid
-          } else if (
-            event.type === 'remote' &&
-            event.extra.sentByTeacher !== undefined &&
-            event.extra.sentByTeacher &&
-            that.streams.remoteStreams.first !== null
-          ) {
-            that.receivedStreamContainer.classList.add(event.streamid)
-
-            that.streams.remoteStreams.second = event.stream
-            that.receivedStreamContainer.srcObject =
-              that.streams.remoteStreams.second
-          }
-        }
+        that.displayVideo(event)
       }
     }
 
@@ -461,6 +558,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.tooltip {
+  margin-top: 2rem !important;
+  color: white !important;
+  background-color: white;
+}
 .currentlyActive {
   fill: rgb(226, 46, 46);
 }

@@ -1,7 +1,17 @@
 <template>
-  <div class="whiteboard">
-    <p>Whiteboard</p>
-    <canvas height="800" width="1200" id="whiteboard-canvas"></canvas>
+  <div class="whiteboard-wrapper">
+    <div class="whiteboard-controls">
+      <div class="whiteboard-colors">
+        <button
+          @click="canvas.activeColor=color"
+          v-for="color in canvas.colors"
+          :key="color.id"
+          :style="{backgroundColor:color}"
+        ></button>
+      </div>
+      <input type="range" min="1" max="12" v-model="canvas.strokeWidth" />
+    </div>
+    <canvas height="1200" width="1200" id="whiteboard-canvas"></canvas>
   </div>
 </template>
 
@@ -10,8 +20,16 @@ export default {
   data() {
     return {
       canvas: {
-        colors: ['red', 'blue', 'lightblue', 'green', 'salmon'],
-        activeColor: '#000',
+        colors: [
+          '#003049',
+          '#7bdff2',
+          '#2a9d8f',
+          '#457b9d',
+          '#d9d9d9',
+          '#3a0ca3',
+          '#ef233c'
+        ],
+        activeColor: '#003049',
         strokeWidth: 1,
         canvas: null,
         context: null,
@@ -134,9 +152,110 @@ export default {
   color: black !important;
 }
 #whiteboard-canvas {
-  border: 1px solid #aaa;
+  /* border: 1px solid #aaa; */
   /* width: 100%; */
   /* height: 100%; */
   /* background-color: lightblue; */
+}
+.whiteboard-controls {
+  display: flex;
+  align-items: center;
+}
+input[type='range'] {
+  -webkit-appearance: none;
+  margin-top: 10px;
+  /* margin: 18px 0; */
+  width: 120px;
+}
+input[type='range']:focus {
+  outline: none;
+}
+input[type='range']::-webkit-slider-runnable-track {
+  height: 8.4px;
+  cursor: pointer;
+  animate: 0.2s;
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.1);
+  background: #3071a9;
+  border-radius: 1.3px;
+  border: 0.2px solid #010101;
+}
+input[type='range']::-webkit-slider-thumb {
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid #000000;
+  height: 20px;
+  width: 12px;
+  border-radius: 3px;
+  background: #ffffff;
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-top: -6px;
+}
+input[type='range']:focus::-webkit-slider-runnable-track {
+  background: #367ebd;
+}
+input[type='range']::-moz-range-track {
+  width: 100%;
+  height: 8.4px;
+  cursor: pointer;
+  animate: 0.2s;
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  background: #3071a9;
+  border-radius: 1.3px;
+  border: 0.2px solid #010101;
+}
+input[type='range']::-moz-range-thumb {
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  border: 1px solid #000000;
+  height: 36px;
+  width: 16px;
+  border-radius: 3px;
+  background: #ffffff;
+  cursor: pointer;
+}
+input[type='range']::-ms-track {
+  width: 100%;
+  height: 8.4px;
+  cursor: pointer;
+  animate: 0.2s;
+  background: transparent;
+  border-color: transparent;
+  border-width: 16px 0;
+  color: transparent;
+}
+input[type='range']::-ms-fill-lower {
+  background: #2a6495;
+  border: 0.2px solid #010101;
+  border-radius: 2.6px;
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+}
+input[type='range']::-ms-fill-upper {
+  background: #3071a9;
+  border: 0.2px solid #010101;
+  border-radius: 2.6px;
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+}
+input[type='range']::-ms-thumb {
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  border: 1px solid #000000;
+  height: 36px;
+  width: 16px;
+  border-radius: 3px;
+  background: #ffffff;
+  cursor: pointer;
+}
+input[type='range']:focus::-ms-fill-lower {
+  background: #3071a9;
+}
+input[type='range']:focus::-ms-fill-upper {
+  background: #367ebd;
+}
+
+.whiteboard-colors {
+  margin-left: 12px;
+}
+.whiteboard-colors button {
+  width: 40px;
+  height: 30px;
+  margin-right: 2px;
 }
 </style>

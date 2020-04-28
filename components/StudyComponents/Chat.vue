@@ -1,17 +1,13 @@
 <template>
   <div id="classroom-chat">
     <div id="chat-messages">
-      <div
-        class="chat-message"
-        :class="{'message-by-me':message.sentByMe}"
-        v-for="message in messages"
-        :key="message.messageId"
-      >
+      <h4>Chat</h4>
+      <div class="chat-message" v-for="message in messages" :key="message.messageId">
         <div class="message-sender">
           <img :src="`/Images/${message.sender.avatar}`" alt="User Avatar" />
-          <h5 v-if="!message.sentByMe">{{message.sender.name}}</h5>
+          <h5>{{message.sender.name}}</h5>
         </div>
-        <p class="message-content">{{message.message}}</p>
+        <p :class="{'message-by-me':message.sentByMe}" class="message-content">{{message.message}}</p>
       </div>
     </div>
 

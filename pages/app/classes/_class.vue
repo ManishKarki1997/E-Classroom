@@ -72,6 +72,7 @@ export default {
     },
     goto(route) {
       this.$router.push(`/app/classes/${this.classroom._id}/${route}`)
+      console.log(this.isClassroomCreator)
     },
     async editClass(backgroundImage) {
       this.editButtonClicked = true
@@ -143,11 +144,17 @@ export default {
     },
     gotoClass() {
       this.$router.push(`/app/classes/live/${this.classroom._id}`)
+      if (this.isClassroomCreator) {
+        this.$socket.emit('join_class', {
+          classroomId: this.classroom._id,
+          userId: this.$store.state.user._id
+        })
+      }
     }
   },
   mounted() {
     this.classroom = { ...this.$store.state.currentlyViewingClass }
-    if (this.classroom._id === this.$store.state.user._id) {
+    if (this.classroom.createdBy._id === this.$store.state.user._id) {
       this.isClassroomCreator = true
     }
     this.apiStaticUrl = process.env.baseUrl

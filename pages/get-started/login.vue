@@ -62,7 +62,7 @@ export default {
         })
         setTimeout(() => {
           this.$router.push('/app')
-        }, 1500)
+        }, 1600)
       }
     }
   }

@@ -53,7 +53,8 @@ export default {
     '~/plugins/VueWindow.js',
     '~/plugins/VueEditor.js',
     '~/plugins/vue-toast.js',
-    '~/plugins/VueSocket.js'
+    '~/plugins/VueSocket.js',
+    '~/plugins/vue-tooltip.js'
 
   ],
   /*
