@@ -75,8 +75,10 @@ export default {
 
 .user-meta {
   margin-top: 8px;
-  background-color: #434c5e;
-  color: white;
+  background-color: var(--tertiary-background-color);
+  // background-color: #434c5e;
+  color: var(--primary-font-color);
+  box-shadow: 1px 1px 2px #434c5e;
   border-radius: 4px;
   padding: 6px 20px;
   //   width: 80%;

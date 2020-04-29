@@ -26,11 +26,11 @@
             <HomeIcon />
           </nuxt-link>
         </li>
-        <li>
+        <!-- <li>
           <nuxt-link to="/app/classroom">
             <StudyIcon />
           </nuxt-link>
-        </li>
+        </li>-->
         <li>
           <nuxt-link to="/app/resources">
             <ResourcesIcon />

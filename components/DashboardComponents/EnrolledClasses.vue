@@ -22,7 +22,7 @@
 
 <style lang="scss" scoped>
 #enrolled-classes-wrapper {
-  background-color: #eceff4;
+  background-color: var(--secondary-background-color);
 }
 .enrolled-classes {
   margin-top: 16px;

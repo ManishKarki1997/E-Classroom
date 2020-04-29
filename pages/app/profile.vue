@@ -76,6 +76,7 @@ export default {
   padding: 8px;
   display: flex;
   justify-content: space-between;
+  overflow-x: hidden;
 
   .user-meta {
     padding: 4px 8px;
@@ -85,9 +86,12 @@ export default {
     justify-content: space-between;
 
     .user-meta-item {
+      background-color: transparent;
       svg {
         width: 30px;
         height: 30px;
+        fill: black !important;
+        // fill: var(--primary-font-color) !important;
       }
     }
   }
@@ -95,6 +99,9 @@ export default {
 
 .user-profile {
   min-width: 15%;
+  a {
+    color: var(--primary-font-color);
+  }
   .user-info {
     display: flex;
     flex-direction: column;
@@ -124,9 +131,6 @@ export default {
     padding: 8px;
     border-radius: 3px;
     font-size: 14px;
-    a {
-      color: $primary-text-light;
-    }
   }
 }
 </style>

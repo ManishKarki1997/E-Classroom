@@ -4,10 +4,12 @@
       <h4>Chat</h4>
       <div class="chat-message" v-for="message in messages" :key="message.messageId">
         <div class="message-sender">
-          <img :src="`/Images/${message.sender.avatar}`" alt="User Avatar" />
-          <h5>{{message.sender.name}}</h5>
+          <img :src="apiStaticUrl + '/uploads/images/' + message.sender.avatar" alt="User Avatar" />
         </div>
-        <p :class="{'message-by-me':message.sentByMe}" class="message-content">{{message.message}}</p>
+        <div class="chat-content">
+          <h5>{{message.sender.name}}</h5>
+          <p :class="{'message-by-me':message.sentByMe}" class="message-content">{{message.message}}</p>
+        </div>
       </div>
     </div>
 
@@ -28,7 +30,8 @@ export default {
       message: '',
       sendingMessage: false,
       messages: [],
-      placeholder: 'type something'
+      placeholder: 'type something',
+      apiStaticUrl: ''
     }
   },
   computed: mapState({
@@ -37,13 +40,14 @@ export default {
   methods: {
     sendMessage() {
       this.sendingMessage = true
+      console.log(this.apiStaticUrl + '/uploads/images/' + this.user.avatar)
       const message = {
         message: this.message,
         timestamp: Date.now(),
         sentByMe: true,
         sender: {
-          name: 'Saber',
-          avatar: 'Saber.jpg'
+          name: this.user.name,
+          avatar: this.user.avatar
         }
       }
 
@@ -99,6 +103,9 @@ export default {
         }, 5000)
       }
     }
+  },
+  mounted() {
+    this.apiStaticUrl = process.env.baseUrl
   }
 }
 </script>

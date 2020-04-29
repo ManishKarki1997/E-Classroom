@@ -10,7 +10,7 @@
     right: 0;
     width: 100%;
     z-index: 10;
-    background-color: $secondary-background-light;
+    background-color: var(--primary-background-color);
     padding: 1rem 8px;
   }
   #chat-messages {
@@ -19,34 +19,42 @@
   
     .chat-message {
       display: flex;
-      flex-direction: column;
       margin-bottom: 16px;
       margin-top: 16px;
-      // align-items: center;
   
       .message-sender {
         display: flex;
-        align-items: center;
+
         img {
-          margin-right: 4px;
-          width: 24px;
-          height: 24px;
+          margin-right: 14px;
+          width: 30px;
+          height: 30px;
           border-radius: 50%;
+        }
+      }
+      .chat-content{
+        margin-top: -4px;
+        display: flex;
+        flex-direction: column;
+
+        h5{
+          font-size:14px;
         }
       }
   
       .message-content {
         font-size: 12px;
         line-height: 20px;
-        padding: 2px 6px;
+        padding: 4px 6px;
         border-radius: 0 5px 5px 5px;
         margin-top: 4px;
-        margin-left: 25px;
+        // margin-left: 25px;
       }
     }
   }
   .message-by-me{
-    background-color: rgb(248, 244, 244);
+    background-color: var(--secondary-background-color);
+    // background-color: rgb(248, 244, 244);
     box-shadow: 1px 1px 2px rgba(0,0,0,0.1);
   }
   // .message-by-me {
@@ -68,7 +76,7 @@
     flex-direction: column;
 
     input[type='text']{
-      @include inputBox($secondary-background-light,$primary-text-light);
+      @include inputBox($primary-background-light,$primary-text-light);
       border-radius: 0;
       padding: 5px 8px;
       font-size: 14px;
@@ -77,7 +85,8 @@
     }
 
     input[type='submit']{
-      @include button(#191c28,white); //backgroundColor,color
+      @include button(var(--secondary-background-color),var(--primary-font-color)); //backgroundColor,color
+      // @include button(#191c28,white); //backgroundColor,color
       width: 35%;
     }
   }

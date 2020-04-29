@@ -1,5 +1,42 @@
 @import '_base';
 
+#dashboard {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+.dashboard-main {
+  width: 80%;
+  padding: 14px 2rem;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-auto-rows: 50px;
+  grid-gap: 1rem;
+}
+.dashboard-notifications {
+  grid-column: span 4;
+  grid-row: span 4;
+  background-color: var(--secondary-background-color);
+  padding: 8px 12px;
+  border-radius: 2px;
+  // box-shadow: 2px 2px 4px 4px var(--secondary-background-color);
+}
+.dashboard-enrolled-classes {
+  grid-column: span 4;
+  grid-row: span 6;
+  background-color: var(--secondary-background-color);
+  padding: 8px 12px;
+  border-radius: 2px;  
+  // box-shadow: 2px 2px 4px 4px var(--secondary-background-color);
+}
+.dashboard-right {
+  width: 20%;
+  background-color: var(--secondary-background-color);
+  padding: 6px 10px;
+  box-shadow: 2px 2px 8px 4px rgba(0, 0, 0, 0.1);
+}
+
   #main-classroom{
     width: 100%;
     height: 100vh;

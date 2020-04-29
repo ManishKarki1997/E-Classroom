@@ -93,13 +93,15 @@ export default {
 #resources {
   // padding: 14px 2rem;
   margin-left: 4rem;
-  color: black;
+  color: var(--primary-font-color);
   display: flex;
   width: 100%;
 }
 .shared-resources-menu {
   height: 100vh;
-  background-color: white; //$secondary-background-light
+  background-color: var(
+    --secondary-background-color
+  ); //$secondary-background-light
   padding: 10px 16px;
   width: 20%;
 }

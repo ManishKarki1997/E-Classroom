@@ -22,7 +22,10 @@
         />-->
       </div>
       <div class="form-input">
-        <label for="resourceFile">File</label>
+        <label for="resourceFile">
+          File Upload
+          <!-- <UploadIcon style="height:16px;width:16px;" /> -->
+        </label>
         <input type="file" name="resourceFile" id="resourceFile" @change="onFileChanged" />
       </div>
       <div>
@@ -34,8 +37,12 @@
 </template>
 
 <script>
+import UploadIcon from '~/static/Icons/upload.svg?inline'
 export default {
   props: ['classId', 'hideModal'],
+  components: {
+    UploadIcon
+  },
   data() {
     return {
       newResource: {
@@ -110,7 +117,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../../assets/css/_base';
+// @import '../../assets/css/_base';
 
 .add-resource-wrapper {
   padding: 1rem;
@@ -119,27 +126,37 @@ export default {
   left: 50%;
   transform: translate(-50%, -50%);
   width: 40vw;
-  background-color: $tertiary-background-dark;
-  color: $primary-text-dark;
+  background-color: var(--tertiary-background-color);
+  color: var(--primary-font-color);
+  // background-color: $tertiary-background-dark;
+  // color: $primary-text-dark;
 }
 .form-input {
   textarea {
     margin-top: 8px;
+    border: none;
   }
+}
+
+input[type='text'],
+textarea {
+  background-color: var(--secondary-background-color);
 }
 
 button {
   border-radius: 3px;
   padding: 8px 20px;
   cursor: pointer;
+  color: var(--primary-font-color);
 }
 
 button:first-child {
-  background-color: #434c5e;
+  background-color: #191c28;
   border: 1px solid #434c5e;
   color: white;
 }
 button:last-child {
-  border: 1px solid #434c5e;
+  background-color: transparent;
+  // border: 1px solid #434c5e;
 }
 </style>

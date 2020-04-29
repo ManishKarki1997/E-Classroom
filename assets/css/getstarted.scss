@@ -13,13 +13,14 @@
   .get-started-left {
     width: 40%;
     height: 100%;
-    background-color: #191c28;
+    background-color: var(--primary-background-color);
     padding: 3rem;
-    color: white;
+    color: var(--primary-font-color);
     position: relative;
 
     h2{
         text-align: left;
+        color: var(--primary-font-color);
     }
 
     .get-started-intro{
@@ -39,25 +40,25 @@
         }
 
         .get-started-nav {
-            display: flex;
-            align-items: center;
-            // justify-content: space-around;
-            margin-top: 2rem;
+          display: flex;
+          align-items: center;
+          // justify-content: space-around;
+          margin-top: 2rem;
+        }
+        .get-started-nav a {
+          margin: 0 auto;
+          margin-right: 1rem;
+          text-decoration: none;
+          color: var(--primary-font-color);
+          // border: 1px solid var(--secondary-background-color);
+          border-radius: 3px;
+          padding: 6px 10px;
+      
+          &.nuxt-link-exact-active,
+          &.nuxt-link-active {
+              border: 1px solid var(--primary-font-color);
           }
-          .get-started-nav a {
-            margin: 0 auto;
-            margin-right: 1rem;
-            text-decoration: none;
-            color: $primary-background-light;
-            border: 1px solid $secondary-background-dark;
-            border-radius: 3px;
-            padding: 6px 10px;
-
-            &.nuxt-link-exact-active,
-            &.nuxt-link-active {
-                border: 1px solid $primary-text-dark;
-            }
-          }
+        }
     }
   }
   .get-started-right {
@@ -68,7 +69,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-evenly;
-    background-color: $primary-background-light;
+    background-color: var(--primary-background-color);
   }
 
 
@@ -76,8 +77,9 @@
 .form-container {
     width: 70%;
     padding: 2rem;
-    box-shadow: 0 6px 31px -2px rgba(0, 0, 0, 0.1);
-    
+    box-shadow: 0 6px 31px -2px rgba(0, 0, 0, 0.2);    
+    background-color: rgba(0, 0, 0, 0.01);
+    border-radius: 15px;
     
   }
   .form-input {
@@ -86,10 +88,14 @@
     margin-bottom: 1rem;
   }
   .form-input input {
-      @include inputBox($secondary-background-light,$primary-text-light);
-    border: 1px solid $primary-text-dark;
+      @include inputBox(var(--tertiary-background-color),var(--primary-font-color));
+    // border: 1px solid rgba(41, 40, 40, 0.388);
+    box-shadow: 0 6px 31px -2px rgba(0, 0, 0, 0.1);    
     margin-top: 8px;
     font-size: 14px;
+  }
+  input[type='file']{
+    box-shadow: none;
   }
   .form-actions {
     display: flex;
@@ -99,4 +105,8 @@
   .form-actions button {
       @include button(#191c28,white); //backgroundColor,color
   }
+
+input[type='text']{
+  border: none !important;
+}
   

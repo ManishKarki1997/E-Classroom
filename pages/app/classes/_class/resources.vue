@@ -169,8 +169,6 @@ export default {
         resourceId
       })
 
-      console.log(response)
-
       if (response.data.error) {
         this.$toast.open({
           type: 'error',
@@ -200,7 +198,8 @@ export default {
 <style lang="scss" scoped>
 #resources {
   // padding: 14px 2rem;
-  color: black;
+  // color: black;
+  color: var(--secondary-font-color);
   display: flex;
   flex-direction: column;
   width: 100%;

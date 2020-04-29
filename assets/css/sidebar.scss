@@ -1,3 +1,5 @@
+@import'./darktheme.scss';
+
 
 // NOTE  Sidebar
 #sidebar{
@@ -7,22 +9,25 @@
     left: 0;
     width: 4rem;
     padding: 16px 20px;
-    background-color: $secondary-background-light;
+    background-color: var(--secondary-background-color);
+    // background-color: $secondary-background-light;
     margin-right: 4rem;
     box-shadow: -1px -1px 1px rgba(255,255,255,0.05),
                       3px 3px 3px rgba(0,0,0,0.08);
   
       .nuxt-link-exact-active svg,
       .nuxt-link-active svg {
-      fill: white;
+      fill: var(--primary-font-color);
       /* fill: blue; */
       }
       .nuxt-link-active,
       .nuxt-link-exact-active {
       border-radius: 3px;
-      background-color: #434c5e;
-      box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.08),
-          -6px -6px 12px rgba(255, 255, 255, 1);
+      background-color: var(--primary-background-color);
+      fill: var(--primary-background-color);
+      box-shadow: 1px 1px 5px 5px var(--secondary-background-color);
+    //   box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.08),
+    //       -6px -6px 12px rgba(255, 255, 255, 1);
       padding: 8px 12px;
       }
   }
@@ -57,7 +62,7 @@
           svg{
               width:18px;
               height:18px;
-              fill:$secondary-background-dark;
+              fill:var(--primary-font-color);
               transition: all 0.15s linear;
           }
   

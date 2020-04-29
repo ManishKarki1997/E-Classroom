@@ -63,7 +63,7 @@ export default {
   // min-height: 100px;
   overflow: auto;
   overflow-x: hidden;
-  background-color: #eceff4;
+  background-color: var(--secondary-background-color);
 
   h4 {
     margin-bottom: 12px;

@@ -84,10 +84,10 @@
               <!-- <img src="~/static/Images/Saber.jpg" alt="user picture" /> -->
               <p>{{onlineUser.name}}</p>
             </div>
-            <div class="communication-request-action-buttons">
+            <!-- <div class="communication-request-action-buttons">
               <CheckMarkIcon />
               <CloseIcon />
-            </div>
+            </div>-->
           </li>
         </ul>
       </div>
@@ -226,9 +226,15 @@ export default {
         let tempStreamContainer = webcamStream.srcObject || mainStream.srcObject
         // if both sources are null, alert the user to at least share one stream
         if (webcamStream.srcObject === null && mainStream.srcObject === null) {
+          let message = ''
+          if (this.isClassroomTeacher) {
+            message = 'Please share at least one stream first!'
+          } else {
+            message = 'No stream has been shared'
+          }
           this.$toast.open({
             type: 'error',
-            message: 'Please share at least one stream first!',
+            message,
             position: 'top-right',
             duration: 1500
           })

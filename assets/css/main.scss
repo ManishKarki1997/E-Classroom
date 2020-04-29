@@ -7,9 +7,39 @@
     box-sizing: border-box;
 }
 
+:root{
+    --primary-background-color:#ECEFF4 ;
+    --secondary-background-color:#F8FAFB;
+    --tertiary-background-color:white;
+    --primary-font-color: #1f1f1f;
+    --secondary-font-color:#222839;
+    --tertiary-font-color:#858EA1;
+
+    --overlay-color:rgb(236, 238, 238);
+
+}
+
+body[theme="dark"]{
+    --primary-background-color:#191C28;
+    --secondary-background-color:#222839;
+    // --tertiary-background-color:#434C5E;
+    --tertiary-background-color:rgba(25, 28, 40, 0.836);
+    --primary-font-color:#F8FAFB;
+    --secondary-font-color:rgb(240,235,235);
+    --tertiary-font-color:#ECEFF4;
+
+    background-color: var(--primary-background-color);
+    color:var(--primary-font-color);
+    --overlay-color:rgba(36, 40, 54, 0.836);
+
+}
+
+
+
+
 body{
-    background-color: $primary-background-light;
-    color:$primary-text-light;
+    // background-color: $primary-background-light;
+    // color:$primary-text-light;
     transition: all 0.4s ease-in-out;
     // font-family: "Chivo";
     font-family: "Rubik", -apple-system, BlinkMacSystemFont,
@@ -18,7 +48,6 @@ body{
     "Droid Sans", "Helvetica Neue", sans-serif;
     font-weight: 300;
     letter-spacing: .5px; //remove it if font is changed to Chivo
-    color: $primary-text-light;
 }
 p{
     line-height:26px;
@@ -41,10 +70,13 @@ h6,p{
 }
 a{
     text-decoration: none;
-    color: $primary-text-light;
+    // color: $primary-text-light;
 }
 ul{
     list-style-type: none;
+}
+svg{
+    fill: var(--secondary-font-color) !important;
 }
 button{
     cursor: pointer;
@@ -73,11 +105,12 @@ button{
 }
 
 .darken {
-    background-color: #444444;
-    color: #111;
+    background-color: var(--overlay-color);
+    // background-color: #444444;
+    // color: #111;
   }
 
-@import './darktheme.scss';
+// @import './darktheme.scss';
 @import './sidebar.scss';
 @import './dashboard.scss';
 @import './classcard.scss';
