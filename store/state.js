@@ -5,7 +5,8 @@ function state() {
         isLoggedIn: false,
         apiUrl: process.env.baseUrl,
         currentlyViewingClass: {},
-        selectedResourceContents: {}
+        selectedResourceContents: {},
+        liveClasses: [],
     }
 }
 

@@ -268,7 +268,9 @@ export default {
       this.$socket.emit('class_streaming_started', {
         classroomName: this.currentlyViewingClass.name,
         classroomId: this.currentlyViewingClass._id,
-        classroomTeacher: this.currentlyViewingClass.createdBy.name
+        classroomTeacher: this.currentlyViewingClass.createdBy.name,
+        classroomImage: this.currentlyViewingClass.backgroundImage,
+        startTime: new Date().getTime()
       })
     },
     stopScreenSharing() {
@@ -350,7 +352,6 @@ export default {
           const that = this
 
           this.connection.onstream = function(event) {
-            console.log(event)
             // this.screenVideoContainer.srcObject = event.stream
             if (
               event.type === 'local' &&

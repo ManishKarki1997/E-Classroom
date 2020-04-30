@@ -1,6 +1,6 @@
 <template>
   <div class="upcoming-class-wrapper">
-    <h4 class="section-title">Upcoming Class</h4>
+    <h4 class="section-title">Upcoming Classes</h4>
     <div class="upcoming-class">
       <img src="~/static/Images/laptop.jpg" alt="Class Image" />
       <div class="class-info">

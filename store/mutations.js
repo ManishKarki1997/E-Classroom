@@ -4,6 +4,9 @@ const mutation = {
         state.jwtToken = jwtToken;
         state.isLoggedIn = true;
     },
+    setLiveClasses(state, liveClasses) {
+        state.liveClasses = liveClasses
+    },
     setCurrentlyViewingClass(state, { currentlyViewingClass }) {
         state.currentlyViewingClass = currentlyViewingClass;
     },
