@@ -33,8 +33,6 @@ export default {
     }
   },
   computed: {
-    //   console.log(this.liveClasses[0].startTime, new Date().getTime())
-    //   return this.liveClasses[0].startTime - new Date().getTime()
     ...mapGetters({
       onlineClasses: 'getOnlineClasses'
     })

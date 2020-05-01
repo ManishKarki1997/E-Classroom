@@ -7,6 +7,7 @@ function state() {
         currentlyViewingClass: {},
         selectedResourceContents: {},
         liveClasses: [],
+        notifications: []
     }
 }
 

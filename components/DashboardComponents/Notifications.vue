@@ -5,16 +5,18 @@
       <div
         class="notification"
         v-for="(notification,index) in notifications"
-        :key="notification.id"
+        :key="notification._id"
       >
         <div class="notification-dot" :style="{backgroundColor:colors[index]}"></div>
-        <p class="notification-message">{{notification.notificationMessage}}</p>
+        <p class="notification-message">{{notification.title}}</p>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   data() {
     return {
@@ -28,31 +30,13 @@ export default {
         '#f73859',
         '#39065a',
         '#45eba5'
-      ],
-      notifications: [
-        {
-          id: 'notif001',
-          notificationMessage:
-            'Gilgamesh has added a new file in Web Development',
-
-          notificationRead: false
-        },
-        {
-          id: 'notif002',
-          notificationMessage:
-            'Ishtar has made a new announcement in Mobile App Development',
-
-          notificationRead: false
-        },
-        {
-          id: 'notif003',
-          notificationMessage:
-            'Ishtar has added a new announcement in Mobile App Development',
-
-          notificationRead: false
-        }
       ]
     }
+  },
+  computed: {
+    ...mapGetters({
+      notifications: 'getNotifications'
+    })
   }
 }
 </script>
@@ -79,10 +63,7 @@ export default {
 
     padding: 2px 4px;
     border-radius: 2px;
-    cursor: pointer;
     display: flex;
-    // align-items: flex-start;
-    justify-content: space-between;
 
     p {
       font-size: 12px;

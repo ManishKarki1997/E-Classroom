@@ -8,6 +8,13 @@ const action = {
     register({ state, commit }, payload) {
         return axios.post(`${process.env.baseUrl}/api/user`, payload);
     },
+    fetchNotifications({ state, commit }, payload) {
+        return axios.get(`${process.env.baseUrl}/api/notification/${state.user._id}`, {
+            headers: {
+                'Authorization': `Bearer ${state.jwtToken}`,
+            }
+        });
+    },
     fetchAllClasses({ state, commit }, payload) {
         return axios.get(`${process.env.baseUrl}/api/class`, {
             headers: {

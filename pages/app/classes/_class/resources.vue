@@ -65,43 +65,7 @@ export default {
   },
   data() {
     return {
-      resources: [
-        {
-          resourceId: 'resource001',
-          resourceType: 'office',
-          resourceURL: 'http://google.com',
-          uploadDate: '7th March, 2020',
-          resourceName: 'Unit 1 Notes'
-        },
-        {
-          resourceId: 'resource002',
-          resourceType: 'office',
-          resourceURL: 'http://google.com',
-          uploadDate: '12th March, 2020',
-          resourceName: 'Unit 2 Notes'
-        },
-        {
-          resourceId: 'resource003',
-          resourceType: 'office',
-          resourceURL: 'http://google.com',
-          uploadDate: '15th March, 2020',
-          resourceName: 'Unit 3 Notes'
-        },
-        {
-          resourceId: 'resource004',
-          resourceType: 'image',
-          resourceURL: 'http://google.com',
-          uploadDate: '13th March, 2020',
-          resourceName: 'ER Diagram Schema'
-        },
-        {
-          resourceId: 'resource005',
-          resourceType: 'other',
-          resourceURL: 'http://google.com',
-          uploadDate: '19th March, 2020',
-          resourceName: 'Podcast'
-        }
-      ],
+      resources: [],
       showAddResourceModal: false,
       apiStaticUrl: ''
     }
@@ -154,6 +118,18 @@ export default {
           position: 'top-right',
           duration: 1500
         })
+
+        // emit an event to notify a new resource has been created
+        // so, send a notification to all the intended recipients
+        this.$socket.emit('new_notification', {
+          classId: this.$route.params.class,
+          notification: {
+            type: 'RESOURCE_CREATED',
+            resourceUrl: response.data.resourceUrl,
+            _id: response.data._id
+          }
+        })
+
         this.resources.push(response.data.payload.result)
         this.$forceUpdate()
 

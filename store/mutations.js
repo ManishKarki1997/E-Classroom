@@ -7,6 +7,9 @@ const mutation = {
     setLiveClasses(state, liveClasses) {
         state.liveClasses = liveClasses
     },
+    setNotifications(state, { addIntoExisting, data }) {
+        addIntoExisting ? state.notifications.push(data) : state.notifications = data;
+    },
     setCurrentlyViewingClass(state, { currentlyViewingClass }) {
         state.currentlyViewingClass = currentlyViewingClass;
     },

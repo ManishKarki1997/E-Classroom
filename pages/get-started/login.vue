@@ -60,6 +60,7 @@ export default {
           position: 'top-right',
           duration: 1500
         })
+
         setTimeout(() => {
           this.$router.push('/app')
         }, 1600)
