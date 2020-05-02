@@ -23,16 +23,18 @@ export default {
   },
 
   sockets: {
-    class_has_started({ classroomName, classroomId }) {
+    class_has_started({ classroomName, classroomId, teacherId }) {
       this.classroomId = classroomId
-      this.$toast.open({
-        type: 'info',
-        message: `The ${classroomName} classroom has started. Click here to attend the class.`,
-        position: 'top-right',
-        duration: 5000,
-        onClick: this.attendClass
-      })
-      return false
+      if (teacherId !== this.$store.state.user._id) {
+        this.$toast.open({
+          type: 'info',
+          message: `The ${classroomName} classroom has started. Click here to attend the class.`,
+          position: 'top-right',
+          duration: 5000,
+          onClick: this.attendClass
+        })
+        return false
+      }
     }
   },
   computed: mapState({

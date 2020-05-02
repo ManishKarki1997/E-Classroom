@@ -8,17 +8,20 @@
           <!-- <p style="margin-right:12px;">Share</p> -->
           <!-- <p >Notify</p> -->
           <ShoutIcon
+            data-tour="notify"
             v-tooltip="{content:'Notify Students',offset:'26px'}"
             style="width:16px;height:16px;"
             @click="notifyClassStart"
           />
           <WebcamIcon
+            data-tour="webcam"
             v-tooltip="{content:'Share Webcam',offset:'26px'}"
             style="width:16px;height:16px;"
             @click="handleWebcamSharing"
             :class="{currentlyActive:webcamSharing.highlightIcon}"
           />
           <TelevisionIcon
+            data-tour="screen"
             v-tooltip="{content:'Share Screen',offset:'26px'}"
             style="width:16px;height:16px;"
             @click="handleScreenSharing"
@@ -33,19 +36,26 @@
             style="width:16px;height:16px;"
             :class="{currentlyActive:whiteboardOpen}"
             @click="toggleWhiteboard"
+            data-tour="whiteboard"
           />
           <CodeEditorIcon
             v-tooltip="{content:'Open Editor',offset:'26px'}"
             v-if="isClassroomTeacher"
             :class="{currentlyActive:codeEditorOpen}"
             @click="toggleCodeEditor"
+            data-tour="codeeditor"
           />
           <ChatIcon
             v-tooltip="{content:'Open Chat',offset:'26px'}"
             :class="{currentlyActive:chatboxOpen,openChat:chatboxOpen}"
             @click="chatboxOpen=!chatboxOpen"
+            data-tour="chat"
           />
-          <SwapIcon v-tooltip="{content:'Swap Stream',offset:'26px'}" @click="determineSwap" />
+          <SwapIcon
+            data-tour="swapstream"
+            v-tooltip="{content:'Swap Stream',offset:'26px'}"
+            @click="determineSwap"
+          />
         </div>
       </div>
 
@@ -55,7 +65,7 @@
         style="margin-left:1rem;margin-top:1rem; font-size:14px;"
         v-if="!classHasStarted"
       >Start the classroom by broadcasting yourself or your screen by clicking on the Share icons above.</p>-->
-      <video id="teacher-screen-video" autoplay></video>
+      <video data-tour="main-stream" id="teacher-screen-video" autoplay></video>
     </div>
 
     <hsc-window-style-metal class="floating-window">
@@ -75,9 +85,9 @@
 
     <div class="classroom-right-side">
       <Chat v-if="chatboxOpen" />
-      <div class="online-students-wrapper">
+      <div class="online-students-wrapper" data-tour="online-students">
         <h4>Online</h4>
-        <ul class="online-students">
+        <ul v-if="onlineUsers && onlineUsers.length>0" class="online-students">
           <li v-for="onlineUser in onlineUsers" :key="onlineUser.email">
             <div class="online-student-info">
               <img :src="apiStaticUrl + '/uploads/images/' + onlineUser.avatar" />
@@ -90,6 +100,14 @@
             </div>-->
           </li>
         </ul>
+        <div v-else>
+          <p>No online users currently</p>
+          <p style="margin-top:8px;" v-if="!classHasStarted">
+            <small>
+              <i>Please notify the students first for them to join.</i>
+            </small>
+          </p>
+        </div>
       </div>
 
       <!-- <div class="video-wrapper"></div> -->
@@ -97,12 +115,32 @@
         <!-- <p>Teacher's webcam view</p> -->
         <video style="width:100%; max-height:230px;" class="receivedStream" autoplay />
       </div>
-      <div>
+      <div data-tour="localstream">
         <!-- <p>My Screen View</p> -->
         <video style="width:100%;height:100%;" id="my-webcam-view" autoplay />
       </div>
       <!-- <StreamsWrapper ref="webcamStreamsWrapper" class="stream-wrapper" /> -->
     </div>
+
+    <!-- Custom Modal for Choice Confirm -->
+    <div class="custom-modal" v-if="!showSkipTourChoiceModal">
+      <h4>Skip tour next time?</h4>
+      <p>You can change this in the settings page.</p>
+      <div class="skiptour-choice-buttons">
+        <button @click="userChoice(true)">Yes</button>
+        <button @click="userChoice(false)">No</button>
+      </div>
+    </div>
+
+    <!-- Tour on how to use the class -->
+    <v-tour
+      v-if="!skipTourNextTime"
+      style="margin-top:1rem"
+      name="introduction-tour"
+      :callbacks="tourCallbacks"
+      :options="tourOptions"
+      :steps="steps"
+    ></v-tour>
   </div>
 </template>
 
@@ -153,6 +191,140 @@ export default {
   },
   data() {
     return {
+      showSkipTourChoiceModal: true,
+      userSkipTourChoice: false,
+      steps: [
+        {
+          target: '[data-tour="webcam"]',
+          header: {
+            title: 'Share Webcam'
+          },
+          content:
+            '<p class="tour-text">Stream your webcam with other participants.</p>',
+          params: {
+            placement: 'bottom'
+          },
+          offset: -200
+        },
+        {
+          target: '[data-tour="screen"]',
+          header: {
+            title: 'Share Screen'
+          },
+          content:
+            '<p class="tour-text">Share your computer screen with other participants.</p>',
+          params: {
+            placement: 'bottom'
+          },
+          offset: -200
+        },
+        {
+          target: '[data-tour="notify"]',
+          header: {
+            title: 'Notify Students'
+          },
+          content:
+            '<p class="tour-text">Notify students that the classroom has started. <br/><i><small> Its advised to at least start one stream before notifying for best results.</small></i></p>',
+          params: {
+            placement: 'bottom'
+          },
+          offset: -200
+        },
+        {
+          target: '[data-tour="whiteboard"]',
+          header: {
+            title: 'Toggle Whiteboard'
+          },
+          content:
+            '<p class="tour-text">Open up a whiteboard to draw something.</p>',
+          params: {
+            placement: 'top'
+          },
+          offset: -200
+        },
+        {
+          target: '[data-tour="codeeditor"]',
+          header: {
+            title: 'Toggle Editor'
+          },
+          content:
+            '<p class="tour-text">Open up a code editor to write some code. <br/><i><small>Cannot run the code yet.</small></i></p>',
+          params: {
+            placement: 'top'
+          },
+          offset: -200
+        },
+        {
+          target: '[data-tour="chat"]',
+          header: {
+            title: 'Toggle Chat section'
+          },
+          content:
+            '<p class="tour-text">Toggle the chat section on and off.</p>',
+          params: {
+            placement: 'top'
+          },
+          offset: -200
+        },
+        {
+          target: '[data-tour="swapstream"]',
+          header: {
+            title: 'Swap Stream'
+          },
+          content:
+            '<p class="tour-text">Swap your webcam and screen streams. <br/><i><small>At least one stream has to be present first.</small></i></p>',
+          params: {
+            placement: 'top'
+          },
+          offset: -200
+        },
+        {
+          target: '[data-tour="main-stream"]',
+          header: {
+            title: 'Main Stream Video'
+          },
+          content:
+            '<p class="tour-text">Your main stream will show up here</p>',
+          params: {
+            placement: 'top'
+          },
+          offset: -200
+        },
+        {
+          target: '[data-tour="localstream"]',
+          header: {
+            title: 'Second Stream'
+          },
+          content:
+            '<p class="tour-text">Your second stream will show up here.</p>',
+          offset: 1000
+        }
+
+        // {
+        //   target: '[data-tour="online-students"]',
+        //   header: {
+        //     title: 'Online Students'
+        //   },
+        //   content:
+        //     '<p class="tour-text">See the active online participants in the classroom.</p>',
+        //   params: {
+        //     placement: 'left'
+        //   },
+        // }
+      ],
+      tourOptions: {
+        useKeyboardNavigation: true,
+        labels: {
+          buttonSkip: 'Skip tour',
+          buttonPrevious: 'Previous',
+          buttonNext: 'Next',
+          buttonStop: 'Finish'
+        }
+      },
+      tourCallbacks: {
+        onFinish: this.toggleChoiceModal,
+        onSkip: this.toggleChoiceModal
+      },
       apiStaticUrl: '',
       codeEditor: {
         code: '',
@@ -187,9 +359,7 @@ export default {
       screenVideoContainer: null,
       onlineUsers: [],
       stream: null,
-      client: {},
       receivedStream: null,
-      initiator: false,
       connection: null,
       isClassroomTeacher: false,
       classHasStarted: false,
@@ -213,9 +383,20 @@ export default {
   },
   computed: mapState({
     user: state => state.user,
-    currentlyViewingClass: state => state.currentlyViewingClass
+    currentlyViewingClass: state => state.currentlyViewingClass,
+    skipTourNextTime: state => state.skipTourNextTime
   }),
   methods: {
+    userChoice(value) {
+      // user has choosen to skip or not, the tour next time
+      this.userSkipTourChoice = value //set the user choice
+      this.$store.commit('setSkipTourNextTime', this.userSkipTourChoice) //set the preference to the store
+      this.toggleChoiceModal() //hide the modal
+    },
+    toggleChoiceModal() {
+      // toggle the user preference modal
+      this.showSkipTourChoiceModal = !this.showSkipTourChoiceModal
+    },
     determineSwap() {
       this.isClassroomTeacher ? this.teacherSwapStream() : this.swapStream()
     },
@@ -269,6 +450,7 @@ export default {
         classroomName: this.currentlyViewingClass.name,
         classroomId: this.currentlyViewingClass._id,
         classroomTeacher: this.currentlyViewingClass.createdBy.name,
+        teacherId: this.user._id,
         classroomImage: this.currentlyViewingClass.backgroundImage,
         startTime: new Date().getTime()
       })
@@ -551,6 +733,9 @@ export default {
     //   classroomId: this.$route.params.classroomId,
     //   isClassroomTeacher: this.isClassroomTeacher
     // })
+    if (this.isClassroomTeacher && !this.skipTourNextTime) {
+      this.$tours['introduction-tour'].start()
+    }
   }
 
   // beforeMount() {
@@ -575,5 +760,32 @@ export default {
 }
 #classroom {
   color: black !important;
+}
+.custom-modal {
+  padding: 1.4rem 1rem;
+  border-radius: 8px;
+  background-color: var(--secondary-background-color);
+  color: var(--primary-font-color);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+
+  p {
+    font-size: 12px;
+    margin-top: 8px;
+  }
+
+  .skiptour-choice-buttons {
+    button {
+      padding: 8px 26px;
+
+      &:nth-child(2) {
+        background-color: transparent;
+        color: var(--tertiary-font-color);
+      }
+    }
+  }
 }
 </style>

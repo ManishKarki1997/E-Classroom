@@ -7,7 +7,8 @@ function state() {
         currentlyViewingClass: {},
         selectedResourceContents: {},
         liveClasses: [],
-        notifications: []
+        notifications: [],
+        skipTourNextTime: false
     }
 }
 

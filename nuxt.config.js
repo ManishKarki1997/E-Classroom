@@ -54,8 +54,8 @@ export default {
     '~/plugins/VueEditor.js',
     '~/plugins/vue-toast.js',
     '~/plugins/VueSocket.js',
-    '~/plugins/vue-tooltip.js'
-
+    '~/plugins/vue-tooltip.js',
+    '~/plugins/vue-tour.js',
   ],
   /*
   ** Nuxt.js dev-modules

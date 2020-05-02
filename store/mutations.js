@@ -7,6 +7,9 @@ const mutation = {
     setLiveClasses(state, liveClasses) {
         state.liveClasses = liveClasses
     },
+    setSkipTourNextTime(state, value) {
+        state.skipTourNextTime = value
+    },
     setNotifications(state, { addIntoExisting, data }) {
         addIntoExisting ? state.notifications.push(data) : state.notifications = data;
     },
