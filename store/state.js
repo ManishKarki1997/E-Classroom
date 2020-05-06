@@ -8,7 +8,8 @@ function state() {
         selectedResourceContents: {},
         liveClasses: [],
         notifications: [],
-        skipTourNextTime: false
+        skipTourNextTime: false,
+        preferredColorScheme: 'light',
     }
 }
 

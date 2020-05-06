@@ -5,4 +5,7 @@ export default {
     getNotifications: (state) => {
         return state.notifications
     },
+    getSkipTourSettingsValue: (state) => {
+        return state.skipTourNextTime
+    }
 }

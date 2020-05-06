@@ -1,31 +1,36 @@
 <template>
   <div class="resources">
-    <h4>{{this.$route.params.resource}}</h4>
-    <table class="resource-table" v-if="resources.resources && resources.resources.length>0">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Name</th>
-          <th>Description</th>
-          <th>Date</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr
-          @click="gotoResourceURL(resource.resourceUrl)"
-          v-for="resource in resources.resources"
-          :key="resource._id"
-          class="resource-file"
-        >
-          <td>
-            <FileIcon />
-          </td>
-          <td>{{resource.name}}</td>
-          <td>{{resource.description}}</td>
-          <td>{{resource.createdAt}}</td>
-        </tr>
-      </tbody>
-    </table>
+    <div v-if="resources.className && resources.resources && resources.resources.length>0">
+      <h3>{{this.$route.params.resource}}</h3>
+      <table class="resource-table">
+        <thead>
+          <tr>
+            <th>&nbsp;</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="resource in resources.resources" :key="resource._id" class="resource-file">
+            <td @click="saveResource(resource._id)">
+              <StarIcon />
+              <!-- <FileIcon /> -->
+            </td>
+            <td @click="gotoResourceURL(resource.resourceUrl)">{{resource.name}}</td>
+            <td>{{resource.description}}</td>
+            <td>{{resource.createdAt}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="saved-resource" v-else-if="!resources.className">
+      <!-- User Saved Resource : Single Resource -->
+      <h3>{{resources.name}}</h3>
+      <p>{{resources.description}}</p>
+      <button v-if="resources.resourceUrl" @click="gotoResourceURL(resources.resourceUrl)">View</button>
+    </div>
     <p v-else>No resources available.</p>
   </div>
 </template>
@@ -35,6 +40,7 @@
 import FileIcon from '~/static/Icons/file.svg?inline'
 import PictureIcon from '~/static/Icons/picture.svg?inline'
 import PDFIcon from '~/static/Icons/pdf.svg?inline'
+import StarIcon from '~/static/Icons/star.svg?inline'
 
 import { mapState } from 'vuex'
 
@@ -42,7 +48,8 @@ export default {
   components: {
     FileIcon,
     PictureIcon,
-    PDFIcon
+    PDFIcon,
+    StarIcon
   },
   data() {
     return {
@@ -58,6 +65,29 @@ export default {
         `${this.apiStaticUrl}/uploads/resources/${fileName}`,
         '_blank'
       )
+    },
+    async saveResource(resourceId) {
+      const res = await this.$store.dispatch(
+        'addResourceToCollection',
+        resourceId
+      )
+      if (res.data.error) {
+        this.$toast.open({
+          type: 'error',
+          message: res.data.message,
+          position: 'top-right',
+          duration: 1500
+        })
+        return false
+      } else {
+        this.$toast.open({
+          type: 'success',
+          message: res.data.message,
+          position: 'top-right',
+          duration: 1500
+        })
+        this.$forceUpdate()
+      }
     }
   },
   mounted() {
@@ -69,7 +99,7 @@ export default {
 <style lang="scss" scoped>
 .resource-table {
   width: 100%;
-  margin-top: 8px;
+  margin-top: 16px;
 
   td,
   th {
@@ -88,10 +118,12 @@ export default {
   tr {
     transition: all 0.3s ease-in;
   }
-  tr:hover {
-    // background-color: white;
+
+  tr td:first-child,
+  tr td:nth-child(2) {
     cursor: pointer;
   }
+
   tr:hover td {
     color: #434c5e;
   }
@@ -103,10 +135,33 @@ export default {
   }
 }
 .resource-file {
+  &:hover td:first-child svg {
+    visibility: visible;
+  }
+
+  td:first-child svg {
+    visibility: hidden;
+  }
   svg {
     width: 16px;
     height: 16px;
     fill: #191c28;
+  }
+}
+
+.saved-resource {
+  // p:first-child {
+  //   font-weight: 700;
+  // }
+  p:nth-child(2) {
+    font-style: italic;
+    font-size: 14px;
+    margin-top: 8px;
+  }
+
+  button {
+    background-color: var(--primary-background-color);
+    color: var(--primary-font-color);
   }
 }
 </style>

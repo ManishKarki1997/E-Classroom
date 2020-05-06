@@ -7,8 +7,8 @@ const vuexLocalStorage = new VuexPersist({
         user: state.user,
         isLoggedIn: state.isLoggedIn,
         jwtToken: state.jwtToken,
+        preferredColorScheme: state.preferredColorScheme,
         currentlyViewingClass: state.currentlyViewingClass,
-        selectedResourceContents: state.selectedResourceContents,
         notifications: state.notifications,
         skipTourNextTime: state.skipTourNextTime
     })

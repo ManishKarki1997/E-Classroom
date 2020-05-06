@@ -97,6 +97,14 @@ const action = {
             }
         });
     },
+    // add resource to personal collection
+    addResourceToCollection({ state, commit }, resourceId) {
+        return axios.post(`${process.env.baseUrl}/api/user/resources/add`, { resourceId }, {
+            headers: {
+                'Authorization': `Bearer ${state.jwtToken}`
+            }
+        });
+    }
 
 
 }

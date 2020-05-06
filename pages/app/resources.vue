@@ -8,7 +8,7 @@
             v-for="classResource in allResources"
             :key="classResource.classId"
             :class="{selectedResource:selectedResource===classResource.classId}"
-            @click="openFolderContents(classResource)"
+            @click="openFolderContents(classResource, false)"
           >
             <FolderIcon />
             <p>{{classResource.className}}</p>
@@ -31,18 +31,20 @@
         </ul>
       </div>
 
-      <!-- <div class="resource-wrapper">
-        <h4>Starred</h4>
+      <div class="resource-wrapper">
+        <h4>Saved Resouces</h4>
         <ul class="all-resources resources">
           <li
-            @click="openFolderContents('Project Resources')"
-            :class="{selectedResource:selectedResource==='Project Resources'}"
+            v-for="resource in savedResources"
+            :key="resource._id"
+            @click="openFolderContents(resource, true)"
+            :class="{selectedResource:selectedResource===selectedResource}"
           >
             <FolderIcon />
-            <p>Project Resources</p>
+            <p>{{resource.name}}</p>
           </li>
         </ul>
-      </div>-->
+      </div>
     </div>
     <div class="resource-files">
       <nuxt-child />
@@ -61,6 +63,7 @@ export default {
     return {
       selectedResource: '',
       allResources: [],
+      savedResources: [],
       selectedResourceContents: {}
     }
   },
@@ -69,12 +72,15 @@ export default {
       this.selectedResource = folderName
       this.$router.push(`/app/resources/${folderName}`)
       const resources = await this.$store.dispatch('fetchUserClassResources')
-      // console.log(resources)
-      this.allResources = resources.data
+      this.allResources = resources.data.resources
+      this.savedResources = resources.data.savedResources
     },
-    openFolderContents(classResource) {
+    openFolderContents(classResource, savedResource) {
+      // savedResource : user saved resource or class resource
       this.$store.commit('setSelectedResourceContents', classResource)
-      this.$router.push(`/app/resources/${classResource.className}`)
+      savedResource
+        ? this.$router.push(`/app/resources/${classResource.name}`)
+        : this.$router.push(`/app/resources/${classResource.className}`)
       // console.log(classResource)
       // console.log(classId)
       // this.selectedResourceContents = this.allResources.filter(

@@ -10,6 +10,9 @@ const mutation = {
     setSkipTourNextTime(state, value) {
         state.skipTourNextTime = value
     },
+    setPreferredColorScheme(state, value) {
+        state.preferredColorScheme = value;
+    },
     setNotifications(state, { addIntoExisting, data }) {
         addIntoExisting ? state.notifications.push(data) : state.notifications = data;
     },

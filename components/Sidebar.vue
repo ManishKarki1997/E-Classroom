@@ -95,7 +95,7 @@ export default {
       if (this.themeMode === '') {
         document.body.setAttribute('theme', 'dark')
         this.themeMode = 'dark'
-        this.setTheme()
+        this.setTheme('dark')
       } else {
         document.body.setAttribute('theme', '')
         this.themeMode = ''
@@ -107,6 +107,7 @@ export default {
         'eclasses-theme',
         JSON.stringify(this.themeMode || themeMode)
       )
+      this.$store.commit('setPreferredColorScheme', themeMode)
     },
     logout() {
       this.$store.commit('logout')
@@ -114,9 +115,11 @@ export default {
     }
   },
   mounted() {
-    const savedTheme = JSON.parse(localStorage.getItem('eclasses-theme'))
+    // const savedTheme = JSON.parse(localStorage.getItem('eclasses-theme'))
+    const savedTheme = this.$store.state.preferredColorScheme
     // If the saved theme in local storage is 'dark', set themeMode to '' i.e. light because toggleTheme works in reverse
     // and if saved theme is '' i.e. light, set themeMode to dark;
+    this.$store.commit('setPreferredColorScheme', savedTheme)
     savedTheme === 'dark' ? (this.themeMode = '') : (this.themeMode = 'dark')
     this.toggleTheme()
     this.apiStaticUrl = process.env.baseUrl

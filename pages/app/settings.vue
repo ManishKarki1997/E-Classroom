@@ -1,17 +1,83 @@
 <template>
   <div id="settings">
     <h3>Settings</h3>
-    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Cupiditate recusandae, esse adipisci sed temporibus, fugit laudantium magni voluptatibus eligendi sit voluptatum quia veniam doloremque velit est quis ratione! Obcaecati, id. Et eum minus tempore facere animi cum consequuntur voluptatem labore laborum rem quasi, dolore architecto harum hic non quod magnam eveniet autem accusantium dolor repellendus! At sint voluptatum distinctio laboriosam nisi, nesciunt aliquid ullam, optio quibusdam dolorum vero quia voluptatem consequatur sunt illo unde velit, sapiente repellendus doloribus excepturi obcaecati labore quos? Aliquid est nam, architecto eum perferendis sunt soluta consequuntur repellat? Itaque sapiente possimus eligendi impedit molestias temporibus? Vitae!</p>
+    <div class="settings">
+      <div class="setting">
+        <p>Interactive Tour</p>
+        <select
+          v-model="skipTourNextTime"
+          @change="toggleSkipTour"
+          name="interactive_tour"
+          id="interactive_tour"
+        >
+          <option value="true">Enabled</option>
+          <option value="false">Disabled</option>
+        </select>
+      </div>
+      <div class="setting">
+        <p>Preferred Color Scheme</p>
+        <select
+          v-model="preferredColorScheme"
+          @change="setPreferredColorScheme"
+          name="color_scheme"
+          id="color_scheme"
+        >
+          <option value="dark">Dark</option>
+          <option value="light">Light</option>
+        </select>
+      </div>
+    </div>
   </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      skipTourNextTime: this.$store.state.skipTourNextTime,
+      preferredColorScheme: this.$store.state.preferredColorScheme
+    }
+  },
+  methods: {
+    toggleSkipTour() {
+      // commit the changes to the store
+      this.$store.commit('setSkipTourNextTime', this.skipTourNextTime)
+    },
+    setPreferredColorScheme() {
+      // commit the theme preference to the store
+      this.$store.commit('setPreferredColorScheme', this.preferredColorScheme)
+
+      // save the preference in local storage
+      localStorage.setItem(
+        'eclasses-theme',
+        JSON.stringify(this.preferredColorScheme)
+      )
+
+      document.body.setAttribute('theme', this.preferredColorScheme)
+    }
+  }
+}
+</script>
 
 <style lang="scss" scoped>
 #settings {
   padding: 14px 2rem;
+  width: 100%;
+  height: 100%;
+}
+.settings {
+  margin-top: 1rem;
+  width: 35%;
+}
+.setting {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 12px;
 
-  p {
-    margin-top: 8px;
-    font-size: 14px;
+  select {
+    padding: 4px 8px;
+    border-radius: 4px;
   }
 }
 </style>
