@@ -2,14 +2,18 @@
   <div id="main-classroom">
     <div class="classes-overlay" :class="{darken:showCreateClassForm}">
       <div class="search-classes">
-        <input
-          placeholder="Search Classes"
-          type="text"
-          name="search"
-          id="search"
-          v-model="searchText"
-          onchange="searchClass"
-        />
+        <form @submit.prevent>
+          <SearchIcon v-if="searchIconVisible" />
+          <input
+            @focus="searchIconVisible = false"
+            @blur="searchIconVisible = true"
+            type="text"
+            name="search"
+            id="search"
+            v-model="searchText"
+            onchange="searchClass"
+          />
+        </form>
         <button
           v-if="!showCreateClassForm"
           @click="showCreateClassForm=!showCreateClassForm"
@@ -101,14 +105,19 @@ import ClassInfoModal from '~/components/DashboardComponents/ClassInfoModal'
 import VueTimepicker from 'vue2-timepicker'
 import 'vue2-timepicker/dist/VueTimepicker.css'
 
+// Icons
+import SearchIcon from '~/static/Icons/search.svg?inline'
+
 export default {
   components: {
     ClassCard,
     ClassInfoModal,
-    VueTimepicker
+    VueTimepicker,
+    SearchIcon
   },
   data() {
     return {
+      searchIconVisible: true,
       newClass: {
         name: '',
         description: '',
@@ -315,9 +324,27 @@ export default {
     }
   },
   sockets: {
-    connect: function() {
-      console.log('socket connected')
-    }
+    connect: function() {}
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.search-classes {
+  form {
+    position: relative;
+    width: 80%;
+
+    input[type='text'] {
+      width: 100%;
+    }
+    svg {
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      top: 10px;
+      left: 10px;
+    }
+  }
+}
+</style>

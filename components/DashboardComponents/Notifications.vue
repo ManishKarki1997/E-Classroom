@@ -4,7 +4,7 @@
     <div class="notifications">
       <div
         class="notification"
-        v-for="(notification,index) in notifications"
+        v-for="(notification,index) in notifications.slice(9)"
         :key="notification._id"
       >
         <div class="notification-dot" :style="{backgroundColor:colors[index]}"></div>
