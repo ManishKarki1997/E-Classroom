@@ -99,7 +99,15 @@ const action = {
     },
     // add resource to personal collection
     addResourceToCollection({ state, commit }, resourceId) {
-        return axios.post(`${process.env.baseUrl}/api/user/resources/add`, { resourceId }, {
+        return axios.post(`${process.env.baseUrl}/api/user/resources`, { resourceId }, {
+            headers: {
+                'Authorization': `Bearer ${state.jwtToken}`
+            }
+        });
+    },
+
+    fetchUserSavedResources({ state, commit }, payload) {
+        return axios.get(`${process.env.baseUrl}/api/user/resources`, {
             headers: {
                 'Authorization': `Bearer ${state.jwtToken}`
             }

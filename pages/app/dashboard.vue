@@ -3,6 +3,7 @@
     <main class="dashboard-main">
       <Notifications class="dashboard-notifications" />
       <EnrolledClasses class="dashboard-enrolled-classes" />
+      <SavedResources class="dashboard-saved-resources" />
     </main>
     <div class="dashboard-right">
       <DashboardProfile />
@@ -20,6 +21,7 @@ import UpcomingClass from '~/components/DashboardComponents/UpcomingClass'
 import LiveClasses from '~/components/DashboardComponents/LiveClasses'
 import Notifications from '~/components/DashboardComponents/Notifications'
 import EnrolledClasses from '~/components/DashboardComponents/EnrolledClasses'
+import SavedResources from '~/components/DashboardComponents/SavedResources'
 
 export default {
   components: {
@@ -27,7 +29,8 @@ export default {
     UpcomingClass,
     LiveClasses,
     Notifications,
-    EnrolledClasses
+    EnrolledClasses,
+    SavedResources
   },
   data() {
     return {

@@ -17,18 +17,26 @@
 .dashboard-notifications {
   grid-column: span 4;
   grid-row: span 4;
-  background-color: var(--secondary-background-color);
+  background-color: var(--tertiary-background-color);
   padding: 8px 12px;
   border-radius: 2px;
-  // box-shadow: 2px 2px 4px 4px var(--secondary-background-color);
+  box-shadow: 2px 2px 4px 4px var(--primary-background-color);
 }
 .dashboard-enrolled-classes {
   grid-column: span 4;
   grid-row: span 6;
-  background-color: var(--secondary-background-color);
+  background-color: var(--tertiary-background-color);
   padding: 8px 12px;
   border-radius: 2px;  
-  // box-shadow: 2px 2px 4px 4px var(--secondary-background-color);
+  box-shadow: 2px 2px 4px 4px var(--primary-background-color);
+}
+.dashboard-saved-resources {
+  grid-column: span 4;
+  grid-row: span 6;
+  background-color: var(--tertiary-background-color);
+  padding: 8px 12px;
+  border-radius: 2px;  
+  box-shadow: 2px 2px 4px 4px var(--primary-background-color);
 }
 .dashboard-right {
   width: 20%;
