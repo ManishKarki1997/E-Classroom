@@ -90,7 +90,6 @@ export default {
 
         // dispatch an action to register, passsing formData as the payload
         const response = await this.$store.dispatch('register', formData)
-        console.log(response)
 
         // If there is an error, display a toast notification
         if (response.data.error) {

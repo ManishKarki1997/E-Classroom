@@ -2,7 +2,7 @@
   <div id="sidebar">
     <div class="user-account">
       <img
-        @click="$router.push('/app/profile')"
+        @click="$router.push('/app/profile/info')"
         :src="apiStaticUrl + '/uploads/images/' + user.avatar"
         alt
       />

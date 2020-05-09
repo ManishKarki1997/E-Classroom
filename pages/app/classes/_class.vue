@@ -20,7 +20,8 @@
         style="background-color:black; color:white; cursor-pointer;"
       >Start Class</button>-->
       <ul class="class-action-buttons-wrapper">
-        <li v-if="isClassroomCreator">
+        <!-- v-if="isClassroomCreator" -->
+        <li>
           <p @click="showClassInfoModal=true">View</p>
         </li>
         <li>

@@ -1,16 +1,18 @@
 <template>
   <div id="notifications">
     <h4 class="section-title">Notifications</h4>
-    <div class="notifications">
+    <!-- <pre>{{notifications}}</pre> -->
+    <div v-if="notifications && notifications.length>0" class="notifications">
       <div
         class="notification"
-        v-for="(notification,index) in notifications.slice(9)"
+        v-for="(notification,index) in notifications.slice(0,5)"
         :key="notification._id"
       >
         <div class="notification-dot" :style="{backgroundColor:colors[index]}"></div>
         <p class="notification-message">{{notification.title}}</p>
       </div>
     </div>
+    <p v-else>No Notifications</p>
   </div>
 </template>
 

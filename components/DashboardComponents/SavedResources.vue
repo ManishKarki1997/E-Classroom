@@ -49,6 +49,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+#saved-resources {
+  background-color: var(--secondary-background-color);
+}
 .saved-resources {
   h4 {
     margin-bottom: 8px;

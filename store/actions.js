@@ -112,6 +112,20 @@ const action = {
                 'Authorization': `Bearer ${state.jwtToken}`
             }
         });
+    },
+    updateUserDetails({ state, commit }, user) {
+        return axios.put(`${process.env.baseUrl}/api/user`, user, {
+            headers: {
+                'Authorization': `Bearer ${state.jwtToken}`
+            }
+        });
+    },
+    updateUserAvatar({ state, commit }, payload) {
+        return axios.put(`${process.env.baseUrl}/api/user/avatar`, payload, {
+            headers: {
+                'Authorization': `Bearer ${state.jwtToken}`
+            }
+        });
     }
 
 
