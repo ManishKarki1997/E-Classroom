@@ -12,7 +12,13 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="resource in resources.resources" :key="resource._id" class="resource-file">
+          <tr
+            @mouseover="currentlyHoveredResource=resource._id"
+            @mouseleave="currentlyHoveredResource=''"
+            v-for="resource in resources.resources"
+            :key="resource._id"
+            class="resource-file"
+          >
             <td @click="saveResource(resource._id)">
               <StarIcon />
               <!-- <FileIcon /> -->
@@ -20,6 +26,12 @@
             <td @click="gotoResourceURL(resource.resourceUrl)">{{resource.name}}</td>
             <td>{{resource.description}}</td>
             <td>{{resource.createdAt}}</td>
+            <img
+              v-if="currentlyHoveredResource===resource._id && resource.resourceUrl.match(/\.(jpeg|jpg|gif|png)$/) != null"
+              class="resource-image"
+              src="https://w.wallhaven.cc/full/md/wallhaven-md5z28.jpg"
+              alt
+            />
           </tr>
         </tbody>
       </table>
@@ -53,7 +65,8 @@ export default {
   },
   data() {
     return {
-      apiStaticUrl: ''
+      apiStaticUrl: '',
+      currentlyHoveredResource: ''
     }
   },
   computed: mapState({
@@ -119,6 +132,11 @@ export default {
     transition: all 0.3s ease-in;
   }
 
+  tbody tr {
+    position: relative;
+    transform: scale(1); //hack because position absolute/relative does not work
+  }
+
   tr td:first-child,
   tr td:nth-child(2) {
     cursor: pointer;
@@ -134,6 +152,7 @@ export default {
     color: inherit;
   }
 }
+
 .resource-file {
   &:hover td:first-child svg {
     visibility: visible;
@@ -147,6 +166,16 @@ export default {
     height: 16px;
     fill: #191c28;
   }
+}
+.resource-image {
+  position: absolute;
+  z-index: 10;
+  right: 2rem;
+  bottom: 0rem;
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 10px;
 }
 
 .saved-resource {

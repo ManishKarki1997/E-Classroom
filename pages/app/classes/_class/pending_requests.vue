@@ -4,11 +4,13 @@
     <div class="pending-requests-body">
       <div v-if="pendingJoinRequests.length>0" class="pending-requests">
         <div class="pending-request" v-for="user in pendingJoinRequests" :key="user._id">
-          <img
-            @click="selectedUser=user"
-            :src="apiStaticUrl + '/uploads/images/' + user.avatar"
-            alt
-          />
+          <div class="user-image-wrapper">
+            <img
+              @click="selectedUser=user"
+              :src="apiStaticUrl + '/uploads/images/' + user.avatar"
+              alt
+            />
+          </div>
           <div @click="selectedUser=user" class="user-info">
             <h4>{{user.name}}</h4>
           </div>
@@ -88,6 +90,7 @@ export default {
         if (this.pendingJoinRequests.length > 0) {
           this.selectedUser = this.pendingJoinRequests[0]
         }
+        console.log(this.pendingJoinRequests)
       }
     }
   },
@@ -112,7 +115,8 @@ export default {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   grid-gap: 1rem;
-  margin-top: -9rem;
+  // margin-top: -5rem;
+  margin-top: 2rem;
   width: 80%;
 }
 .generic-user-profile-wrapper {
@@ -120,19 +124,32 @@ export default {
 }
 .pending-request {
   grid-column: span 3;
-  display: flex;
-  align-items: center;
+  // display: flex;
+  // align-items: center;
 
+  .user-image-wrapper {
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+  }
   img {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+    border-radius: 2px;
+    object-fit: cover;
+    // border-radius: 50%;
     cursor: pointer;
+    transition: all 0.3s ease-in;
+
+    &:hover {
+      transform: scale(1.05);
+      transition: all 0.3s ease-out;
+    }
   }
 
   .user-info {
-    margin-left: 8px;
     cursor: pointer;
+    margin-top: 8px;
   }
 }
 </style>

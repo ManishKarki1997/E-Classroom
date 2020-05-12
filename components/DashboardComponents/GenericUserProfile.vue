@@ -63,13 +63,17 @@ export default {
 </script>
 
 <style  lang="scss" scoped>
+.user-profile-container {
+  padding: 2rem 1rem;
+}
 .user-basic-info {
   display: flex;
   flex-direction: column;
   align-items: center;
   img {
-    width: 40px;
-    height: 40px;
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
     border-radius: 50%;
     border: 2px solid #434c5e;
     margin-bottom: 8px;
@@ -92,14 +96,21 @@ export default {
 
   .user-class-item {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    background-color: #eee;
+    justify-content: center;
+    background-color: var(--secondary-background-color);
+    color: var(--primary-font-color);
     border-radius: 3px;
     padding: 2px 12px;
     margin-right: 8px;
 
+    h5 {
+      font-size: 1.4rem;
+    }
+
     p {
-      font-size: 10px;
+      font-size: 12px;
       margin-left: 4px;
     }
   }
@@ -119,9 +130,22 @@ export default {
     background-color: #434c5e;
     border: 1px solid #434c5e;
     color: white;
+    margin-right: 8px;
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+      background-color: #2d3442;
+    }
   }
   button:last-child {
     border: 1px solid #434c5e;
+    transition: all 0.3s;
+
+    &:hover {
+      color: var(--primary-font-color);
+      background-color: transparent;
+      // border: none;
+    }
   }
 }
 

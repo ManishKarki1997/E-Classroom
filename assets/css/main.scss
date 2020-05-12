@@ -21,7 +21,8 @@
 
 body[theme="dark"]{
     --primary-background-color:#191C28;
-    --secondary-background-color:#222839;
+    // --secondary-background-color:#222839;
+    --secondary-background-color:#191C28; //remove this and uncomment above line if needed
     // --tertiary-background-color:#434C5E;
     --tertiary-background-color:rgba(25, 28, 40, 0.836);
     --primary-font-color:#F8FAFB;
