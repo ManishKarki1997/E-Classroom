@@ -39,25 +39,7 @@ export default {
       notifications: []
     }
   },
-  methods: {
-    async fetchNotifications() {
-      const response = await this.$store.dispatch('fetchNotifications')
-      if (response.data.error) {
-        this.$toast.open({
-          type: 'error',
-          message: response.data.message,
-          position: 'top-right',
-          duration: 1500
-        })
-        return false
-      } else {
-        this.$store.commit('setNotifications', {
-          addIntoExisting: false,
-          data: response.data.payload
-        })
-      }
-    }
-  },
+  methods: {},
   computed: {
     ...mapState({
       user: state => state.user
@@ -91,7 +73,7 @@ export default {
       userId: this.user._id
     })
 
-    this.fetchNotifications()
+    // this.fetchNotifications()
     // Just for testing purposes
     // this.$socket.emit('new_notification', {
     //   classId: '5e7f8e3a83550d2d78403950',

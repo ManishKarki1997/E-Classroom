@@ -35,6 +35,11 @@
   display: flex;
   align-items: center;
   width: 100%;
+
+  &:hover h5 {
+    filter: opacity(0.8);
+  }
+
   .class-info {
     display: flex;
     flex-direction: column;
@@ -42,6 +47,7 @@
 
     h5 {
       font-weight: 500;
+      cursor: pointer;
     }
 
     p {

@@ -123,6 +123,7 @@ export default {
   height: 100%;
   overflow-y: auto;
   padding: 1rem;
+  margin-left: 4rem;
 }
 .user-profile-actions {
   margin-top: 2rem;

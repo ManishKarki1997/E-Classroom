@@ -8,7 +8,9 @@ const mutation = {
         state.liveClasses = liveClasses
     },
     setSkipTourNextTime(state, value) {
-        state.skipTourNextTime = value
+        console.log('before saving ', state.tourEnabled)
+        state.tourEnabled = value
+        console.log('after saving ', state.tourEnabled)
     },
     setPreferredColorScheme(state, value) {
         state.preferredColorScheme = value;

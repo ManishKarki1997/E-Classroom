@@ -2,24 +2,33 @@
   <div id="notifications">
     <h4 class="section-title">Notifications</h4>
     <!-- <pre>{{notifications}}</pre> -->
-    <div v-if="notifications && notifications.length>0" class="notifications">
-      <div
-        class="notification"
-        v-for="(notification,index) in notifications.slice(0,5)"
-        :key="notification._id"
-      >
-        <div class="notification-dot" :style="{backgroundColor:colors[index]}"></div>
-        <p class="notification-message">{{notification.title}}</p>
+    <div v-if="!isLoading" class="notifications">
+      <div v-if="notifications && notifications.length>0">
+        <div
+          class="notification"
+          v-for="(notification,index) in notifications.slice(0,5)"
+          :key="notification._id"
+        >
+          <div class="notification-dot" :style="{backgroundColor:colors[index]}"></div>
+          <p class="notification-message">{{notification.title}}</p>
+        </div>
       </div>
+      <p v-else>No Notifications</p>
     </div>
-    <p v-else>No Notifications</p>
+    <div class="spinner-wrapper" v-else>
+      <Spinner />
+    </div>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
+import Spinner from '@/components/Spinner'
 
 export default {
+  components: {
+    Spinner
+  },
   data() {
     return {
       colors: [
@@ -32,18 +41,53 @@ export default {
         '#f73859',
         '#39065a',
         '#45eba5'
-      ]
+      ],
+      isLoading: true
     }
   },
   computed: {
     ...mapGetters({
       notifications: 'getNotifications'
     })
+  },
+  methods: {
+    async fetchNotifications() {
+      const response = await this.$store.dispatch('fetchNotifications')
+
+      if (response.data.error) {
+        this.$toast.open({
+          type: 'error',
+          message: response.data.message,
+          position: 'top-right',
+          duration: 1500
+        })
+        return false
+      } else {
+        this.$store.commit('setNotifications', {
+          addIntoExisting: false,
+          data: response.data.payload
+        })
+      }
+      this.isLoading = false
+    }
+  },
+  mounted() {
+    this.fetchNotifications()
   }
 }
 </script>
 
 <style lang="scss" scoped>
+.spinner-wrapper {
+  width: 100%;
+  height: 100%;
+
+  .spinner {
+    margin-left: 4rem;
+    margin-top: 4rem;
+  }
+}
+
 #notifications {
   // margin-top: 2rem;
   // min-height: 100px;
@@ -70,6 +114,10 @@ export default {
     p {
       font-size: 12px;
       line-height: 18px;
+
+      &:hover {
+        filter: opacity(0.8);
+      }
     }
   }
   .notification-dot {

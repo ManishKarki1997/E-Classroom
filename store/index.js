@@ -10,7 +10,7 @@ const vuexLocalStorage = new VuexPersist({
         preferredColorScheme: state.preferredColorScheme,
         currentlyViewingClass: state.currentlyViewingClass,
         notifications: state.notifications,
-        skipTourNextTime: state.skipTourNextTime
+        tourEnabled: state.tourEnabled
     })
 })
 

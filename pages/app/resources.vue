@@ -3,7 +3,7 @@
     <div class="shared-resources-menu">
       <div class="resource-wrapper">
         <h4>Class Resources</h4>
-        <ul class="all-resources resources">
+        <ul v-if="!isLoading" class="all-resources resources">
           <li
             v-for="classResource in allResources"
             :key="classResource.classId"
@@ -13,27 +13,15 @@
             <FolderIcon />
             <p>{{classResource.className}}</p>
           </li>
-
-          <!-- <li
-            @click="openFolderContents('Web Development')"
-            :class="{selectedResource:selectedResource==='Web Development'}"
-          >
-            <FolderIcon />
-            <p>Web Development</p>
-          </li>-->
-          <!-- <li
-            @click="openFolderContents('Mobile App Development')"
-            :class="{selectedResource:selectedResource==='Mobile App Development'}"
-          >
-            <FolderIcon />
-            <p>Mobile App Development</p>
-          </li>-->
         </ul>
+        <div v-else class="spinner-wrapper">
+          <Spinner />
+        </div>
       </div>
 
       <div class="resource-wrapper">
         <h4>Saved Resouces</h4>
-        <ul class="all-resources resources">
+        <ul v-if="!isLoading" class="all-resources resources">
           <li
             v-for="resource in savedResources"
             :key="resource._id"
@@ -44,6 +32,9 @@
             <p>{{resource.name}}</p>
           </li>
         </ul>
+        <div v-else class="spinner-wrapper">
+          <Spinner />
+        </div>
       </div>
     </div>
     <div class="resource-files">
@@ -54,17 +45,20 @@
 
 <script>
 import FolderIcon from '~/static/Icons/folder.svg?inline'
+import Spinner from '@/components/Spinner'
 
 export default {
   components: {
-    FolderIcon
+    FolderIcon,
+    Spinner
   },
   data() {
     return {
       selectedResource: '',
       allResources: [],
       savedResources: [],
-      selectedResourceContents: {}
+      selectedResourceContents: {},
+      isLoading: true
     }
   },
   methods: {
@@ -74,6 +68,7 @@ export default {
       const resources = await this.$store.dispatch('fetchUserClassResources')
       this.allResources = resources.data.resources
       this.savedResources = resources.data.savedResources
+      this.isLoading = false
     },
     openFolderContents(classResource, savedResource) {
       // savedResource : user saved resource or class resource
@@ -81,14 +76,9 @@ export default {
       savedResource
         ? this.$router.push(`/app/resources/${classResource.name}`)
         : this.$router.push(`/app/resources/${classResource.className}`)
-      // console.log(classResource)
-      // console.log(classId)
-      // this.selectedResourceContents = this.allResources.filter(
-      //   resource => classId === resource.classId
-      // )
-      // console.log(this.selectedResourceContents)
     }
   },
+
   mounted() {
     this.fetchAllResources()
   }
@@ -103,6 +93,7 @@ export default {
   display: flex;
   width: 100%;
 }
+
 .shared-resources-menu {
   height: 100vh;
   background-color: var(
@@ -118,6 +109,13 @@ export default {
 }
 .resource-wrapper {
   margin-bottom: 2rem;
+  width: 100%;
+  min-height: 4rem;
+
+  .spinner-wrapper {
+    height: 4rem !important;
+    width: 50%;
+  }
 }
 .resources {
   margin-top: 16px;

@@ -25,7 +25,7 @@
             </td>
             <td @click="gotoResourceURL(resource.resourceUrl)">{{resource.name}}</td>
             <td>{{resource.description}}</td>
-            <td>{{resource.createdAt}}</td>
+            <td>{{resource.createdAt | formatDate}}</td>
             <img
               v-if="currentlyHoveredResource===resource._id && resource.resourceUrl.match(/\.(jpeg|jpg|gif|png)$/) != null"
               class="resource-image"
@@ -55,6 +55,7 @@ import PDFIcon from '~/static/Icons/pdf.svg?inline'
 import StarIcon from '~/static/Icons/star.svg?inline'
 
 import { mapState } from 'vuex'
+import dayjs from 'dayjs'
 
 export default {
   components: {
@@ -101,6 +102,11 @@ export default {
         })
         this.$forceUpdate()
       }
+    }
+  },
+  filters: {
+    formatDate(value) {
+      return dayjs(value).format('MMMM DD, h:mm')
     }
   },
   mounted() {

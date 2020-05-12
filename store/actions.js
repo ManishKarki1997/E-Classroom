@@ -126,7 +126,8 @@ const action = {
                 'Authorization': `Bearer ${state.jwtToken}`
             }
         });
-    }
+    },
+
 
 
 }

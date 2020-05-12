@@ -26,7 +26,7 @@
               <td
                 @click="gotoResourceURL(`${apiStaticUrl}/uploads/resources/${file.resourceUrl}`)"
               >{{file.name}}</td>
-              <td>{{file.createdAt}}</td>
+              <td>{{file.createdAt | formatDate}}</td>
               <td class="delete-icon">
                 <DeleteIcon @click="deleteResource(file._id)" />
               </td>
@@ -54,7 +54,7 @@ import PDFIcon from '~/static/Icons/pdf.svg?inline'
 import DeleteIcon from '~/static/Icons/bin.svg?inline'
 
 import { mapState } from 'vuex'
-
+import dayjs from 'dayjs'
 export default {
   components: {
     FileIcon,
@@ -164,6 +164,11 @@ export default {
     userId: state => state.user._id,
     classId: state => state.currentlyViewingClass._id
   }),
+  filters: {
+    formatDate(value) {
+      return dayjs(value).format('MMMM DD, h:mm')
+    }
+  },
   mounted() {
     this.fetchAllResources()
     this.apiStaticUrl = process.env.baseUrl

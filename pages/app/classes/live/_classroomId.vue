@@ -127,14 +127,14 @@
       <h4>Skip tour next time?</h4>
       <p>You can change this in the settings page.</p>
       <div class="skiptour-choice-buttons">
-        <button @click="userChoice(true)">Yes</button>
-        <button @click="userChoice(false)">No</button>
+        <button @click="userChoice(false)">Yes</button>
+        <button @click="userChoice(true)">No</button>
       </div>
     </div>
 
     <!-- Tour on how to use the class -->
     <v-tour
-      v-if="!skipTourNextTime"
+      v-if="tourEnabled"
       style="margin-top:1rem"
       name="introduction-tour"
       :callbacks="tourCallbacks"
@@ -298,19 +298,19 @@ export default {
           content:
             '<p class="tour-text">Your second stream will show up here.</p>',
           offset: 1000
-        }
+        },
 
-        // {
-        //   target: '[data-tour="online-students"]',
-        //   header: {
-        //     title: 'Online Students'
-        //   },
-        //   content:
-        //     '<p class="tour-text">See the active online participants in the classroom.</p>',
-        //   params: {
-        //     placement: 'left'
-        //   },
-        // }
+        {
+          target: '[data-tour="online-students"]',
+          header: {
+            title: 'Online Students'
+          },
+          content:
+            '<p class="tour-text">See the active online participants in the classroom.</p>',
+          params: {
+            placement: 'left'
+          }
+        }
       ],
       tourOptions: {
         useKeyboardNavigation: true,
@@ -384,7 +384,7 @@ export default {
   computed: mapState({
     user: state => state.user,
     currentlyViewingClass: state => state.currentlyViewingClass,
-    skipTourNextTime: state => state.skipTourNextTime
+    tourEnabled: state => state.tourEnabled
   }),
   methods: {
     userChoice(value) {
@@ -421,7 +421,6 @@ export default {
           })
           return false
         } else {
-          console.log(tempStreamContainer)
           webcamStream.srcObject = mainStream.srcObject
           mainStream.srcObject = tempStreamContainer
         }
@@ -733,7 +732,7 @@ export default {
     //   classroomId: this.$route.params.classroomId,
     //   isClassroomTeacher: this.isClassroomTeacher
     // })
-    if (this.isClassroomTeacher && !this.skipTourNextTime) {
+    if (this.isClassroomTeacher && this.tourEnabled) {
       this.$tours['introduction-tour'].start()
     }
   }

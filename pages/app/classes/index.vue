@@ -21,18 +21,23 @@
       </div>
 
       <!-- If there are results, show them -->
-      <div class="available-classes" v-if="searchResults.length>0">
-        <ClassCard
-          v-for="availableClass in searchResults"
-          :key="availableClass.id"
-          class="class-card"
-          :courseclass="availableClass"
-          @classroomClicked="showClassInfoModal"
-        />
-      </div>
+      <div v-if="!isLoading">
+        <div class="available-classes" v-if="searchResults.length>0">
+          <ClassCard
+            v-for="availableClass in searchResults"
+            :key="availableClass.id"
+            class="class-card"
+            :courseclass="availableClass"
+            @classroomClicked="showClassInfoModal"
+          />
+        </div>
 
-      <div v-else>
-        <p>No classes available</p>
+        <div v-else>
+          <p>No classes available</p>
+        </div>
+      </div>
+      <div v-else class="spinner-wrapper">
+        <Spinner />
       </div>
       <!-- <ClassCard /> -->
     </div>
@@ -100,6 +105,7 @@
 <script>
 import ClassCard from '~/components/ClassCard'
 import ClassInfoModal from '~/components/DashboardComponents/ClassInfoModal'
+import Spinner from '@/components/Spinner'
 
 // Vue time picker
 import VueTimepicker from 'vue2-timepicker'
@@ -113,7 +119,8 @@ export default {
     ClassCard,
     ClassInfoModal,
     VueTimepicker,
-    SearchIcon
+    SearchIcon,
+    Spinner
   },
   data() {
     return {
@@ -133,7 +140,8 @@ export default {
       classes: [],
       currentlyOpenClassId: '',
       currentlyOpenClass: {},
-      isShowingClassInfoModal: false
+      isShowingClassInfoModal: false,
+      isLoading: true
     }
   },
   computed: {
@@ -214,6 +222,7 @@ export default {
     async fetchAllClasses() {
       const response = await this.$store.dispatch('fetchAllClasses')
       this.classes = response.data.payload.classes
+      this.isLoading = false
     },
     showClassInfoModal(classroom) {
       this.isShowingClassInfoModal = true
@@ -330,6 +339,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.spinner-wrapper {
+  height: 75%;
+}
 .search-classes {
   form {
     position: relative;

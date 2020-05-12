@@ -68,6 +68,10 @@ export default {
       font-size: 10px;
       margin-left: 8px;
     }
+
+    &:hover {
+      filter: opacity(0.8);
+    }
   }
 }
 </style>

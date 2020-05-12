@@ -5,7 +5,7 @@
       <div class="setting">
         <p>Interactive Tour</p>
         <select
-          v-model="skipTourNextTime"
+          v-model="tourEnabled"
           @change="toggleSkipTour"
           name="interactive_tour"
           id="interactive_tour"
@@ -34,25 +34,18 @@
 export default {
   data() {
     return {
-      skipTourNextTime: this.$store.state.skipTourNextTime,
+      tourEnabled: this.$store.state.tourEnabled,
       preferredColorScheme: this.$store.state.preferredColorScheme
     }
   },
   methods: {
     toggleSkipTour() {
       // commit the changes to the store
-      this.$store.commit('setSkipTourNextTime', this.skipTourNextTime)
+      this.$store.commit('setSkipTourNextTime', this.tourEnabled)
     },
     setPreferredColorScheme() {
       // commit the theme preference to the store
       this.$store.commit('setPreferredColorScheme', this.preferredColorScheme)
-
-      // save the preference in local storage
-      localStorage.setItem(
-        'eclasses-theme',
-        JSON.stringify(this.preferredColorScheme)
-      )
-
       document.body.setAttribute('theme', this.preferredColorScheme)
     }
   }
