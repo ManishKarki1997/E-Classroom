@@ -4,9 +4,9 @@
       <div class="whiteboard-colors">
         <button
           @click="canvas.activeColor=color"
-          v-for="color in canvas.colors"
+          v-for="(color,index) in canvas.colors"
           :key="color.id"
-          :style="{backgroundColor:color}"
+          :style="{'background-color':canvas.colors[index]}"
         ></button>
       </div>
       <input type="range" min="1" max="12" v-model="canvas.strokeWidth" />
@@ -173,7 +173,6 @@ input[type='range']:focus {
 input[type='range']::-webkit-slider-runnable-track {
   height: 8.4px;
   cursor: pointer;
-  animate: 0.2s;
   box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.1);
   background: #3071a9;
   border-radius: 1.3px;
@@ -197,7 +196,6 @@ input[type='range']::-moz-range-track {
   width: 100%;
   height: 8.4px;
   cursor: pointer;
-  animate: 0.2s;
   box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
   background: #3071a9;
   border-radius: 1.3px;
@@ -216,7 +214,6 @@ input[type='range']::-ms-track {
   width: 100%;
   height: 8.4px;
   cursor: pointer;
-  animate: 0.2s;
   background: transparent;
   border-color: transparent;
   border-width: 16px 0;
@@ -257,5 +254,6 @@ input[type='range']:focus::-ms-fill-upper {
   width: 40px;
   height: 30px;
   margin-right: 2px;
+  /* background-color: var(--primary-font-color) !important; */
 }
 </style>

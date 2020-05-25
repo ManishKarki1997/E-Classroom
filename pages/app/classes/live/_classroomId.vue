@@ -7,6 +7,11 @@
         <div v-if="isClassroomTeacher" class="camera-actions">
           <!-- <p style="margin-right:12px;">Share</p> -->
           <!-- <p >Notify</p> -->
+          <SaveIcon
+            style="width:16px;height:16px;"
+            v-tooltip="{content:'Record Video',offset:'26px'}"
+            @click="startRecordingVideo"
+          />
           <ShoutIcon
             data-tour="notify"
             v-tooltip="{content:'Notify Students',offset:'26px'}"
@@ -145,8 +150,6 @@
 </template>
 
 <script>
-import Peer from 'simple-peer'
-
 import StreamsWrapper from '~/components/StudyComponents/StreamsWrapper'
 // import Whiteboard from '~/components/StudyComponents/Whiteboard'
 import Whiteboard from '~/components/StudyComponents/Whiteboard1'
@@ -154,6 +157,7 @@ import CodeEditor from '~/components/StudyComponents/CodeEditor'
 import Chat from '~/components/StudyComponents/Chat'
 
 import { mapState } from 'vuex'
+import streamSaver from 'streamsaver'
 
 // import 'codemirror/mode/javascript/javascript.js'
 // import 'codemirror/mode/python/python.js'
@@ -172,6 +176,7 @@ import CloseIcon from '~/static/Icons/close.svg?inline'
 import ChatIcon from '~/static/Icons/chat.svg?inline'
 import ShoutIcon from '~/static/Icons/shout.svg?inline'
 import SwapIcon from '~/static/Icons/swap.svg?inline'
+import SaveIcon from '~/static/Icons/save.svg?inline'
 
 export default {
   components: {
@@ -187,7 +192,8 @@ export default {
     Chat,
     ChatIcon,
     ShoutIcon,
-    SwapIcon
+    SwapIcon,
+    SaveIcon
   },
   data() {
     return {
@@ -387,6 +393,28 @@ export default {
     tourEnabled: state => state.tourEnabled
   }),
   methods: {
+    startRecordingVideo() {
+      console.info('starting recording')
+
+      const mediaRecorder = new MediaRecorder(this.streams.localStream)
+      const ext = mediaRecorder.mimeType.split(';')[0].split('/')[1] || 'mp4'
+      const { readable, writable } = new TransformStream({
+        transform: (chunk, ctrl) =>
+          chunk.arrayBuffer().then(b => ctrl.enqueue(new Uint8Array(b)))
+      })
+      const writer = writable.getWriter()
+      readable.pipeTo(streamSaver.createWriteStream('media.' + ext))
+      mediaRecorder.ondataavailable = evt => writer.write(evt.data)
+      mediaRecorder.start()
+
+      setTimeout(() => {
+        console.info('saving video')
+        mediaRecorder.stop()
+        setTimeout(() => {
+          writer.close()
+        }, 1000)
+      }, 20000)
+    },
     userChoice(value) {
       // user has choosen to skip or not, the tour next time
       this.userSkipTourChoice = value //set the user choice
@@ -423,6 +451,10 @@ export default {
         } else {
           webcamStream.srcObject = mainStream.srcObject
           mainStream.srcObject = tempStreamContainer
+
+          if (webcamStream !== null) {
+            webcamStream.muted = true
+          }
         }
         // console.log(tempStreamContainer)
       } catch (error) {
@@ -473,7 +505,8 @@ export default {
     },
     handleWebcamSharing() {
       // teacher-screen-stream
-      if (this.webcamSharing.share == true) {
+      // The webcam is already active, so stop the webcam sharing on the icon click
+      if (this.webcamSharing.share) {
         // this.$refs.webcamStreamsWrapper.stopCameraShare()
         this.connection.streamEvents
           .selectAll({ local: true })
@@ -488,6 +521,7 @@ export default {
 
         this.webcamSharing.highlightIcon = false
       } else {
+        // start webcam sharing
         // this.$refs.webcamStreamsWrapper.shareCameraStream()
         try {
           // this.stream = await navigator.mediaDevices.getDisplayMedia(
@@ -518,14 +552,15 @@ export default {
 
           this.connection.mediaConstraints = {
             audio: true,
-            video: {
-              mandatory: {
-                minWidth: 1280,
-                maxWidth: 1280,
-                minHeight: 720,
-                maxHeight: 1280
-              }
-            }
+            video: true
+            // video: {
+            //   mandatory: {
+            //     minWidth: 720,
+            //     maxWidth: 1280,
+            //     minHeight: 720,
+            //     maxHeight: 1280
+            //   }
+            // }
           }
 
           this.connection.openOrJoin(this.$route.params.classroomId)
@@ -533,13 +568,11 @@ export default {
           const that = this
 
           this.connection.onstream = function(event) {
-            // this.screenVideoContainer.srcObject = event.stream
             if (
               event.type === 'local' &&
               document.getElementById('my-webcam-view').srcObject === null
             ) {
               document.getElementById('my-webcam-view').srcObject = event.stream
-              // console.log(event)
               that.streams.teacherStream.webcamStream.stream = event.stream
               that.streams.teacherStream.webcamStream.streamId = event.streamid
             } else if (
@@ -574,6 +607,8 @@ export default {
         document.getElementById(
           'my-webcam-view'
         ).srcObject = this.streams.localStream
+
+        document.getElementById('my-webcam-view').muted = true
       } else {
         if (
           event.type === 'remote' &&
@@ -603,24 +638,36 @@ export default {
 
     async startScreenSharing() {
       const that = this
+      // if the user is already sharing the webcam, append the screen sharing stream to the webcam connection
       if (this.webcamSharing.highlightIcon) {
+        this.connection.session = {
+          screen: true,
+          oneway: true,
+          audio: true
+        }
+
         this.connection.mediaConstraints = {
           audio: true,
-          video: {
-            mandatory: {
-              minWidth: 1280,
-              maxWidth: 1280,
-              minHeight: 1280,
-              maxHeight: 1280
-            }
-          }
+          video: true
+          // video: {
+          //   mandatory: {
+          //     minWidth: 720,
+          //     maxWidth: 1280,
+          //     minHeight: 720,
+          //     maxHeight: 1280
+          //   }
+          // }
         }
 
         this.connection.addStream({
           screen: true,
           oneway: true,
+          audio: true,
+
           streamCallback: function(stream) {
             document.getElementById('teacher-screen-video').srcObject = stream
+            document.getElementById('teacher-screen-video').muted = true
+            that.streams.localStream = stream
 
             that.streams.teacherStream.screenStream.stream = stream
 
@@ -628,13 +675,15 @@ export default {
           }
         })
       } else {
+        // if the user hasn't shared webcam before, start a new connection
         this.connection = new RTCMultiConnection()
         this.connection.socketURL =
           'https://rtcmulticonnection.herokuapp.com:443/'
 
         this.connection.session = {
           screen: true,
-          oneway: true
+          oneway: true,
+          audio: true
         }
 
         this.connection.sdpConstraints.mandatory = {
@@ -643,14 +692,15 @@ export default {
         }
         this.connection.mediaConstraints = {
           audio: true,
-          video: {
-            mandatory: {
-              minWidth: 1280,
-              maxWidth: 1280,
-              minHeight: 1280,
-              maxHeight: 1280
-            }
-          }
+          video: true
+          // video: {
+          //   mandatory: {
+          //     minWidth: 1280,
+          //     maxWidth: 1280,
+          //     minHeight: 1280,
+          //     maxHeight: 1280
+          //   }
+          // }
         }
 
         this.connection.extra = {
@@ -697,19 +747,24 @@ export default {
       }
       this.connection.mediaConstraints = {
         audio: true,
-        video: {
-          mandatory: {
-            minWidth: 1280,
-            maxWidth: 1280,
-            minHeight: 860,
-            maxHeight: 1280
-          },
-          optional: []
-        }
+        video: true
+        // video: {
+        //   mandatory: {
+        //     // minWidth: 720,
+        //     maxWidth: 720,
+        //     // minHeight: 860,
+        //     maxHeight: 720
+        //   },
+        //   optional: []
+        // }
       }
       this.connection.openOrJoin(this.$route.params.classroomId)
 
       const that = this
+      this.connection.onstream = function(event) {
+        // this.screenVideoContainer.srcObject = event.stream
+        that.displayVideo(event)
+      }
 
       this.connection.onstreamended = function(event) {
         console.log(event)
@@ -720,11 +775,6 @@ export default {
         //   doc[0].removeAttribute('srcObject')
         //   doc[0].load()
         // }
-      }
-
-      this.connection.onstream = function(event) {
-        // this.screenVideoContainer.srcObject = event.stream
-        that.displayVideo(event)
       }
     }
 

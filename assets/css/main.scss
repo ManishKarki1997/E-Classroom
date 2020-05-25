@@ -106,7 +106,8 @@ button{
     "Ubuntu", "Cantarell", "Fira Sans",
     "Droid Sans", "Helvetica Neue", sans-serif;
     font-weight: 400;
-    background-color: var(--button-background-color)  !important;
+    background-color: var(--button-background-color) ;
+    // background-color: var(--button-background-color)  !important;
     color: var(--button-color) !important;
 }
 
