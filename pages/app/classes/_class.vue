@@ -28,6 +28,9 @@
           <p @click="goto('resources')">Resources</p>
           <!-- <nuxt-link :to="'/app/classes/' + classroom._id + '/resources'">Resources</nuxt-link> -->
         </li>
+        <li>
+          <p @click="goto('videos')">Videos</p>
+        </li>
         <li v-if="isClassroomCreator">
           <p @click="goto('pending_requests')">Pending Requests</p>
           <!-- <nuxt-link :to="'/app/classes/' + classroom._id + '/pending_requests'">Pending Requests</nuxt-link> -->
@@ -73,7 +76,6 @@ export default {
     },
     goto(route) {
       this.$router.push(`/app/classes/${this.classroom._id}/${route}`)
-      console.log(this.isClassroomCreator)
     },
     async editClass(backgroundImage) {
       this.editButtonClicked = true

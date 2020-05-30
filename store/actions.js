@@ -127,6 +127,20 @@ const action = {
             }
         });
     },
+    addNewVideoResource({ state, commit }, payload) {
+        return axios.post(`${process.env.baseUrl}/api/video`, payload, {
+            headers: {
+                'Authorization': `Bearer ${state.jwtToken}`
+            }
+        });
+    },
+    fetchClassVideos({ state, commit }, payload) {
+        return axios.get(`${process.env.baseUrl}/api/video/${payload}`, {
+            headers: {
+                'Authorization': `Bearer ${state.jwtToken}`
+            }
+        });
+    },
 
 
 
