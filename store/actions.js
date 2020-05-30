@@ -141,6 +141,20 @@ const action = {
             }
         });
     },
+    deleteVideo({ state, commit }, payload) {
+        return axios.delete(`${process.env.baseUrl}/api/video/${payload}`, {
+            headers: {
+                'Authorization': `Bearer ${state.jwtToken}`
+            }
+        });
+    },
+    updateVideoDetail({ state, commit }, payload) {
+        return axios.put(`${process.env.baseUrl}/api/video/`, payload, {
+            headers: {
+                'Authorization': `Bearer ${state.jwtToken}`
+            }
+        });
+    },
 
 
 
