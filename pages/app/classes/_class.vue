@@ -35,6 +35,9 @@
           <p @click="goto('pending_requests')">Pending Requests</p>
           <!-- <nuxt-link :to="'/app/classes/' + classroom._id + '/pending_requests'">Pending Requests</nuxt-link> -->
         </li>
+        <li @click="goto('chat')">
+          <p>Chat</p>
+        </li>
       </ul>
     </div>
     <div class="classroom-individual-content">

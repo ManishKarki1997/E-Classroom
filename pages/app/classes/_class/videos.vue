@@ -8,8 +8,8 @@
         <iframe type="text/html" :src="video.url" frameborder="0" allowfullscreen></iframe>
         <div class="video-footer">
           <p>{{video.name}}</p>
-          <DeleteIcon @click="deleteVideo(video._id)" />
           <EditIcon @click="setUpdateVideo(video)" />
+          <DeleteIcon @click="deleteVideo(video._id)" />
         </div>
         <div class="video-edit-wrapper" v-if="updateVideoId===video._id">
           <input type="text" v-model="updateVideoDetail.name" />
@@ -187,17 +187,20 @@ export default {
   svg {
     width: 14px;
     height: 14px;
-    fill: var(--primary-font-color);
     margin-top: 8px;
     cursor: pointer;
-
-    &:first-child {
-      fill: lightcoral;
-    }
+    display: none;
+    fill: var(--primary-font-color);
 
     &:last-child {
       margin-left: 8px;
+      fill: lightcoral !important;
     }
+  }
+}
+.video {
+  &:hover .video-footer svg {
+    display: block;
   }
 }
 .video-edit-wrapper {

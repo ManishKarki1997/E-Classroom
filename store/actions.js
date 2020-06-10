@@ -155,6 +155,13 @@ const action = {
             }
         });
     },
+    fetchClassChat({ state, commit }, payload) {
+        return axios.get(`${process.env.baseUrl}/api/chat/${payload}`, {
+            headers: {
+                'Authorization': `Bearer ${state.jwtToken}`
+            }
+        });
+    },
 
 
 
