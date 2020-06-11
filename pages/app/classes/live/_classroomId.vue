@@ -84,7 +84,8 @@
         :minHeight="350"
         class="code-editor-wrapper"
       >
-        <CodeEditor class="code-editor" />
+        <MonacoEditor class="code-editor" />
+        <!-- <CodeEditor class="code-editor" /> -->
       </hsc-window>
     </hsc-window-style-metal>
 
@@ -166,6 +167,8 @@ import streamSaver from 'streamsaver'
 // // theme css
 // import 'codemirror/theme/rubyblue.css'
 
+import MonacoEditor from '@/components/StudyComponents/MonacoEditor'
+
 // Icons Import
 import TelevisionIcon from '~/static/Icons/television.svg?inline'
 import CodeEditorIcon from '~/static/Icons/code.svg?inline'
@@ -180,6 +183,7 @@ import SaveIcon from '~/static/Icons/save.svg?inline'
 
 export default {
   components: {
+    MonacoEditor,
     StreamsWrapper,
     TelevisionIcon,
     CodeEditorIcon,

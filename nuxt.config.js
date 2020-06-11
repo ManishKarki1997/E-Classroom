@@ -1,3 +1,4 @@
+import MonacoWebpackPlugin from 'monaco-editor-webpack-plugin'
 import path from 'path'
 import fs from 'fs'
 
@@ -87,6 +88,12 @@ export default {
     /*
     ** You can extend webpack config here
     */
+    plugins: [
+      new MonacoWebpackPlugin({
+        // available options are documented at https://github.com/Microsoft/monaco-editor-webpack-plugin#options
+        languages: ['javascript', 'python', 'java', 'json', 'php', 'go']
+      })
+    ],
     extend(config, ctx) {
     }
   },

@@ -18,6 +18,8 @@
     "@nuxtjs/svg": "^0.1.6",
     "dayjs": "^1.8.26",
     "intro.js": "^2.9.3",
+    "monaco-editor-vue": "^1.0.10",
+    "monaco-editor-webpack-plugin": "^1.9.0",
     "nuxt": "^2.0.0",
     "simple-peer": "^9.6.2",
     "streamsaver": "^2.0.4",
