@@ -30,6 +30,21 @@
           <p>Home</p>
         </nuxt-link>
       </li>
+      <li class="my-classes">
+        <nuxt-link to="/app/classes">
+          <HomeIcon />
+          <p>Classes</p>
+        </nuxt-link>
+
+        <div class="my-class-sub-menu">
+          <nuxt-link to="/app/profile/enrolled">
+            Enrolled
+          </nuxt-link>
+          <nuxt-link to="/app/profile/teaching">
+            Teaching
+          </nuxt-link>
+        </div>
+      </li>
       <!-- <li>
           <nuxt-link to="/app/classroom">
             <StudyIcon />
@@ -41,13 +56,13 @@
           <p>Resources</p>
         </nuxt-link>
       </li>
-      <li>
+      <li class="settings-menu">
         <nuxt-link to="/app/settings">
           <SettingsIcon />
           <p>Settings</p>
         </nuxt-link>
       </li>
-      <li @click="toggleTheme">
+      <li class="theme-toggle-menu" @click="toggleTheme">
         <SunIcon v-if="themeMode === 'dark'" />
         <MoonIcon v-if="themeMode === ''" />
       </li>

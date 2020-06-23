@@ -17,7 +17,7 @@
   transition: width 0.3s linear;
 
   &:hover {
-    width: 16rem;
+    width: 15rem;
 
     .user-account {
       margin-left: 1rem;
@@ -42,7 +42,11 @@
       li {
         justify-content: flex-start;
 
-        &:nth-child(6) {
+        .settings-menu {
+          margin-left: 12px;
+        }
+
+        &.theme-toggle-menu {
           margin-left: 12px;
         }
       }
@@ -127,4 +131,34 @@
   border-radius: 50%;
   object-fit: cover;
   cursor: pointer;
+}
+
+.my-classes {
+  position: relative;
+
+  &:hover .my-class-sub-menu {
+    display: block;
+    left: 8rem;
+  }
+}
+.my-class-sub-menu {
+  position: absolute;
+  top: -8px;
+  left: 4rem;
+  z-index: 30;
+  // background: var(--primary-background-color);
+  display: none;
+
+  &:hover {
+    display: block;
+  }
+
+  a {
+    background-color: var(--secondary-background-color);
+    color: var(--primary-font-color);
+
+    &:first-child {
+      margin-bottom: 4px;
+    }
+  }
 }
