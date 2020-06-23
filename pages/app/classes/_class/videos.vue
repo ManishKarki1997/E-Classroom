@@ -1,17 +1,25 @@
 <template>
   <div id="videos">
-    <div class="add-video-button">
+    <div
+      class="add-video-button"
+      v-if="currentlyViewingClass.createdBy._id === this.$store.state.user._id"
+    >
       <button @click="toggleModal(true)">Add</button>
     </div>
     <div class="videos">
       <div class="video" v-for="video in videos" :key="video._id">
-        <iframe type="text/html" :src="video.url" frameborder="0" allowfullscreen></iframe>
+        <iframe
+          type="text/html"
+          :src="'https://youtube.com/embed/' + video.url.split('?v=')[1]"
+          frameborder="0"
+          allowfullscreen
+        ></iframe>
         <div class="video-footer">
-          <p>{{video.name}}</p>
+          <p>{{ video.name }}</p>
           <EditIcon @click="setUpdateVideo(video)" />
           <DeleteIcon @click="deleteVideo(video._id)" />
         </div>
-        <div class="video-edit-wrapper" v-if="updateVideoId===video._id">
+        <div class="video-edit-wrapper" v-if="updateVideoId === video._id">
           <input type="text" v-model="updateVideoDetail.name" />
           <input type="text" v-model="updateVideoDetail.url" />
           <div class="video-buttons">
@@ -21,7 +29,11 @@
         </div>
       </div>
     </div>
-    <AddVideoModal v-if="showAddVideoModal" @hideModal="toggleModal" @addNewVideo="addNewVideo" />
+    <AddVideoModal
+      v-if="showAddVideoModal"
+      @hideModal="toggleModal"
+      @addNewVideo="addNewVideo"
+    />
   </div>
 </template>
 
@@ -30,6 +42,8 @@ import AddVideoModal from '@/components/DashboardComponents/AddVideoModal'
 import VerticalMenuIcon from '@/static/Icons/vertical_menu.svg?inline'
 import DeleteIcon from '@/static/Icons/trash.svg?inline'
 import EditIcon from '@/static/Icons/edit.svg?inline'
+
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -49,6 +63,12 @@ export default {
         videoId: ''
       }
     }
+  },
+  computed: {
+    ...mapGetters({
+      currentlyViewingClass: 'getCurrentlyViewingClass',
+      currentUser: 'getUserInfo'
+    })
   },
   methods: {
     toggleModal(value) {
@@ -160,7 +180,6 @@ export default {
   }
 }
 </script>
-
 
 <style lang="scss" scoped>
 .add-video-button {

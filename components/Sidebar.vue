@@ -6,50 +6,56 @@
         :src="apiStaticUrl + '/uploads/images/' + user.avatar"
         alt
       />
+      <h3>{{ user.name }}</h3>
       <!-- <img src="~/static/Images/Saber.jpg" alt="Picture of the user" /> -->
     </div>
-    <div class="sidebar-menu">
-      <ul>
-        <li class="nav-link">
-          <nuxt-link to="/get-started/login">
-            <RocketIcon />
-          </nuxt-link>
-        </li>
+    <!-- <div class="sidebar-menu"> -->
+    <ul class="sidebar-menu">
+      <li class="nav-link">
+        <nuxt-link to="/get-started/login">
+          <RocketIcon />
+          <p>Login</p>
+        </nuxt-link>
+      </li>
 
-        <li class="nav-link">
-          <nuxt-link exact to="/app/dashboard">
-            <DashboardIcon />
-          </nuxt-link>
-        </li>
-        <li>
-          <nuxt-link to="/app/classes">
-            <HomeIcon />
-          </nuxt-link>
-        </li>
-        <!-- <li>
+      <li class="nav-link">
+        <nuxt-link exact to="/app/dashboard">
+          <DashboardIcon />
+          <p>Dashboard</p>
+        </nuxt-link>
+      </li>
+      <li>
+        <nuxt-link to="/app/classes">
+          <HomeIcon />
+          <p>Home</p>
+        </nuxt-link>
+      </li>
+      <!-- <li>
           <nuxt-link to="/app/classroom">
             <StudyIcon />
           </nuxt-link>
         </li>-->
-        <li>
-          <nuxt-link to="/app/resources">
-            <ResourcesIcon />
-          </nuxt-link>
-        </li>
-        <li>
-          <nuxt-link to="/app/settings">
-            <SettingsIcon />
-          </nuxt-link>
-        </li>
-        <li style="margin-left:12px;" @click="toggleTheme">
-          <SunIcon v-if="themeMode==='dark'" />
-          <MoonIcon v-if="themeMode===''" />
-        </li>
-        <li style="margin-left:2px;" @click="logout">
-          <LogoutIcon />
-        </li>
-      </ul>
-    </div>
+      <li>
+        <nuxt-link to="/app/resources">
+          <ResourcesIcon />
+          <p>Resources</p>
+        </nuxt-link>
+      </li>
+      <li>
+        <nuxt-link to="/app/settings">
+          <SettingsIcon />
+          <p>Settings</p>
+        </nuxt-link>
+      </li>
+      <li @click="toggleTheme">
+        <SunIcon v-if="themeMode === 'dark'" />
+        <MoonIcon v-if="themeMode === ''" />
+      </li>
+      <li style="margin-left:2px;" @click="logout">
+        <LogoutIcon />
+      </li>
+    </ul>
+    <!-- </div> -->
   </div>
 </template>
 

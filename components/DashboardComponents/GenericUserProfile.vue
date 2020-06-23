@@ -4,37 +4,36 @@
       <div :key="user._id">
         <div class="user-basic-info">
           <img :src="apiStaticUrl + '/uploads/images/' + user.avatar" alt />
-          <h4>{{user.name}}</h4>
+          <h4>{{ user.name }}</h4>
         </div>
         <div class="user-additional-info">
           <p>
             <span>Email</span>
-            - {{user.email}}
+            - {{ user.email }}
           </p>
           <p>
             <span>Contact</span>
-            - {{user.contact}}
+            - {{ user.contact }}
           </p>
         </div>
         <div class="user-class-info">
           <div class="user-class-item">
-            <h5 v-if="user.joinedClasses">{{user.joinedClasses.length}}</h5>
+            <h5 v-if="user.joinedClasses">{{ user.joinedClasses.length }}</h5>
             <p>Joined</p>
           </div>
           <div class="user-class-item">
-            <h5 v-if="user.createdClasses">{{user.createdClasses.length}}</h5>
+            <h5 v-if="user.createdClasses">{{ user.createdClasses.length }}</h5>
             <p>Teaching</p>
           </div>
         </div>
         <div class="request-action-buttons-wrapper">
-          <button @click="emitActionEvent('accept')">Accept</button>
-          <button @click="emitActionEvent('reject')">Reject</button>
+          <button @click="emitActionEvent(user._id, 'accept')">Accept</button>
+          <button @click="emitActionEvent(user._id, 'reject')">Reject</button>
         </div>
       </div>
     </transition>
   </div>
 </template>
-
 
 <script>
 import ClassIcon from '~/static/Icons/class.svg?inline'
@@ -55,14 +54,14 @@ export default {
     this.apiStaticUrl = process.env.baseUrl
   },
   methods: {
-    emitActionEvent(actionType) {
-      this.$emit('pendingRequestAction', actionType)
+    emitActionEvent(userId, actionType) {
+      this.$emit('pendingRequestAction', { userId, actionType })
     }
   }
 }
 </script>
 
-<style  lang="scss" scoped>
+<style lang="scss" scoped>
 .user-profile-container {
   padding: 2rem 1rem;
 }

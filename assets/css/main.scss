@@ -1,146 +1,150 @@
 @import '_base';
 @import './mixins/mixin.scss';
 
-*,*::after,*::before{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-:root{
-    --primary-background-color:#ECEFF4 ;
-    --secondary-background-color:#F8FAFB;
-    --tertiary-background-color:white;
-    --primary-font-color: #1f1f1f;
-    --secondary-font-color:#222839;
-    --tertiary-font-color:#858EA1;
+:root {
+  --primary-background-color: #eceff4;
+  --secondary-background-color: #f8fafb;
+  --tertiary-background-color: white;
+  --primary-font-color: #1f1f1f;
+  --secondary-font-color: #222839;
+  --tertiary-font-color: #858ea1;
 
-    --overlay-color:rgb(236, 238, 238);
+  --overlay-color: rgb(236, 238, 238);
 
-    --button-background-color:rgb(64, 62, 62);
-    --button-color:white;
-
-}
-
-body[theme="dark"]{
-    --primary-background-color:#191C28;
-    // --secondary-background-color:#222839;
-    --secondary-background-color:#191C28; //remove this and uncomment above line if needed
-    // --tertiary-background-color:#434C5E;
-    --tertiary-background-color:rgba(25, 28, 40, 0.836);
-    --primary-font-color:#F8FAFB;
-    --secondary-font-color:rgb(240,235,235);
-    --tertiary-font-color:#ECEFF4;
-
-    background-color: var(--primary-background-color);
-    color:var(--primary-font-color);
-    --overlay-color:rgba(36, 40, 54, 0.836);
-
-    --button-background-color:rgba(0,0,0,0.4);
-    --button-color:white;
-
-    input[type='text'],
-    input[type='password'],
-    input[type='email'],
-    select
-    {
-        background-color: rgba(0,0,0,0.4) !important;
-        color: var(--button-color);
-    }
-
+  --button-background-color: rgb(64, 62, 62);
+  --button-color: white;
 }
 
+body[theme='dark'] {
+  --primary-background-color: #191c28;
+  // --secondary-background-color:#222839;
+  --secondary-background-color: #191c28; //remove this and uncomment above line if needed
+  // --tertiary-background-color:#434C5E;
+  --tertiary-background-color: rgba(25, 28, 40, 0.836);
+  --primary-font-color: #f8fafb;
+  --secondary-font-color: rgb(240, 235, 235);
+  --tertiary-font-color: #eceff4;
 
+  background-color: var(--primary-background-color);
+  color: var(--primary-font-color);
+  --overlay-color: rgba(36, 40, 54, 0.836);
 
+  --button-background-color: rgba(0, 0, 0, 0.4);
+  --button-color: white;
 
-body{
-    // background-color: $primary-background-light;
-    // color:$primary-text-light;
-    transition: all 0.4s ease-in-out;
-    // font-family: "Chivo";
-    font-family: "Rubik", -apple-system, BlinkMacSystemFont,
-    "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans",
-    "Droid Sans", "Helvetica Neue", sans-serif;
-    font-weight: 300;
-    letter-spacing: .5px; //remove it if font is changed to Chivo
-}
-.tour-text{
-    text-align: left;
-    font-size: 14px;
-    line-height: 1.5;
-}
-p{
-    line-height:26px;
-}
-h1,h2,h3,h4,h5,h6{
-    // font-family:"Asul";
-    font-family: "Rubik"; 
-}
-h1,h2,h3{
-    font-weight: 700;
-}
-h4,h5{
-    font-weight: 500;
-}
-h6,p{
-    font-weight: 400;
-}
-.activeLink{
-    background-color: lightgray;
-}
-a{
-    text-decoration: none;
-    // color: $primary-text-light;
-}
-ul{
-    list-style-type: none;
-}
-svg{
-    fill: var(--secondary-font-color) !important;
-}
-button{
-    cursor: pointer;
-    font-family: "Chivo", -apple-system, BlinkMacSystemFont,
-    "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans",
-    "Droid Sans", "Helvetica Neue", sans-serif;
-    font-weight: 400;
-    background-color: var(--button-background-color) ;
-    // background-color: var(--button-background-color)  !important;
-    color: var(--button-color) !important;
+  input[type='text'],
+  input[type='password'],
+  input[type='email'],
+  select {
+    background-color: rgba(0, 0, 0, 0.4) !important;
+    color: var(--button-color);
+  }
 }
 
-.container{
-    padding: 1rem 6rem;
+body {
+  // background-color: $primary-background-light;
+  // color:$primary-text-light;
+  transition: all 0.4s ease-in-out;
+  font-family: 'Rubik';
+  //   font-family: 'Rubik', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
+  //     'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  //     sans-serif;
+  font-weight: 300;
+  letter-spacing: 0.5px; //remove it if font is changed to Chivo
 }
-.section-title{
-    font-size: 15px;
-    font-weight: 700;
+.tour-text {
+  text-align: left;
+  font-size: 14px;
+  line-height: 1.5;
+}
+p {
+  line-height: 26px;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Merriweather';
+}
+h1,
+h2,
+h3 {
+  font-weight: 700;
+}
+h4,
+h5 {
+  font-weight: 500;
+}
+h6,
+p {
+  font-weight: 400;
+}
+.activeLink {
+  background-color: lightgray;
+}
+a {
+  text-decoration: none;
+  // color: $primary-text-light;
+}
+ul {
+  list-style-type: none;
+}
+svg {
+  fill: var(--secondary-font-color) !important;
+}
+button {
+  cursor: pointer;
+  font-family: 'Chivo', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
+    'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  font-weight: 400;
+  background-color: var(--button-background-color);
+  // background-color: var(--button-background-color)  !important;
+  color: var(--button-color) !important;
+}
+
+.container {
+  padding: 1rem 6rem;
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 700;
 }
 
 // basic nuxt route transition
-.page-enter-active, .page-leave-active{
-    transition: all 0.3s ease-in;
+.page-enter-active,
+.page-leave-active {
+  transition: all 0.3s ease-in;
 }
 
-.page-enter,.page-leave-active{
-    opacity: 0;
+.page-enter,
+.page-leave-active {
+  opacity: 0;
 }
 
 .darken {
-    background-color: var(--overlay-color);
-    // background-color: #444444;
-    // color: #111;
-  }
+  background-color: var(--overlay-color);
+  // background-color: #444444;
+  // color: #111;
+}
 
-  .spinner-wrapper {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+.spinner-wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 @import './sidebar.scss';
 @import './dashboard.scss';

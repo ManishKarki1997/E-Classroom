@@ -1,92 +1,130 @@
 // @import'./darktheme.scss';
 
-
 // NOTE  Sidebar
-#sidebar{
-    height: 100vh;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 4rem;
-    padding: 16px 20px;
-    background-color: var(--secondary-background-color);
-    // background-color: $secondary-background-light;
-    margin-right: 4rem;
-    box-shadow: -1px -1px 1px rgba(255,255,255,0.05),
-                      3px 3px 3px rgba(0,0,0,0.08);
-  
-      .nuxt-link-exact-active svg,
-      .nuxt-link-active svg {
-      fill: var(--primary-font-color);
-      /* fill: blue; */
+#sidebar {
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 4rem;
+  padding: 16px 10px;
+  z-index: 20;
+  background-color: var(--secondary-background-color);
+  // background-color: $secondary-background-light;
+  margin-right: 4rem;
+  box-shadow: -1px -1px 1px rgba(255, 255, 255, 0.05),
+    3px 3px 3px rgba(0, 0, 0, 0.08);
+  transition: width 0.3s linear;
+
+  &:hover {
+    width: 16rem;
+
+    .user-account {
+      margin-left: 1rem;
+      transition: all 0.5s;
+
+      h3 {
+        display: block;
+        margin-left: 8px;
+        font-size: 20px;
       }
-      .nuxt-link-active,
-      .nuxt-link-exact-active {
-      border-radius: 3px;
-      background-color: var(--primary-background-color);
-      fill: var(--primary-background-color);
-      box-shadow: 1px 1px 5px 5px var(--secondary-background-color);
+    }
+
+    .sidebar-menu {
+      align-items: flex-start;
+
+      p {
+        display: block;
+        margin-left: 1rem;
+        color: var(--primary-font-color);
+      }
+
+      li {
+        justify-content: flex-start;
+
+        &:nth-child(6) {
+          margin-left: 12px;
+        }
+      }
+    }
+  }
+
+  .nuxt-link-exact-active svg,
+  .nuxt-link-active svg {
+    fill: var(--primary-font-color);
+    /* fill: blue; */
+  }
+  .nuxt-link-active,
+  .nuxt-link-exact-active {
+    border-radius: 3px;
+    background-color: var(--primary-background-color);
+    fill: var(--primary-background-color);
+    box-shadow: 1px 1px 5px 5px var(--secondary-background-color);
     //   box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.08),
     //       -6px -6px 12px rgba(255, 255, 255, 1);
-      padding: 8px 12px;
-      }
+    padding: 8px 12px;
   }
-  
-  
-  
-  .sidebar-menu{
-      margin-top: 4rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      height: 100%;
-  
-  
-  
-      li{
-          margin-bottom: 1rem;
-          padding: 8px 12px;
-          
-          &:last-child{
-              margin-top: auto;
-              cursor: pointer;
-              display: flex;
-              justify-content: center;
-          }
-  
-          &:hover svg{
-              fill: #008ECC;
-              text-shadow: 0 0 15px #008ECC;
-          }
-  
-          svg{
-              width:18px;
-              height:18px;
-              fill:var(--primary-font-color);
-              transition: all 0.15s linear;
-          }
-  
-          a{
-              padding: 8px 12px;
-              display: flex;
-              justify-content: center;
-              align-items: center;
-          }
-      }
-  
-  }
-  .user-account {
-    margin-left: -8px ; //poor hack, ugh
-    border-radius: 50%;
-    width: 40px;
-    height:40px;
-    overflow: hidden;
-    
-  }
-  .user-account img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+}
+
+.sidebar-menu {
+  margin-top: 4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+
+  li {
+    margin-bottom: 1rem;
+    padding: 8px 12px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
+    &:last-child {
+      margin-top: auto;
       cursor: pointer;
+      display: flex;
+      justify-content: center;
+    }
+
+    &:hover svg {
+      fill: #008ecc;
+      text-shadow: 0 0 15px #008ecc;
+    }
+
+    svg {
+      width: 18px;
+      height: 18px;
+      fill: var(--primary-font-color);
+      transition: all 0.15s linear;
+    }
+
+    a {
+      padding: 8px 12px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    p {
+      display: none;
+    }
   }
-  
+}
+.user-account {
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+
+  h3 {
+    display: none;
+    color: var(--primary-font-color);
+  }
+}
+.user-account img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+}

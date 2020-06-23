@@ -2,17 +2,21 @@
   <div id="pending-requests-wrapper">
     <h3>Pending Requests</h3>
     <div class="pending-requests-body">
-      <div v-if="pendingJoinRequests.length>0" class="pending-requests">
-        <div class="pending-request" v-for="user in pendingJoinRequests" :key="user._id">
+      <div v-if="pendingJoinRequests.length > 0" class="pending-requests">
+        <div
+          class="pending-request"
+          v-for="user in pendingJoinRequests"
+          :key="user._id"
+        >
           <div class="user-image-wrapper">
             <img
-              @click="selectedUser=user"
+              @click="selectedUser = user"
               :src="apiStaticUrl + '/uploads/images/' + user.avatar"
               alt
             />
           </div>
-          <div @click="selectedUser=user" class="user-info">
-            <h4>{{user.name}}</h4>
+          <div @click="selectedUser = user" class="user-info">
+            <h4>{{ user.name }}</h4>
           </div>
         </div>
       </div>
@@ -22,7 +26,7 @@
       <div class="generic-user-profile-wrapper">
         <GenericUserProfile
           @pendingRequestAction="pendingRequestAction"
-          v-if="selectedUser.name!==undefined"
+          v-if="selectedUser.name !== undefined"
           :user="selectedUser"
         />
       </div>
@@ -46,10 +50,11 @@ export default {
     }
   },
   methods: {
-    async pendingRequestAction(actionType) {
+    async pendingRequestAction(data) {
+      const { actionType, userId } = data
       const response = await this.$store.dispatch('pendingRequestDecision', {
         classId: this.classId,
-        userId: this.$store.state.user._id,
+        userId,
         decision: actionType
       })
 

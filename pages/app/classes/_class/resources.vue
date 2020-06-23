@@ -1,12 +1,15 @@
 <template>
   <div id="resources">
-    <div class="add-resource-button">
+    <div
+      class="add-resource-button"
+      v-if="currentlyViewingClass.createdBy._id === this.$store.state.user._id"
+    >
       <button @click="toggleModal(true)">Add</button>
     </div>
     <div class="resource-files">
       <div class="resource">
-        <h4>{{this.$route.params.resource}}</h4>
-        <table class="resource-table" v-if="resources && resources.length>0">
+        <h4>{{ this.$route.params.resource }}</h4>
+        <table class="resource-table" v-if="resources && resources.length > 0">
           <thead>
             <tr>
               <th>#</th>
@@ -15,18 +18,28 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(file,index) in resources" :key="file.resourceId" class="resource-file">
+            <tr
+              v-for="(file, index) in resources"
+              :key="file.resourceId"
+              class="resource-file"
+            >
               <td>
-                {{index+1}}
+                {{ index + 1 }}
                 <!--                 
                 <FileIcon v-if="file.fileType==='other'" />
                 <PictureIcon v-if="file.fileType==='image'" />
                 <PDFIcon v-if="file.fileType==='office'" />-->
               </td>
               <td
-                @click="gotoResourceURL(`${apiStaticUrl}/uploads/resources/${file.resourceUrl}`)"
-              >{{file.name}}</td>
-              <td>{{file.createdAt | formatDate}}</td>
+                @click="
+                  gotoResourceURL(
+                    `${apiStaticUrl}/uploads/resources/${file.resourceUrl}`
+                  )
+                "
+              >
+                {{ file.name }}
+              </td>
+              <td>{{ file.createdAt | formatDate }}</td>
               <td class="delete-icon">
                 <DeleteIcon @click="deleteResource(file._id)" />
               </td>
@@ -53,7 +66,7 @@ import PictureIcon from '~/static/Icons/picture.svg?inline'
 import PDFIcon from '~/static/Icons/pdf.svg?inline'
 import DeleteIcon from '~/static/Icons/bin.svg?inline'
 
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 import dayjs from 'dayjs'
 export default {
   components: {
@@ -69,6 +82,12 @@ export default {
       showAddResourceModal: false,
       apiStaticUrl: ''
     }
+  },
+  computed: {
+    ...mapGetters({
+      currentlyViewingClass: 'getCurrentlyViewingClass',
+      currentUser: 'getUserInfo'
+    })
   },
   methods: {
     toggleModal(value) {
@@ -114,7 +133,7 @@ export default {
         // add the new resource to the array and force an update
         this.$toast.open({
           type: 'success',
-          message: 'New file added successfully',
+          message: response.data.payload.message,
           position: 'top-right',
           duration: 1500
         })
@@ -129,7 +148,6 @@ export default {
             _id: response.data._id
           }
         })
-
         this.resources.push(response.data.payload.result)
         this.$forceUpdate()
 

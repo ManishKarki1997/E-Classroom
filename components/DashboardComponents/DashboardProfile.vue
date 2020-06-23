@@ -2,19 +2,22 @@
   <div class="user-profile-wrapper">
     <div class="user-profile">
       <div class="user-avatar-wrapper">
-        <img :src="apiStaticUrl + '/uploads/images/' + user.avatar" alt="User Picture" />
+        <img
+          :src="apiStaticUrl + '/uploads/images/' + user.avatar"
+          alt="User Picture"
+        />
       </div>
-      <h4>{{user.name}}</h4>
+      <h4>{{ user.name }}</h4>
       <!-- <p>Student</p> -->
     </div>
     <div class="user-meta-wrapper">
       <div class="user-meta-info">
-        <h5>4</h5>
+        <h5>{{ user.createdClasses.length }}</h5>
         <p>Teaching</p>
       </div>
 
       <div class="user-meta-info">
-        <h5>24</h5>
+        <h5>{{ user.joinedClasses.length }}</h5>
         <p>Enrolled</p>
       </div>
     </div>
@@ -48,7 +51,7 @@ export default {
 }
 </script>
 
-<style  lang="scss" scoped>
+<style lang="scss" scoped>
 .user-profile-wrapper {
   padding: 6px 10px;
 }

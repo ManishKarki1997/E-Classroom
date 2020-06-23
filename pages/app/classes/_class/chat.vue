@@ -2,27 +2,35 @@
   <div id="chat-messages-wrapper">
     <ul class="messages">
       <li
-        :class="{messageByMe:message.author._id === user._id}"
+        :class="{ messageByMe: message.author._id === user._id }"
         class="message"
         v-for="message in chatMessages"
         :key="message._id || '001'"
       >
-        <img :src="apiStaticUrl + '/uploads/images/' + message.author.avatar" alt="User Avatar" />
+        <img
+          :src="apiStaticUrl + '/uploads/images/' + message.author.avatar"
+          alt="User Avatar"
+        />
         <div class="message-text-wrapper">
-          <h4>{{message.author.name}}</h4>
-          <p>{{message.message}}</p>
+          <h4>{{ message.author.name }}</h4>
+          <p>{{ message.message }}</p>
         </div>
       </li>
     </ul>
     <div class="form-wrapper">
       <form @submit.prevent="sendMessage">
-        <input autofocus type="text" name="chat-message" id="chat-message" v-model="messageToSend" />
+        <input
+          autofocus
+          type="text"
+          name="chat-message"
+          id="chat-message"
+          v-model="messageToSend"
+        />
         <button type="submit">Send</button>
       </form>
     </div>
   </div>
 </template>
-
 
 <script>
 export default {
@@ -96,7 +104,6 @@ export default {
 }
 </script>
 
-
 <style lang="scss" scoped>
 #chat-messages-wrapper {
   padding: 1rem 2rem;
@@ -141,6 +148,10 @@ export default {
   width: 100%;
 
   form {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
     width: 100%;
     input {
       width: 80%;

@@ -1,15 +1,15 @@
 <template>
   <div id="saved-resources">
     <div class="saved-resources">
-      <h4>Saved Resources</h4>
+      <h3 class="section-title">Saved Resources</h3>
       <div
-        v-for="resource in savedResources.slice(0,12)"
+        v-for="resource in savedResources.slice(0, 12)"
         :key="resource._id"
         class="saved-resource"
       >
         <p @click="gotoUrl(resource.resourceUrl)">
-          {{resource.name}}
-          <span>{{resource.classId.name}}</span>
+          {{ resource.name }}
+          <span>{{ resource.classId.name }}</span>
         </p>
       </div>
     </div>

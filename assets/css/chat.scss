@@ -1,95 +1,97 @@
 @use '_base';
 
 #classroom-chat {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  z-index: 10;
+  background-color: var(--primary-background-color);
+  padding: 1rem 8px;
+}
+#chat-messages {
+  display: flex;
+  flex-direction: column;
+
+  .chat-message {
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 100vh;
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 100%;
-    z-index: 10;
-    background-color: var(--primary-background-color);
-    padding: 1rem 8px;
-  }
-  #chat-messages {
-    display: flex;
-    flex-direction: column;
-  
-    .chat-message {
+    margin-bottom: 16px;
+    margin-top: 16px;
+
+    .message-sender {
       display: flex;
-      margin-bottom: 16px;
-      margin-top: 16px;
-  
-      .message-sender {
-        display: flex;
 
-        img {
-          margin-right: 14px;
-          width: 30px;
-          height: 30px;
-          border-radius: 50%;
-        }
-      }
-      .chat-content{
-        margin-top: -4px;
-        display: flex;
-        flex-direction: column;
-
-        h5{
-          font-size:14px;
-        }
-        
-      }
-  
-      .message-content {
-        font-size: 12px;
-        line-height: 20px;
-        padding: 4px 6px;
-        border-radius: 0 5px 5px 5px;
-        margin-top: 4px;
-        margin-left: -4px;
-
-        // margin-left: 25px;
+      img {
+        margin-right: 14px;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
       }
     }
-  }
-  .message-by-me{
-    background-color: var(--secondary-background-color);
-    // background-color: rgb(248, 244, 244);
-    box-shadow: 1px 1px 2px rgba(0,0,0,0.1);
-  }
-  // .message-by-me {
-  //   // TODO  flip image and sender name
-  //   .message-sender {
-  //     justify-content: flex-end;
-  //     // order: 2;
-  //   }
-  //   .message-content {
-  //     background-color: lightblue !important; //oops
-  //     border-radius: 0 0 5px 0 !important; //my bad
-  //     margin-left: 0;
-  //     margin-right: 16px;
-  //   }
-  // }
-  .chat-form {
-    text-align: center;
-    display: flex;
-    flex-direction: column;
+    .chat-content {
+      margin-top: -4px;
+      display: flex;
+      flex-direction: column;
 
-    input[type='text']{
-      @include inputBox($primary-background-light,$primary-text-light);
-      border-radius: 0;
-      padding: 5px 8px;
-      font-size: 14px;
-      margin-bottom: 8px;
-      border: 1.4px solid $primary-text-dark;
+      h5 {
+        font-size: 14px;
+      }
     }
 
-    input[type='submit']{
-      @include button(var(--secondary-background-color),var(--primary-font-color)); //backgroundColor,color
-      // @include button(#191c28,white); //backgroundColor,color
-      width: 35%;
+    .message-content {
+      font-size: 12px;
+      line-height: 20px;
+      padding: 4px 6px;
+      border-radius: 0 5px 5px 5px;
+      margin-top: 4px;
+      margin-left: -4px;
+
+      // margin-left: 25px;
     }
   }
+}
+.message-by-me {
+  background-color: var(--secondary-background-color);
+  // background-color: rgb(248, 244, 244);
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+// .message-by-me {
+//   // TODO  flip image and sender name
+//   .message-sender {
+//     justify-content: flex-end;
+//     // order: 2;
+//   }
+//   .message-content {
+//     background-color: lightblue !important; //oops
+//     border-radius: 0 0 5px 0 !important; //my bad
+//     margin-left: 0;
+//     margin-right: 16px;
+//   }
+// }
+.chat-form {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+
+  input[type='text'] {
+    @include inputBox($primary-background-light, $primary-text-light);
+    border-radius: 0;
+    padding: 5px 8px;
+    font-size: 14px;
+    margin-bottom: 8px;
+    border: 1.4px solid $primary-text-dark;
+  }
+
+  input[type='submit'] {
+    @include button(
+      var(--secondary-background-color),
+      var(--primary-font-color)
+    ); //backgroundColor,color
+    // @include button(#191c28,white); //backgroundColor,color
+    width: 35%;
+  }
+}

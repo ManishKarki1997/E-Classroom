@@ -3,17 +3,20 @@
     <h4 class="section-title">Notifications</h4>
     <!-- <pre>{{notifications}}</pre> -->
     <div v-if="!isLoading" class="notifications">
-      <div v-if="notifications && notifications.length>0">
+      <div v-if="notifications && notifications.length > 0">
         <div
           class="notification"
-          v-for="(notification,index) in notifications.slice(0,5)"
+          v-for="(notification, index) in notifications.slice(0, 5)"
           :key="notification._id"
         >
-          <div class="notification-dot" :style="{backgroundColor:colors[index]}"></div>
-          <p class="notification-message">{{notification.title}}</p>
+          <div
+            class="notification-dot"
+            :style="{ backgroundColor: colors[index] }"
+          ></div>
+          <p class="notification-message">{{ notification.title }}</p>
         </div>
       </div>
-      <p v-else>No Notifications</p>
+      <p v-else style="font-size:14px;">No Notifications</p>
     </div>
     <div class="spinner-wrapper" v-else>
       <Spinner />

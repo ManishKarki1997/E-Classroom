@@ -3,17 +3,23 @@
     <div class="user-profile">
       <div class="user-info">
         <img :src="apiStaticUrl + '/uploads/images/' + user.avatar" alt />
-        <h4>{{user.name}}</h4>
+        <h4>{{ user.name }}</h4>
       </div>
       <div class="user-meta">
-        <div class="user-meta-item" @click="$router.push('/app/profile/classes')">
+        <div
+          class="user-meta-item"
+          @click="$router.push('/app/profile/classes')"
+        >
           <ClassIcon />
           <div class="user-meta-info">
             <h5>4</h5>
             <p>Teaching</p>
           </div>
         </div>
-        <div class="user-meta-item" @click="$router.push('/app/profile/classes')">
+        <div
+          class="user-meta-item"
+          @click="$router.push('/app/profile/classes')"
+        >
           <HugIcon />
           <div class="user-meta-info">
             <h5>24</h5>
@@ -66,7 +72,6 @@ export default {
   }
 }
 </script>
-
 
 <style lang="scss" scoped>
 @import '../../assets/css/_base';

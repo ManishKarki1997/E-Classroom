@@ -1,5 +1,5 @@
 <template>
-  <div id="single-class" :class="{darken:addResourceModalActive}">
+  <div id="single-class" :class="{ darken: addResourceModalActive }">
     <div class="classroom-sidebar">
       <div class="classroom-info">
         <img
@@ -7,14 +7,16 @@
           alt="Classroom Image"
         />
         <div class="class-teacher-info">
-          <h5>{{classroom.name}}</h5>
-          <p v-if="classroom.createdBy">{{classroom.createdBy.name}}</p>
+          <h5>{{ classroom.name }}</h5>
+          <p v-if="classroom.createdBy">{{ classroom.createdBy.name }}</p>
         </div>
       </div>
       <button
         @click="gotoClass"
         style="background-color:black; color:white; cursor-pointer;"
-      >Goto Class</button>
+      >
+        Goto Class
+      </button>
       <!-- <button
         @click="streamClass"
         style="background-color:black; color:white; cursor-pointer;"
@@ -22,7 +24,7 @@
       <ul class="class-action-buttons-wrapper">
         <!-- v-if="isClassroomCreator" -->
         <li>
-          <p @click="showClassInfoModal=true">View</p>
+          <p @click="showClassInfoModal = true">View</p>
         </li>
         <li>
           <p @click="goto('resources')">Resources</p>
@@ -73,6 +75,7 @@ export default {
       isClassroomCreator: false
     }
   },
+
   methods: {
     hello(value) {
       this.addResourceModalActive = value
