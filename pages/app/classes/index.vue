@@ -1,6 +1,6 @@
 <template>
   <div id="main-classroom">
-    <div class="classes-overlay" :class="{darken:showCreateClassForm}">
+    <div class="classes-overlay" :class="{ darken: showCreateClassForm }">
       <div class="search-classes">
         <form @submit.prevent>
           <SearchIcon v-if="searchIconVisible" />
@@ -16,13 +16,15 @@
         </form>
         <button
           v-if="!showCreateClassForm"
-          @click="showCreateClassForm=!showCreateClassForm"
-        >Create a Class</button>
+          @click="showCreateClassForm = !showCreateClassForm"
+        >
+          Create a Class
+        </button>
       </div>
 
       <!-- If there are results, show them -->
       <div v-if="!isLoading">
-        <div class="available-classes" v-if="searchResults.length>0">
+        <div class="available-classes" v-if="searchResults.length > 0">
           <ClassCard
             v-for="availableClass in searchResults"
             :key="availableClass.id"
@@ -47,7 +49,12 @@
       <form @submit.prevent="createClass">
         <div class="form-input">
           <label for="className">Name</label>
-          <input v-model="newClass.name" type="text" name="className" id="className" />
+          <input
+            v-model="newClass.name"
+            type="text"
+            name="className"
+            id="className"
+          />
         </div>
         <div class="form-input">
           <label for="classBackgroundImage">Image</label>
@@ -61,7 +68,12 @@
         </div>
         <div class="form-input">
           <label for="classShortInfo">Short Info</label>
-          <input v-model="newClass.shortInfo" type="text" name="shortInfo" id="shortInfo" />
+          <input
+            v-model="newClass.shortInfo"
+            type="text"
+            name="shortInfo"
+            id="shortInfo"
+          />
         </div>
         <div class="form-input">
           <label for="classroomDescription">Description</label>
@@ -74,13 +86,24 @@
           ></textarea>
         </div>
         <div class="classroom-timeschedule">
-          <vue-timepicker v-model="newClass.startTime" format="hh:mm A"></vue-timepicker>
-          <vue-timepicker v-model="newClass.endTime" format="hh:mm A"></vue-timepicker>
+          <vue-timepicker
+            v-model="newClass.startTime"
+            format="hh:mm A"
+          ></vue-timepicker>
+          <vue-timepicker
+            v-model="newClass.endTime"
+            format="hh:mm A"
+          ></vue-timepicker>
         </div>
 
         <div>
           <button type="submit">Create</button>
-          <button :disabled="formSubmitting" @click="showCreateClassForm=false">Close</button>
+          <button
+            :disabled="formSubmitting"
+            @click="showCreateClassForm = false"
+          >
+            Close
+          </button>
         </div>
       </form>
     </div>
@@ -90,7 +113,7 @@
     <div v-if="isShowingClassInfoModal" class="class-modal-wrapper">
       <ClassInfoModal
         @joinNewClass="joinNewClass"
-        @leaveClass="joinNewClass"
+        @leaveClass="leaveClass"
         @editClass="editClass"
         :classroom="currentlyOpenClass"
         @hideModal="hideTheModal"
@@ -237,6 +260,34 @@ export default {
     },
     async joinNewClass(classId) {
       const response = await this.$store.dispatch('joinNewClass', {
+        classId,
+        userId: this.$store.state.user._id
+      })
+
+      const { error, message } = response.data
+
+      if (!error) {
+        this.$toast.open({
+          type: 'success',
+          message,
+          position: 'top-right',
+          duration: 1500
+        })
+        this.hideTheModal(true) // hide the modal
+        this.fetchAllClasses() // refetch all updated classes
+        this.$forceUpdate() // hack, not preferred
+      } else {
+        this.$toast.open({
+          type: 'error',
+          message,
+          position: 'top-right',
+          duration: 1500
+        })
+        return false
+      }
+    },
+    async leaveClass(classId) {
+      const response = await this.$store.dispatch('leaveClass', {
         classId,
         userId: this.$store.state.user._id
       })

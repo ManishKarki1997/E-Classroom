@@ -13,7 +13,12 @@
       <form @submit.prevent="emitEditEvent">
         <div class="form-input">
           <label for="className">Name</label>
-          <input v-model="editClassInfo.name" type="text" name="className" id="className" />
+          <input
+            v-model="editClassInfo.name"
+            type="text"
+            name="className"
+            id="className"
+          />
         </div>
         <div class="form-input">
           <label for="classBackgroundImage">Image</label>
@@ -27,7 +32,12 @@
         </div>
         <div class="form-input">
           <label for="classShortInfo">Short Info</label>
-          <input v-model="editClassInfo.shortInfo" type="text" name="shortInfo" id="shortInfo" />
+          <input
+            v-model="editClassInfo.shortInfo"
+            type="text"
+            name="shortInfo"
+            id="shortInfo"
+          />
         </div>
         <div class="form-input">
           <label for="classroomDescription">Description</label>
@@ -41,31 +51,40 @@
         </div>
         <div class="classroom-timeschedule" style="margin-top:2rem;">
           <label>Time Schedule</label>
-          <vue-timepicker v-model="editClassInfo.startTime" format="hh:mm A"></vue-timepicker>
-          <vue-timepicker v-model="editClassInfo.endTime" format="hh:mm A"></vue-timepicker>
+          <vue-timepicker
+            v-model="editClassInfo.startTime"
+            format="hh:mm A"
+          ></vue-timepicker>
+          <vue-timepicker
+            v-model="editClassInfo.endTime"
+            format="hh:mm A"
+          ></vue-timepicker>
         </div>
 
         <div class="edit-class-buttons">
           <button type="submit">Edit</button>
-          <button @click="editMode=false">Close</button>
+          <button @click="editMode = false">Close</button>
         </div>
       </form>
     </div>
 
     <div class="classroom-info-wrapper" v-else>
       <div class="teacher-info-wrapper">
-        <img :src="`${apiUrl}/uploads/images/${classroom.createdBy.avatar}`" alt="Teacher Imge" />
+        <img
+          :src="`${apiUrl}/uploads/images/${classroom.createdBy.avatar}`"
+          alt="Teacher Imge"
+        />
         <div class="teacher-info">
-          <h5>{{classroom.createdBy.name}}</h5>
-          <p>{{classroom.createdBy.createdClasses.length}} classes</p>
+          <h5>{{ classroom.createdBy.name }}</h5>
+          <p>{{ classroom.createdBy.createdClasses.length }} classes</p>
         </div>
       </div>
 
       <!-- Start:  Classroom Info -->
       <div class="classroom-details">
-        <h4>{{classroom.name}}</h4>
-        <p>{{classroom.shortInfo}}</p>
-        <p class="classroom-description">{{classroom.description}}</p>
+        <h4>{{ classroom.name }}</h4>
+        <p>{{ classroom.shortInfo }}</p>
+        <p class="classroom-description">{{ classroom.description }}</p>
       </div>
       <!-- End:  Classroom Info -->
 
@@ -74,14 +93,14 @@
         <div class="user-meta-item">
           <ClassIcon />
           <div class="user-meta-info">
-            <h5>{{classroom.users.length}}</h5>
+            <h5>{{ classroom.users.length }}</h5>
             <p>Enrolled</p>
           </div>
         </div>
         <div class="user-meta-item">
           <HugIcon />
           <div class="user-meta-info">
-            <h5>{{classroom.pendingJoinRequests.length}}</h5>
+            <h5>{{ classroom.pendingJoinRequests.length }}</h5>
             <p>Interested</p>
           </div>
         </div>
@@ -92,8 +111,8 @@
       <div class="classroom-time-schedule">
         <p>Time Schedule</p>
         <p>
-          <span>{{classroom.startTime}}</span> -
-          <span>{{classroom.endTime}}</span>
+          <span>{{ classroom.startTime }}</span> -
+          <span>{{ classroom.endTime }}</span>
         </p>
       </div>
       <!-- End : Classroom Time Schedule -->
@@ -101,16 +120,31 @@
       <!-- Start:  Classroom Join/Close Buttons -->
       <div class="classroom-action-buttons">
         <!-- <button @click="editMode=true">Edit</button> -->
-        <button :disabled="formSubmitting" v-if="showJoinButton" @click="emitJoinEvent">Join</button>
+        <button
+          :disabled="formSubmitting"
+          v-if="classroom.users.indexOf(user._id) == -1"
+          @click="emitJoinEvent"
+        >
+          Join
+        </button>
+        <button
+          :disabled="formSubmitting"
+          v-if="classroom.users.indexOf(user._id) > -1"
+          @click="emitLeaveEvent"
+        >
+          Leave
+        </button>
         <!-- <button v-if="showViewButton" @click="gotoSingleClassView">View</button> -->
         <button @click="gotoSingleClassView">View</button>
-        <button v-if="showEditButton" @click="editMode=true">Edit</button>
+        <button v-if="showEditButton" @click="editMode = true">Edit</button>
         <button v-if="showAttendButton" @click="attendClass">Attend</button>
         <button
           :disabled="formSubmitting"
           v-if="!showJoinButton && showLeaveButton"
           @click="emitLeaveClassEvent"
-        >Leave</button>
+        >
+          Leave
+        </button>
         <button @click="hideModal">Close</button>
       </div>
       <!-- End:  Classroom Join/Close Buttons -->
@@ -153,11 +187,11 @@ export default {
       newBackgroundChosen: false,
       backgroundImageUrl: '',
       userCreatedThisClass: false,
-      showLeaveButton: false,
-      showJoinButton: false,
       showEditButton: false,
       editMode: false,
-      showViewButton: false
+      showViewButton: false,
+      showJoinButton: false,
+      showLeaveButton: false
     }
   },
   methods: {
@@ -172,6 +206,9 @@ export default {
     },
     emitJoinEvent() {
       this.$emit('joinNewClass', this.classroom._id)
+    },
+    emitLeaveEvent() {
+      this.$emit('leaveClass', this.classroom._id)
     },
     emitEditEvent() {
       // this.$router.push(`/classes/${this.classroom._id}`)
@@ -201,14 +238,6 @@ export default {
       this.user._id === this.classroom.createdBy._id ? true : false
     const userAlreadyJoinedClass =
       this.classroom.users.indexOf(this.user._id) > -1 ? true : false
-
-    if (!userCreatedThisClass && !userAlreadyJoinedClass) {
-      this.showJoinButton = true
-    }
-
-    if (userAlreadyJoinedClass && !userCreatedThisClass) {
-      this.showLeaveButton = true
-    }
 
     if (userCreatedThisClass && this.allowDirectEdit === 'true') {
       this.showEditButton = true
