@@ -2,20 +2,32 @@
   <div id="enrolled-classes-wrapper">
     <h4 class="section-title">Enrolled Classes</h4>
     <ul v-if="!isLoading" class="enrolled-classes">
-      <li class="enrolled-class" v-for="enrolledClass in enrolledClasses" :key="enrolledClass._id">
+      <li
+        class="enrolled-class"
+        v-for="enrolledClass in enrolledClasses"
+        :key="enrolledClass._id"
+      >
         <img
-          :src="apiStaticUrl + '/uploads/images/' + enrolledClass.backgroundImage"
+          :src="
+            apiStaticUrl + '/uploads/images/' + enrolledClass.backgroundImage
+          "
           alt="Class Image"
         />
         <div class="class-info">
-          <h5>{{enrolledClass.name}}</h5>
-          <p>{{enrolledClass.createdBy.name}}</p>
+          <h5>{{ enrolledClass.name }}</h5>
+          <p>{{ enrolledClass.createdBy.name }}</p>
         </div>
       </li>
     </ul>
     <div class="spinner-wrapper" v-else>
       <Spinner />
     </div>
+    <p
+      v-if="enrolledClasses.length == 0"
+      style="font-size:14px; margin-top:-12px;"
+    >
+      Currently not enrolled in any class.
+    </p>
   </div>
 </template>
 

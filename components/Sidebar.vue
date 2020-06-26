@@ -11,7 +11,7 @@
     </div>
     <!-- <div class="sidebar-menu"> -->
     <ul class="sidebar-menu">
-      <li class="nav-link">
+      <li class="nav-link" v-if="!user">
         <nuxt-link to="/get-started/login">
           <RocketIcon />
           <p>Login</p>

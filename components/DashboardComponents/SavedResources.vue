@@ -12,6 +12,12 @@
           <span>{{ resource.classId.name }}</span>
         </p>
       </div>
+      <p
+        v-if="savedResources.length == 0"
+        style="font-size:14px; margin-top:4px;"
+      >
+        No resource bookmarked yet.
+      </p>
     </div>
   </div>
 </template>

@@ -1,6 +1,6 @@
 <template>
   <div id="home">
-    <Sidebar />
+    <!-- <Sidebar /> -->
     <Main />
   </div>
 </template>
@@ -13,6 +13,11 @@ export default {
   components: {
     Sidebar,
     Main
+  },
+  mounted() {
+    if (this.$store.state.user) {
+      this.$router.push('/app/dashboard')
+    }
   }
 }
 </script>
@@ -22,5 +27,3 @@ export default {
   display: flex;
 }
 </style>
-
-

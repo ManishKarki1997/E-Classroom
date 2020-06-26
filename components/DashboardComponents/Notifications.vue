@@ -16,7 +16,7 @@
           <p class="notification-message">{{ notification.title }}</p>
         </div>
       </div>
-      <p v-else style="font-size:14px;">No Notifications</p>
+      <p v-else style="font-size:14px; margin-top:-8px;">No Notifications</p>
     </div>
     <div class="spinner-wrapper" v-else>
       <Spinner />

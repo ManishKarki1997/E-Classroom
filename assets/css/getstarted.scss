@@ -1,112 +1,110 @@
-
 // NOTE Get Started Page
 .get-started-wrapper {
-    height: 100vh;
-    width: 100vw;
-    overflow: hidden;
-  }
-  .get-started-form-wrapper {
-    display: flex;
-    height: 100%;
-    width: 100%;
-  }
-  .get-started-left {
-    width: 40%;
-    height: 100%;
-    background-color: var(--primary-background-color);
-    padding: 3rem;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+.get-started-form-wrapper {
+  display: flex;
+  height: 100%;
+  width: 100%;
+}
+.get-started-left {
+  width: 40%;
+  height: 100%;
+  background-color: var(--primary-background-color);
+  padding: 3rem;
+  color: var(--primary-font-color);
+  position: relative;
+
+  h2 {
+    text-align: left;
     color: var(--primary-font-color);
-    position: relative;
-
-    h2{
-        text-align: left;
-        color: var(--primary-font-color);
-    }
-
-    .get-started-intro{
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%,-50%);
-        // width: 100%;
-        text-align: center;
-        
-        h3{
-            font-size: 36px;
-            
-        }
-        p{
-            font-size: 18px;
-        }
-
-        .get-started-nav {
-          display: flex;
-          align-items: center;
-          // justify-content: space-around;
-          margin-top: 2rem;
-        }
-        .get-started-nav a {
-          margin: 0 auto;
-          margin-right: 1rem;
-          text-decoration: none;
-          color: var(--primary-font-color);
-          // border: 1px solid var(--secondary-background-color);
-          border-radius: 3px;
-          padding: 6px 10px;
-      
-          &.nuxt-link-exact-active,
-          &.nuxt-link-active {
-              border: 1px solid var(--primary-font-color);
-          }
-        }
-    }
-  }
-  .get-started-right {
-    width: 60%;
-    height: 100%;
-    padding: 4rem 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-evenly;
-    background-color: var(--primary-background-color);
   }
 
+  .get-started-intro {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    // width: 100%;
+    text-align: center;
+
+    h3 {
+      font-size: 36px;
+    }
+    p {
+      font-size: 18px;
+    }
+
+    .get-started-nav {
+      display: flex;
+      align-items: center;
+      // justify-content: space-around;
+      margin-top: 2rem;
+    }
+    .get-started-nav a {
+      margin: 0 auto;
+      margin-right: 1rem;
+      text-decoration: none;
+      color: var(--primary-font-color);
+      // border: 1px solid var(--secondary-background-color);
+      border-radius: 3px;
+      padding: 6px 10px;
+
+      &.nuxt-link-exact-active,
+      &.nuxt-link-active {
+        border: 1px solid var(--primary-font-color);
+      }
+    }
+  }
+}
+.get-started-right {
+  width: 60%;
+  height: 100%;
+  padding: 4rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  background-color: var(--primary-background-color);
+}
 
 //   Signup/Register & Login Form
 .form-container {
-    width: 70%;
-    padding: 2rem;
-    box-shadow: 0 6px 31px -2px rgba(0, 0, 0, 0.2);    
-    background-color: rgba(0, 0, 0, 0.01);
-    border-radius: 15px;
-    
-  }
-  .form-input {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 1rem;
-  }
-  .form-input input {
-      @include inputBox(var(--tertiary-background-color),var(--primary-font-color));
-    // border: 1px solid rgba(41, 40, 40, 0.388);
-    box-shadow: 0 6px 31px -2px rgba(0, 0, 0, 0.1);    
-    margin-top: 8px;
-    font-size: 14px;
-  }
-  input[type='file']{
-    box-shadow: none;
-  }
-  .form-actions {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .form-actions button {
-      @include button(#191c28,white); //backgroundColor,color
-  }
+  width: 70%;
+  padding: 2rem;
+  box-shadow: 0 6px 31px -2px rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 0, 0.01);
+  border-radius: 15px;
+}
+.form-input {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+.form-input input {
+  @include inputBox(
+    var(--secondary-background-color),
+    var(--primary-font-color)
+  );
+  // border: 1px solid rgba(41, 40, 40, 0.388);
+  box-shadow: 0 6px 31px -2px rgba(0, 0, 0, 0.1);
+  margin-top: 8px;
+  font-size: 14px;
+}
+input[type='file'] {
+  box-shadow: none;
+}
+.form-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.form-actions button {
+  @include button(#191c28, white); //backgroundColor,color
+}
 
-input[type='text']{
+input[type='text'] {
   border: none !important;
 }
-  
