@@ -108,7 +108,7 @@
         >Join</button>
         <button
           :disabled="formSubmitting"
-          v-if="classroom.users.indexOf(user._id) > -1"
+          v-if="classroom.users.indexOf(user._id) > -1 && classroom.createdBy._id !== user._id"
           @click="emitLeaveEvent"
         >Leave</button>
         <!-- <button v-if="showViewButton" @click="gotoSingleClassView">View</button> -->

@@ -9,10 +9,7 @@
           v-for="(notification, index) in notifications.slice(0, 5)"
           :key="notification._id"
         >
-          <div
-            class="notification-dot"
-            :style="{ backgroundColor: colors[index] }"
-          ></div>
+          <div class="notification-dot" :style="{ backgroundColor: colors[index] }"></div>
           <p class="notification-message">{{ notification.title }}</p>
         </div>
       </div>

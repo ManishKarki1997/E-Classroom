@@ -104,6 +104,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--scroll-background-color);
+  border-radius: 5px;
+}
+
 #chat-messages-wrapper {
   padding: 1rem 2rem;
   display: flex;
@@ -118,7 +128,7 @@ export default {
   overflow: auto;
 
   .message {
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
     display: flex;
 
     img {

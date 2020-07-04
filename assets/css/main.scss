@@ -17,6 +17,7 @@
   --secondary-font-color: #222839;
   --tertiary-font-color: #858ea1;
 
+  --scroll-background-color: rgba(25, 28, 40, 0.3);
   --overlay-color: rgb(236, 238, 238);
 
   --button-background-color: rgb(64, 62, 62);
@@ -32,6 +33,7 @@ body[theme='dark'] {
   --primary-font-color: #f8fafb;
   --secondary-font-color: rgb(240, 235, 235);
   --tertiary-font-color: #eceff4;
+  --scroll-background-color: #535357;
 
   background-color: var(--primary-background-color);
   color: var(--primary-font-color);
