@@ -3,11 +3,7 @@
     <h3>Pending Requests</h3>
     <div class="pending-requests-body">
       <div v-if="pendingJoinRequests.length > 0" class="pending-requests">
-        <div
-          class="pending-request"
-          v-for="user in pendingJoinRequests"
-          :key="user._id"
-        >
+        <div class="pending-request" v-for="user in pendingJoinRequests" :key="user._id">
           <div class="user-image-wrapper">
             <img
               @click="selectedUser = user"
@@ -57,7 +53,6 @@ export default {
         userId,
         decision: actionType
       })
-
       if (response.data.error) {
         this.$toast.open({
           type: 'error',
@@ -95,7 +90,6 @@ export default {
         if (this.pendingJoinRequests.length > 0) {
           this.selectedUser = this.pendingJoinRequests[0]
         }
-        console.log(this.pendingJoinRequests)
       }
     }
   },

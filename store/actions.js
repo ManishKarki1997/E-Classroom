@@ -45,6 +45,14 @@ const action = {
       }
     })
   },
+  
+  fetchClassUsers({ state, commit }, payload) {
+    return axios.get(`${process.env.baseUrl}/api/class/${payload}/students`, {
+      headers: {
+        Authorization: `Bearer ${state.jwtToken}`
+      }
+    })
+  },
   fetchUserClasses({ state, commit }, payload) {
     return axios.get(`${process.env.baseUrl}/api/user/classes`, {
       headers: {

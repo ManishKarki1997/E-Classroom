@@ -14,9 +14,7 @@
       <button
         @click="gotoClass"
         style="background-color:black; color:white; cursor-pointer;"
-      >
-        Goto Class
-      </button>
+      >Goto Class</button>
       <!-- <button
         @click="streamClass"
         style="background-color:black; color:white; cursor-pointer;"
@@ -36,6 +34,9 @@
         <li v-if="isClassroomCreator">
           <p @click="goto('pending_requests')">Pending Requests</p>
           <!-- <nuxt-link :to="'/app/classes/' + classroom._id + '/pending_requests'">Pending Requests</nuxt-link> -->
+        </li>
+        <li @click="goto('students')">
+          <p>Users</p>
         </li>
         <li @click="goto('chat')">
           <p>Chat</p>

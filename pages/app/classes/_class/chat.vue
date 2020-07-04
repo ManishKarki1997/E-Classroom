@@ -1,16 +1,13 @@
 <template>
   <div id="chat-messages-wrapper">
-    <ul class="messages">
+    <ul class="messages" ref="messagesWrapper">
       <li
         :class="{ messageByMe: message.author._id === user._id }"
         class="message"
         v-for="message in chatMessages"
-        :key="message._id || '001'"
+        :key="message._id"
       >
-        <img
-          :src="apiStaticUrl + '/uploads/images/' + message.author.avatar"
-          alt="User Avatar"
-        />
+        <img :src="apiStaticUrl + '/uploads/images/' + message.author.avatar" alt="User Avatar" />
         <div class="message-text-wrapper">
           <h4>{{ message.author.name }}</h4>
           <p>{{ message.message }}</p>
@@ -19,13 +16,7 @@
     </ul>
     <div class="form-wrapper">
       <form @submit.prevent="sendMessage">
-        <input
-          autofocus
-          type="text"
-          name="chat-message"
-          id="chat-message"
-          v-model="messageToSend"
-        />
+        <input autofocus type="text" name="chat-message" id="chat-message" v-model="messageToSend" />
         <button type="submit">Send</button>
       </form>
     </div>
@@ -75,6 +66,10 @@ export default {
       )
 
       this.chatMessages = response.data.payload.chatMessages
+    },
+    scrollToTheEnd() {
+      let messagesWrapper = document.querySelector('.messages')
+      messagesWrapper.scrollTop = messagesWrapper.scrollHeight
     }
   },
   sockets: {
@@ -84,13 +79,14 @@ export default {
         message: message.message,
         classId: message.classId,
         author: {
-          _id: this.user._id,
+          _id: message.author._id,
           name: message.author.name,
           avatar: message.author.avatar
         },
         createdAt: message.createdAt
       })
-      this.$forceUpdate() // bad idea
+      this.scrollToTheEnd()
+      // this.$forceUpdate() // bad idea
     }
   },
   mounted() {
@@ -100,6 +96,9 @@ export default {
     this.apiStaticUrl = process.env.baseUrl
 
     this.fetchClassChat()
+  },
+  updated() {
+    this.scrollToTheEnd()
   }
 }
 </script>
@@ -116,6 +115,7 @@ export default {
 .messages {
   list-style-type: none;
   height: 90%;
+  overflow: auto;
 
   .message {
     margin-bottom: 1rem;

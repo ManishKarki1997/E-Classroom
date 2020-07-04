@@ -79,7 +79,7 @@ export default {
       this.classes = joinedClasses
     },
     async leaveClassroom(classId) {
-      const response = await this.$store.dispatch('joinNewClass', {
+      const response = await this.$store.dispatch('leaveClass', {
         classId,
         userId: this.$store.state.user._id
       })
@@ -105,6 +105,7 @@ export default {
         })
         return false
       }
+      this.$forceUpdate()
     }
   },
   mounted() {

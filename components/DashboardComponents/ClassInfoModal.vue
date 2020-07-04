@@ -13,12 +13,7 @@
       <form @submit.prevent="emitEditEvent">
         <div class="form-input">
           <label for="className">Name</label>
-          <input
-            v-model="editClassInfo.name"
-            type="text"
-            name="className"
-            id="className"
-          />
+          <input v-model="editClassInfo.name" type="text" name="className" id="className" />
         </div>
         <div class="form-input">
           <label for="classBackgroundImage">Image</label>
@@ -32,12 +27,7 @@
         </div>
         <div class="form-input">
           <label for="classShortInfo">Short Info</label>
-          <input
-            v-model="editClassInfo.shortInfo"
-            type="text"
-            name="shortInfo"
-            id="shortInfo"
-          />
+          <input v-model="editClassInfo.shortInfo" type="text" name="shortInfo" id="shortInfo" />
         </div>
         <div class="form-input">
           <label for="classroomDescription">Description</label>
@@ -51,14 +41,8 @@
         </div>
         <div class="classroom-timeschedule" style="margin-top:2rem;">
           <label>Time Schedule</label>
-          <vue-timepicker
-            v-model="editClassInfo.startTime"
-            format="hh:mm A"
-          ></vue-timepicker>
-          <vue-timepicker
-            v-model="editClassInfo.endTime"
-            format="hh:mm A"
-          ></vue-timepicker>
+          <vue-timepicker v-model="editClassInfo.startTime" format="hh:mm A"></vue-timepicker>
+          <vue-timepicker v-model="editClassInfo.endTime" format="hh:mm A"></vue-timepicker>
         </div>
 
         <div class="edit-class-buttons">
@@ -70,10 +54,7 @@
 
     <div class="classroom-info-wrapper" v-else>
       <div class="teacher-info-wrapper">
-        <img
-          :src="`${apiUrl}/uploads/images/${classroom.createdBy.avatar}`"
-          alt="Teacher Imge"
-        />
+        <img :src="`${apiUrl}/uploads/images/${classroom.createdBy.avatar}`" alt="Teacher Imge" />
         <div class="teacher-info">
           <h5>{{ classroom.createdBy.name }}</h5>
           <p>{{ classroom.createdBy.createdClasses.length }} classes</p>
@@ -122,18 +103,14 @@
         <!-- <button @click="editMode=true">Edit</button> -->
         <button
           :disabled="formSubmitting"
-          v-if="classroom.users.indexOf(user._id) == -1"
+          v-if="classroom.createdBy._id !== user._id && classroom.users.indexOf(user._id) == -1"
           @click="emitJoinEvent"
-        >
-          Join
-        </button>
+        >Join</button>
         <button
           :disabled="formSubmitting"
           v-if="classroom.users.indexOf(user._id) > -1"
           @click="emitLeaveEvent"
-        >
-          Leave
-        </button>
+        >Leave</button>
         <!-- <button v-if="showViewButton" @click="gotoSingleClassView">View</button> -->
         <button @click="gotoSingleClassView">View</button>
         <button v-if="showEditButton" @click="editMode = true">Edit</button>
@@ -142,9 +119,7 @@
           :disabled="formSubmitting"
           v-if="!showJoinButton && showLeaveButton"
           @click="emitLeaveClassEvent"
-        >
-          Leave
-        </button>
+        >Leave</button>
         <button @click="hideModal">Close</button>
       </div>
       <!-- End:  Classroom Join/Close Buttons -->
