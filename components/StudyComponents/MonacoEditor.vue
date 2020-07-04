@@ -15,9 +15,11 @@
       ref="editor"
       width="800"
       height="500"
+      :value="editorCode"
       theme="vs-dark"
       :language="language"
       :options="options"
+      @change="typing"
     ></MonacoEditor>
   </div>
 </template>
@@ -35,12 +37,24 @@ export default {
       options: {
         fontFamily: 'Rubik',
         wordWrap: 'on'
-      }
+      },
+      editorCode: ''
     }
   },
   methods: {
     changeLanguage(e) {
       this.language = e.target.value
+    },
+    typing(code) {
+      this.$socket.emit('code_editor_typing', {
+        classroomId: this.$route.params.classroomId,
+        code
+      })
+    }
+  },
+  sockets: {
+    code_editor_typing(data) {
+      this.editorCode = data.code
     }
   },
   mounted() {

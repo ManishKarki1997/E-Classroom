@@ -43,9 +43,10 @@
             @click="toggleWhiteboard"
             data-tour="whiteboard"
           />
+          <!-- v-if="isClassroomTeacher" -->
+
           <CodeEditorIcon
             v-tooltip="{content:'Open Editor',offset:'26px'}"
-            v-if="isClassroomTeacher"
             :class="{currentlyActive:codeEditorOpen}"
             @click="toggleCodeEditor"
             data-tour="codeeditor"
@@ -80,8 +81,8 @@
         :isOpen.sync="codeEditorOpen"
         positionHint="-255 / -150"
         :resizable="true"
-        :minWidth="550"
-        :minHeight="350"
+        :minWidth="800"
+        :minHeight="500"
         class="code-editor-wrapper"
       >
         <MonacoEditor class="code-editor" />
