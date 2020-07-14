@@ -4,12 +4,37 @@ const action = {
   login({ state, commit }, payload) {
     return axios.post(`${process.env.baseUrl}/api/user/login`, payload)
   },
+  getUserDetails({ state, commit }, payload) {
+    return axios.get(`${process.env.baseUrl}/api/user/details`, {
+      headers: {
+        Authorization: `Bearer ${state.jwtToken}`
+      }
+    })
+  },
   register({ state, commit }, payload) {
     return axios.post(`${process.env.baseUrl}/api/user`, payload)
   },
   fetchNotifications({ state, commit }, payload) {
     return axios.get(
       `${process.env.baseUrl}/api/notification/${state.user._id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${state.jwtToken}`
+        }
+      }
+    )
+  },
+  fetchUpcomingClasses({ state, commit }, payload) {
+    return axios.get(`${process.env.baseUrl}/api/class/upcoming`, {
+      headers: {
+        Authorization: `Bearer ${state.jwtToken}`
+      }
+    })
+  },
+  markNotificationAsRead({ state, commit }, payload) {
+    return axios.post(
+      `${process.env.baseUrl}/api/notification/read`,
+      { notificationId: payload },
       {
         headers: {
           Authorization: `Bearer ${state.jwtToken}`
@@ -45,7 +70,7 @@ const action = {
       }
     })
   },
-  
+
   fetchClassUsers({ state, commit }, payload) {
     return axios.get(`${process.env.baseUrl}/api/class/${payload}/students`, {
       headers: {

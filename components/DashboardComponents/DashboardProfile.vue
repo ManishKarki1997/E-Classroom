@@ -2,10 +2,7 @@
   <div class="user-profile-wrapper">
     <div class="user-profile">
       <div class="user-avatar-wrapper">
-        <img
-          :src="apiStaticUrl + '/uploads/images/' + user.avatar"
-          alt="User Picture"
-        />
+        <img :src="apiStaticUrl + '/uploads/images/' + user.avatar" alt="User Picture" />
       </div>
       <h4>{{ user.name }}</h4>
       <!-- <p>Student</p> -->

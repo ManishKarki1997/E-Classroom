@@ -51,6 +51,16 @@ body[theme='dark'] {
   }
 }
 
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--scroll-background-color);
+  border-radius: 5px;
+}
+
 body {
   // background-color: $primary-background-light;
   // color:$primary-text-light;

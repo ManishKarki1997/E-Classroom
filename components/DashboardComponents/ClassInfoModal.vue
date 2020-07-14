@@ -106,19 +106,20 @@
           v-if="classroom.createdBy._id !== user._id && classroom.users.indexOf(user._id) == -1"
           @click="emitJoinEvent"
         >Join</button>
-        <button
-          :disabled="formSubmitting"
-          v-if="classroom.users.indexOf(user._id) > -1 && classroom.createdBy._id !== user._id"
-          @click="emitLeaveEvent"
-        >Leave</button>
+
         <!-- <button v-if="showViewButton" @click="gotoSingleClassView">View</button> -->
         <button @click="gotoSingleClassView">View</button>
         <button v-if="showEditButton" @click="editMode = true">Edit</button>
         <button v-if="showAttendButton" @click="attendClass">Attend</button>
-        <button
+        <!-- <button
           :disabled="formSubmitting"
           v-if="!showJoinButton && showLeaveButton"
           @click="emitLeaveClassEvent"
+        >Leave</button>-->
+        <button
+          :disabled="formSubmitting"
+          v-if="classroom.users.indexOf(user._id) > -1 && classroom.createdBy._id !== user._id"
+          @click="emitLeaveEvent"
         >Leave</button>
         <button @click="hideModal">Close</button>
       </div>

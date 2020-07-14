@@ -15,9 +15,7 @@
       <p
         v-if="savedResources.length == 0"
         style="font-size:14px; margin-top:4px;"
-      >
-        No resource bookmarked yet.
-      </p>
+      >No resource bookmarked yet.</p>
     </div>
   </div>
 </template>
@@ -59,6 +57,7 @@ export default {
   background-color: var(--secondary-background-color);
 }
 .saved-resources {
+  overflow-y: auto;
   h4 {
     margin-bottom: 8px;
   }

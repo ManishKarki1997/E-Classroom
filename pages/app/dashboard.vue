@@ -8,7 +8,7 @@
     <div class="dashboard-right">
       <DashboardProfile />
       <LiveClasses />
-      <UpcomingClass :upcomingClasses="upcomingClasses" />
+      <UpcomingClass />
     </div>
   </div>
 </template>
@@ -39,7 +39,23 @@ export default {
       notifications: []
     }
   },
-  methods: {},
+  methods: {
+    async fetchUserDetails() {
+      const response = await this.$store.dispatch('getUserDetails')
+      if (response.data.error) {
+        this.$toast.open({
+          type: 'error',
+          message: response.data.message,
+          position: 'top-right',
+          duration: 1500
+        })
+        return false
+      } else {
+        const { user } = response.data.payload
+        this.$store.commit('setUser', { user, jwtToken: null })
+      }
+    }
+  },
   computed: {
     ...mapState({
       user: state => state.user
@@ -72,6 +88,8 @@ export default {
       name: this.user.name,
       userId: this.user._id
     })
+
+    this.fetchUserDetails()
 
     // this.fetchNotifications()
     // Just for testing purposes

@@ -6,23 +6,17 @@
         <h4>{{ user.name }}</h4>
       </div>
       <div class="user-meta">
-        <div
-          class="user-meta-item"
-          @click="$router.push('/app/profile/classes')"
-        >
+        <div class="user-meta-item" @click="$router.push('/app/profile/classes')">
           <ClassIcon />
           <div class="user-meta-info">
-            <h5>4</h5>
+            <h5>{{user.createdClasses.length}}</h5>
             <p>Teaching</p>
           </div>
         </div>
-        <div
-          class="user-meta-item"
-          @click="$router.push('/app/profile/classes')"
-        >
+        <div class="user-meta-item" @click="$router.push('/app/profile/classes')">
           <HugIcon />
           <div class="user-meta-info">
-            <h5>24</h5>
+            <h5>{{user.joinedClasses.length}}</h5>
             <p>Enrolled</p>
           </div>
         </div>

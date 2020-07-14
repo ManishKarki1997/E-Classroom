@@ -6,11 +6,15 @@
       <div v-if="notifications && notifications.length > 0">
         <div
           class="notification"
-          v-for="(notification, index) in notifications.slice(0, 5)"
+          v-for="(notification, index) in notifications"
           :key="notification._id"
+          @click="markNotificationAsRead(notification._id, index)"
         >
-          <div class="notification-dot" :style="{ backgroundColor: colors[index] }"></div>
-          <p class="notification-message">{{ notification.title }}</p>
+          <div class="notification-dot" :style="{ backgroundColor: colors[index % 9] }"></div>
+          <p
+            :class="[`notification-index-${index}`,{readNotification:notification.notificationReadByUser }]"
+            class="notification-message"
+          >{{ notification.title }}</p>
         </div>
       </div>
       <p v-else style="font-size:14px; margin-top:-8px;">No Notifications</p>
@@ -69,6 +73,23 @@ export default {
         })
       }
       this.isLoading = false
+    },
+    async markNotificationAsRead(notificationId, index) {
+      const res = await this.$store.dispatch(
+        'markNotificationAsRead',
+        notificationId
+      )
+      if (res.data.error) {
+        this.$toast.open({
+          type: 'error',
+          message: res.data.message,
+          position: 'top-right',
+          duration: 1500
+        })
+        return false
+      }
+      let notification = document.querySelector(`.notification-index-${index}`)
+      notification.classList.add('notificationRead')
     }
   },
   mounted() {
@@ -114,15 +135,20 @@ export default {
     p {
       font-size: 12px;
       line-height: 18px;
+      cursor: pointer;
 
       &:hover {
-        filter: opacity(0.8);
+        filter: opacity(0.5);
+      }
+
+      &.readNotification {
+        filter: opacity(0.5);
       }
     }
   }
   .notification-dot {
     width: 8px;
-    height: 8px;
+    height: 6px;
     border-radius: 50%;
     margin-top: 4px;
     margin-right: 8px;

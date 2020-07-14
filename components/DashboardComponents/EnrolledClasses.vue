@@ -2,11 +2,7 @@
   <div id="enrolled-classes-wrapper">
     <h4 class="section-title">Enrolled Classes</h4>
     <ul v-if="!isLoading" class="enrolled-classes">
-      <li
-        class="enrolled-class"
-        v-for="enrolledClass in enrolledClasses"
-        :key="enrolledClass._id"
-      >
+      <li class="enrolled-class" v-for="enrolledClass in enrolledClasses" :key="enrolledClass._id">
         <img
           :src="
             apiStaticUrl + '/uploads/images/' + enrolledClass.backgroundImage
@@ -25,9 +21,7 @@
     <p
       v-if="enrolledClasses.length == 0"
       style="font-size:14px; margin-top:-12px;"
-    >
-      Currently not enrolled in any class.
-    </p>
+    >Currently not enrolled in any class.</p>
   </div>
 </template>
 
@@ -91,6 +85,7 @@ export default {
   display: flex;
   margin-bottom: 20px;
   cursor: pointer;
+  overflow-y: auto;
 
   img {
     width: 36px;
