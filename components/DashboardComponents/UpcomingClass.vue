@@ -1,17 +1,7 @@
 <template>
   <div class="upcoming-class-wrapper">
     <h4 class="section-title">Upcoming Classes</h4>
-    <!-- <div class="upcoming-class">
-      <img src="~/static/Images/laptop.jpg" alt="Class Image" />
-      <div class="class-info">
-        <h5>Web Development</h5>
-        <div class="class-start-time">
-          <p>March 13</p>
-          <span>&#8226;</span>
-          <p>11:00am-2:30pm</p>
-        </div>
-      </div>
-    </div>-->
+
     <div class="upcoming-class" v-for="upClass in upcomingClasses" :key="upClass._id">
       <img :src="apiStaticUrl + '/uploads/images/' + upClass.backgroundImage" alt="Class image" />
       <div class="class-info">
@@ -50,7 +40,6 @@ export default {
       } else {
         const { upcomingClasses } = response.data.payload
         this.upcomingClasses = upcomingClasses
-        console.log(upcomingClasses)
       }
     }
   },
@@ -81,6 +70,7 @@ export default {
     width: 100%;
 
     h5 {
+      font-size: 14px;
       font-weight: 500;
       cursor: pointer;
     }

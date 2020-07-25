@@ -61,10 +61,11 @@ export default {
       if (response.data.error) {
         this.$toast.open({
           type: 'error',
-          message: response.data.message,
+          message: 'Failed loading the notifications.',
           position: 'top-right',
           duration: 1500
         })
+        this.isLoading = false
         return false
       } else {
         this.$store.commit('setNotifications', {

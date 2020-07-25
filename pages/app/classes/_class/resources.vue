@@ -9,7 +9,33 @@
     <div class="resource-files">
       <div class="resource">
         <h4>{{ this.$route.params.resource }}</h4>
-        <table class="resource-table" v-if="resources && resources.length > 0">
+
+        <div v-if="resources && resources.length>0" class="resources-wrapper">
+          <div v-for="(file) in resources" :key="file.resourceId" class="resource-item">
+            <div class="resource-top-wrapper">
+              <div class="resource-icon">
+                <FileIcon v-if="file.fileType==='other'" />
+                <img
+                  v-if="file.fileType==='image'"
+                  :src="apiStaticUrl + '/uploads/resources/' + file.resourceUrl"
+                  alt="Resource Image"
+                />
+                <ZipIcon v-if="file.fileType==='zip'" />
+                <!-- <PictureIcon v-if="file.fileType==='image'" /> -->
+                <PDFIcon v-if="file.fileType==='office'" />
+              </div>
+
+              <div class="actions-icon">
+                <StarIcon @click="saveResource(file._id)" />
+                <DeleteIcon @click="deleteResource(file._id)" />
+              </div>
+            </div>
+            <h4>{{file.name}}</h4>
+            <p>{{file.description}}</p>
+            <p class="resource-uploaded-date">{{file.createdAt | formatDate}}</p>
+          </div>
+        </div>
+        <!-- <table class="resource-table" v-if="resources && resources.length > 0">
           <thead>
             <tr>
               <th>#</th>
@@ -18,17 +44,10 @@
             </tr>
           </thead>
           <tbody>
-            <tr
-              v-for="(file, index) in resources"
-              :key="file.resourceId"
-              class="resource-file"
-            >
+            <tr v-for="(file, index) in resources" :key="file.resourceId" class="resource-file">
               <td>
                 {{ index + 1 }}
-                <!--                 
-                <FileIcon v-if="file.fileType==='other'" />
-                <PictureIcon v-if="file.fileType==='image'" />
-                <PDFIcon v-if="file.fileType==='office'" />-->
+            
               </td>
               <td
                 @click="
@@ -36,16 +55,15 @@
                     `${apiStaticUrl}/uploads/resources/${file.resourceUrl}`
                   )
                 "
-              >
-                {{ file.name }}
-              </td>
+              >{{ file.name }}</td>
               <td>{{ file.createdAt | formatDate }}</td>
-              <td class="delete-icon">
+              <td class="actions-icons">
+                <StarIcon @click="saveResource(file._id)" />
                 <DeleteIcon @click="deleteResource(file._id)" />
               </td>
             </tr>
           </tbody>
-        </table>
+        </table>-->
         <p v-else>No Resources</p>
       </div>
     </div>
@@ -64,6 +82,8 @@ import AddResourceModal from '~/components/DashboardComponents/AddResourceModal'
 import FileIcon from '~/static/Icons/file.svg?inline'
 import PictureIcon from '~/static/Icons/picture.svg?inline'
 import PDFIcon from '~/static/Icons/pdf.svg?inline'
+import ZipIcon from '~/static/Icons/zip.svg?inline'
+import StarIcon from '~/static/Icons/star.svg?inline'
 import DeleteIcon from '~/static/Icons/bin.svg?inline'
 
 import { mapState, mapGetters } from 'vuex'
@@ -73,8 +93,10 @@ export default {
     FileIcon,
     PictureIcon,
     PDFIcon,
+    StarIcon,
     AddResourceModal,
-    DeleteIcon
+    DeleteIcon,
+    ZipIcon
   },
   data() {
     return {
@@ -156,7 +178,34 @@ export default {
         this.$emit('addResourceModalActive', this.showAddResourceModal)
       }
     },
+    async saveResource(resourceId) {
+      const res = await this.$store.dispatch(
+        'addResourceToCollection',
+        resourceId
+      )
+      if (res.data.error) {
+        this.$toast.open({
+          type: 'error',
+          message: res.data.message,
+          position: 'top-right',
+          duration: 1500
+        })
+        return false
+      } else {
+        this.$toast.open({
+          type: 'success',
+          message: res.data.message,
+          position: 'top-right',
+          duration: 1500
+        })
+        this.$forceUpdate()
+      }
+    },
     async deleteResource(resourceId) {
+      const answer = confirm('Are you sure you want to delete the resource?')
+      if (!answer) {
+        return
+      }
       const response = await this.$store.dispatch('deleteResource', {
         userId: this.userId,
         classId: this.classId,
@@ -195,6 +244,78 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.resources-wrapper {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-gap: 2rem 3rem;
+  margin-top: 2rem;
+
+  .resource-item {
+    grid-column: span 3;
+
+    h4 {
+      font-size: 16px;
+    }
+
+    p {
+      font-size: 14px;
+      margin-top: 4px;
+    }
+
+    p.resource-uploaded-date {
+      font-size: 12px;
+      font-style: italic;
+    }
+
+    &:hover .resource-top-wrapper .actions-icon {
+      // display: block;
+      opacity: 1;
+    }
+
+    .resource-top-wrapper {
+      display: flex;
+      justify-content: space-between;
+
+      .actions-icon {
+        opacity: 0;
+        transition: all 0.3s;
+        svg {
+          width: 15px;
+          height: 15px;
+          cursor: pointer;
+          &:first-child {
+            fill: coral !important;
+          }
+          &:last-child {
+            margin-left: 4px;
+            fill: lightgreen !important;
+          }
+        }
+      }
+
+      .resource-icon {
+        // width: 100%;
+        width: 80px;
+        height: 80px;
+        margin-bottom: 16px;
+        cursor: pointer;
+        svg {
+          margin-right: auto;
+          width: 100%;
+          height: 100%;
+        }
+
+        img {
+          // height: 80px;
+          width: 130px;
+          height: auto;
+          border-radius: 5px;
+          margin-bottom: 16px;
+        }
+      }
+    }
+  }
+}
 #resources {
   // padding: 14px 2rem;
   // color: black;
@@ -245,19 +366,21 @@ export default {
   tr:hover td {
     color: #434c5e;
   }
-  .delete-icon {
-    text-align: center;
-    width: 40px;
+  .actions-icons {
+    width: 80px;
     height: auto;
+    display: flex;
+    align-items: center;
     svg {
       display: none;
       width: 14px;
       height: 14px;
       fill: lightcoral;
       cursor: pointer;
+      margin-right: 16px;
     }
   }
-  tr:hover .delete-icon svg {
+  tr:hover .actions-icons svg {
     display: block;
   }
   thead tr:hover {

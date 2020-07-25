@@ -9,7 +9,6 @@
       <h3>{{ user.name }}</h3>
       <!-- <img src="~/static/Images/Saber.jpg" alt="Picture of the user" /> -->
     </div>
-    <!-- <div class="sidebar-menu"> -->
     <ul class="sidebar-menu">
       <li class="nav-link" v-if="!user">
         <nuxt-link to="/get-started/login">
@@ -30,26 +29,7 @@
           <p>Home</p>
         </nuxt-link>
       </li>
-      <li class="my-classes">
-        <nuxt-link to="/app/classes">
-          <HomeIcon />
-          <p>Classes</p>
-        </nuxt-link>
 
-        <div class="my-class-sub-menu">
-          <nuxt-link to="/app/profile/enrolled">
-            Enrolled
-          </nuxt-link>
-          <nuxt-link to="/app/profile/teaching">
-            Teaching
-          </nuxt-link>
-        </div>
-      </li>
-      <!-- <li>
-          <nuxt-link to="/app/classroom">
-            <StudyIcon />
-          </nuxt-link>
-        </li>-->
       <li>
         <nuxt-link to="/app/resources">
           <ResourcesIcon />
@@ -62,15 +42,18 @@
           <p>Settings</p>
         </nuxt-link>
       </li>
-      <li class="theme-toggle-menu" @click="toggleTheme">
-        <SunIcon v-if="themeMode === 'dark'" />
-        <MoonIcon v-if="themeMode === ''" />
-      </li>
-      <li style="margin-left:2px;" @click="logout">
+
+      <li style="margin-left:2px;" class="logout-item" @click="logout">
         <LogoutIcon />
+        <p style="margin-top:-3px">Logout</p>
+      </li>
+      <li class="theme-toggle-menu" @click="toggleTheme">
+        <SunIcon1 v-if="themeMode === 'dark'" />
+
+        <FullMoon v-if="themeMode === ''" />
+        <p style="margin-top:-3px;">{{themeMode === 'dark' ? 'Light' : 'Dark'}}</p>
       </li>
     </ul>
-    <!-- </div> -->
   </div>
 </template>
 
@@ -83,6 +66,8 @@ import StudyIcon from '~/static/Icons/book.svg?inline'
 import DashboardIcon from '~/static/Icons/dashboard.svg?inline'
 import SettingsIcon from '~/static/Icons/settings.svg?inline'
 import SunIcon from '~/static/Icons/sun.svg?inline'
+import SunIcon1 from '~/static/Icons/sunicon.svg?inline'
+import FullMoon from '~/static/Icons/full-moon.svg?inline'
 import MoonIcon from '~/static/Icons/moon.svg?inline'
 import RocketIcon from '~/static/Icons/start.svg?inline'
 import LogoutIcon from '~/static/Icons/logout.svg?inline'
@@ -97,7 +82,9 @@ export default {
     SunIcon,
     MoonIcon,
     RocketIcon,
-    LogoutIcon
+    LogoutIcon,
+    SunIcon1,
+    FullMoon
   },
   data() {
     return {

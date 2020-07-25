@@ -39,6 +39,17 @@
 
     <div class="saved-resource" v-else-if="!resources.className">
       <!-- User Saved Resource : Single Resource -->
+      <div class="resource-icon">
+        <FileIcon v-if="resources.fileType==='other'" />
+        <img
+          v-else-if="resources.fileType==='image'"
+          :src="apiStaticUrl + '/uploads/resources/' + resources.resourceUrl"
+          alt="Resource Image"
+        />
+        <ZipIcon v-else-if="resources.fileType==='zip'" />
+        <PDFIcon v-else-if="resources.fileType==='office'" />
+      </div>
+
       <h3>{{resources.name}}</h3>
       <p>{{resources.description}}</p>
       <button v-if="resources.resourceUrl" @click="gotoResourceURL(resources.resourceUrl)">View</button>
@@ -49,10 +60,11 @@
 
 
 <script>
-import FileIcon from '~/static/Icons/file.svg?inline'
 import PictureIcon from '~/static/Icons/picture.svg?inline'
 import PDFIcon from '~/static/Icons/pdf.svg?inline'
 import StarIcon from '~/static/Icons/star.svg?inline'
+import FileIcon from '~/static/Icons/file.svg?inline'
+import ZipIcon from '~/static/Icons/zip.svg?inline'
 
 import { mapState } from 'vuex'
 import dayjs from 'dayjs'
@@ -62,7 +74,8 @@ export default {
     FileIcon,
     PictureIcon,
     PDFIcon,
-    StarIcon
+    StarIcon,
+    ZipIcon
   },
   data() {
     return {
@@ -195,8 +208,21 @@ export default {
   }
 
   button {
-    background-color: var(--primary-background-color);
-    color: var(--primary-font-color);
+    background-color: var(--primary-font-color);
+    color: var(--secodnary-font-color);
+  }
+
+  .resource-icon {
+    width: 150px;
+    height: 100px;
+    margin-bottom: 1.5rem;
+
+    svg,
+    img {
+      height: 100px;
+      width: 150px;
+      margin-left: -2.2rem;
+    }
   }
 }
 </style>

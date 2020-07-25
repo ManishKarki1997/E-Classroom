@@ -25,6 +25,10 @@
 
       h3 {
         display: block;
+        width: 300px;
+        position: absolute;
+        left: 4rem;
+        z-index: -1;
         margin-left: 8px;
         font-size: 20px;
       }
@@ -37,6 +41,10 @@
         display: block;
         margin-left: 1rem;
         color: var(--primary-font-color);
+      }
+
+      li.logout-item {
+        margin-left: 12px !important;
       }
 
       li {
@@ -85,7 +93,7 @@
     justify-content: center;
 
     &:last-child {
-      margin-top: auto;
+      // margin-top: auto;
       cursor: pointer;
       display: flex;
       justify-content: center;
