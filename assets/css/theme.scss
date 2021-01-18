@@ -1,0 +1,53 @@
+:root {
+  --primary-background-color: #fff;
+  --accent-background-color: #3182ce;
+  --secondary-background-color: #f7fafc;
+  --tertiary-background-color: #edf2f7;
+  --opposite-background-color: black;
+  --sidebar-background-color: #84c1ff;
+
+  --primary-font-color: #2a265f;
+  --secondary-font-color: rgba(0, 0, 0, 0.6);
+  --opposite-font-color: white;
+  --tertiary-font-color: rgb(179, 174, 174);
+
+  --primary-svg-color: #2a265f;
+  --secondary-svg-color: rgba(0, 0, 0, 0.9);
+
+  --primary-border-color: #e2e8f0;
+  --secondary-border-color: rgba(0, 0, 0, 0.2);
+
+  --modal-background-color: rgba(0, 0, 0, 0.9);
+
+  --primary-box-shadow: rgba(9, 30, 66, 0.25);
+  --secondary-box-shadow: rgba(9, 30, 66, 0.31);
+
+  --button-background-color: #84c1ff;
+  --button-background-hover: #6daef0;
+}
+
+[theme='dark'] {
+  --primary-background-color: #121726;
+  // --accent-background-color: #121522;
+  --accent-background-color: #006aac;
+  --secondary-background-color: #1f2330;
+  --tertiary-background-color: #2b2e38;
+  --opposite-background-color: #fff;
+  --sidebar-background-color: #121726;
+
+  --primary-font-color: rgb(240, 238, 238);
+  --secondary-font-color: #e2e4e5;
+  --tertiary-font-color: #d9dcdf;
+  --opposite-font-color: white;
+
+  --primary-border-color: #6d6f72;
+  --secondary-border-color: rgba(255, 255, 255, 0.6);
+
+  --modal-background-color: rgba(0, 0, 0, 0.9);
+
+  --primary-box-shadow: rgba(255, 255, 255, 0.25);
+  --secondary-box-shadow: rgba(255, 255, 255, 0.31);
+
+  --button-background-color: #84c1ff;
+  --button-background-hover: #6daef0;
+}

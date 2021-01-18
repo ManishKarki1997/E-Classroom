@@ -1,0 +1,83 @@
+@import './theme.scss';
+
+@mixin normalBoxShadow() {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  // box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+  //   0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+@mixin hoverBoxShadow() {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  // box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+@mixin primaryButton($rounded: false, $icon: false) {
+  border-radius: 5px;
+  @if $rounded {
+    border-radius: 20px;
+  }
+
+  @if $icon {
+    display: flex;
+    align-items: center;
+
+    .icon-wrapper {
+      margin-right: 8px;
+    }
+  }
+  font-size: 16px;
+  font-weight: bold;
+  padding: 8px 32px;
+  background-color: #84c1ff;
+  background: linear-gradient(
+    97deg,
+    rgba(132, 193, 255, 1) 0%,
+    rgba(132, 193, 255, 1) 42%,
+    rgba(124, 189, 255, 1) 100%
+  );
+  color: var(--opposite-font-color);
+  transition: all 0.3s ease-in-out;
+  text-transform: capitalize;
+  // border: 1px solid var(--primary-border-color);
+  border: none;
+
+  &:hover {
+    background-color: var(--button-background-hover);
+  }
+}
+
+@mixin secondaryButton($rounded: false, $icon: false) {
+  border-radius: 5px;
+  @if $rounded {
+    border-radius: 20px;
+  }
+
+  @if $icon {
+    display: flex;
+    align-items: center;
+
+    .icon-wrapper {
+      margin-right: 8px;
+    }
+  }
+
+  font-size: 16px;
+  font-weight: bold;
+  padding: 8px 32px;
+  background-color: transparent;
+  color: var(--primary-font-color);
+  transition: all 0.3s ease-in-out;
+  text-transform: capitalize;
+  border: 1px solid var(--primary-border-color);
+}
+
+@mixin tertiaryButton {
+  color: var(--primary-font-color);
+  background-color: transparent;
+  border: none;
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: capitalize;
+}
