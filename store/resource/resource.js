@@ -267,8 +267,8 @@ const resourceActions = {
         dismissAfter: 3000,
       })
       commit(
-        'deleteUserSavedResourceFolders',
-        response.data.payload.deletedFolder
+        'deleteCurrentClassResourceFolders',
+        response.data.payload.deletedFolder._id
       )
     }
   },

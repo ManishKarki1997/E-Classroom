@@ -65,10 +65,6 @@ const mutation = {
       state.userPersonalResources.userResourceFolders.indexOf(payload),
       1
     )
-    // state.userPersonalResources.userResourceFolders = state.userPersonalResources.userResourceFolders.filter(
-    //   (f) => f._id !== payload._id
-    // )
-    console.log(state.userPersonalResources.userResourceFolders)
   },
 
   // Classes
@@ -101,6 +97,12 @@ const mutation = {
   },
   setFolderContent(state, payload) {
     state.folderContent = payload
+  },
+  deleteCurrentClassResourceFolders(state, payload) {
+    state.currentClassResourceFolders.splice(
+      state.currentClassResourceFolders.indexOf(payload),
+      1
+    )
   },
 }
 export default mutation
