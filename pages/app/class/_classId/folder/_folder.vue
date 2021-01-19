@@ -70,6 +70,13 @@
                   id="folderName"
                 >
                   <option
+                    v-if="userBookmarkedFolders.length == 0"
+                    selected="selected"
+                    value="-1"
+                  >
+                    No folder present
+                  </option>
+                  <option
                     :value="folder._id"
                     v-for="folder in userBookmarkedFolders"
                     :key="folder._id"
@@ -149,6 +156,14 @@ export default {
 
   methods: {
     bookmarkResource() {
+      if (this.userBookmarkedFolders.length == 0) {
+        this.$store.dispatch(ADD_TOAST_MESSAGE, {
+          text: 'No folder present. Please create a folder first.',
+          type: 'danger',
+          dismissAfter: 3000,
+        })
+        return
+      }
       this.bookmarkPayload.resourceId = this.selectedFile._id
       if (this.bookmarkPayload.folderId === '') {
         this.$store.dispatch(ADD_TOAST_MESSAGE, {
@@ -230,6 +245,10 @@ export default {
   },
   mounted() {
     this.fetchFolderResources()
+
+    if (this.userBookmarkedFolders.length == 0) {
+      this.bookmarkPayload.folderId = -1
+    }
   },
 }
 </script>
