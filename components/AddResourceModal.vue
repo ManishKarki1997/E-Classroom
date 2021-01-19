@@ -41,8 +41,9 @@
                   :value="folder._id"
                   v-for="folder in currentClassResourceFolders"
                   :key="folder._id"
-                  >{{ folder.folderName }}</option
                 >
+                  {{ folder.folderName }}
+                </option>
               </select>
             </div>
 
@@ -152,6 +153,7 @@ export default {
   background-color: rgba(0, 0, 0, 0.8);
   width: 100vw;
   height: 100vh;
+  overflow: hidden;
   position: absolute;
   top: 0;
   left: 0;
@@ -162,12 +164,12 @@ export default {
   padding: 1rem 6rem;
 
   .modal-content-wrapper {
-    background-color: var(--opposite-font-color);
+    background-color: var(--primary-background-color);
     color: var(--primary-font-color);
     // padding: 1.5rem 2rem;
     border-radius: 5px;
-    min-width: 500px;
-    min-height: 400px;
+    min-width: 700px;
+    height: 600px;
     padding: 2rem;
 
     .modal-header {
@@ -177,11 +179,19 @@ export default {
     }
 
     .modal-body {
-      margin: 3rem 0;
+      margin: 1rem 0;
+      overflow: auto;
 
       .form-input {
         padding: 0;
         margin-bottom: 16px;
+      }
+
+      textarea,
+      select {
+        background-color: var(--primary-background-color);
+        color: var(--primary-font-color);
+        padding: 8px;
       }
 
       .form-button {

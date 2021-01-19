@@ -82,7 +82,7 @@ export default {
 .modal-background-wrapper {
   background-color: rgba(0, 0, 0, 0.8);
   width: 100vw;
-  height: 100vh;
+  height: 90vh;
   position: absolute;
   top: 0;
   left: 0;
@@ -93,7 +93,7 @@ export default {
   padding: 1rem 6rem;
 
   .modal-content-wrapper {
-    background-color: var(--opposite-font-color);
+    background-color: var(--primary-background-color);
     color: var(--primary-font-color);
     // padding: 1.5rem 2rem;
     border-radius: 5px;

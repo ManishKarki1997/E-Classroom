@@ -50,7 +50,8 @@
       @closeModal="closeViewNotification"
     >
       <template slot="header" class="modal-header">
-        <h4>{{ viewNotificationModal.notification.modalTitle }}</h4>
+        <h4>{{ viewNotificationModal.notification.type || 'Notification' }}</h4>
+        <!-- <h4>{{ viewNotificationModal.notification.modalTitle }}</h4> -->
       </template>
 
       <template slot="body">

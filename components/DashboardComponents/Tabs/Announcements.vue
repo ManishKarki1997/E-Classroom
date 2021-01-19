@@ -50,10 +50,7 @@ export default {
     viewNotification(notification) {
       this.$store.commit('setviewNotificationModal', {
         show: true,
-        notification: {
-          ...notification,
-          modalTitle: 'Announcement',
-        },
+        notification,
       })
     },
     fetchAnnouncements() {
