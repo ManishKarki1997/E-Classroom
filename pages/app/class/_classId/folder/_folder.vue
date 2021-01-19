@@ -1,16 +1,24 @@
 <template>
   <div id="folder-view-wrapper">
     <h3>{{ folderContent.folderName }}</h3>
-    <div class="resource-files" v-if="folderContent.resources.length>0">
-      <div class="resource-file" v-for="file in folderContent.resources" :key="file._id">
+
+    <div class="resource-files" v-if="folderContent.resources.length > 0">
+      <div
+        class="resource-file"
+        v-for="file in folderContent.resources"
+        :key="file._id"
+      >
         <div class="resource-file--left">
           <div v-if="file.fileType === 'image'" class="image-file-wrapper">
-            <img :src="apiUrl + '/uploads/resources/' + file.resourceUrl" alt="Resource File Image" />
+            <img
+              :src="apiUrl + '/uploads/resources/' + file.resourceUrl"
+              alt="Resource File Image"
+            />
           </div>
-          <div class="icon-wrapper" v-else-if="file.fileType==='office'">
+          <div class="icon-wrapper" v-else-if="file.fileType === 'office'">
             <PDFIcon />
           </div>
-          <div class="icon-wrapper" v-else-if="file.fileType==='zip'">
+          <div class="icon-wrapper" v-else-if="file.fileType === 'zip'">
             <ZipIcon />
           </div>
         </div>
@@ -20,7 +28,9 @@
           </div>
           <div @click="viewResourceFile(file)">
             <h3>{{ file.name }}</h3>
-            <p class="uploaded-at">Uploaded on {{ file.createdAt | formatDate }}</p>
+            <p class="uploaded-at">
+              Uploaded on {{ file.createdAt | formatDate }}
+            </p>
             <p class="file-size">{{ file.fileSize | convertFileSize }}</p>
           </div>
         </div>
@@ -61,9 +71,11 @@
                 >
                   <option
                     :value="folder._id"
-                    v-for="folder in userResourceFolders"
+                    v-for="folder in userBookmarkedFolders"
                     :key="folder._id"
-                  >{{ folder.folderName }}</option>
+                  >
+                    {{ folder.folderName }}
+                  </option>
                 </select>
               </div>
 
@@ -77,7 +89,10 @@
     </div>
 
     <!-- Context Menus -->
-    <context-menu class="context-menu folder-option-context-menu" ref="folderOptionContextMenu">
+    <context-menu
+      class="context-menu folder-option-context-menu"
+      ref="folderOptionContextMenu"
+    >
       <li @click="handleBookmarkClick">Bookmark</li>
       <li v-if="isUserOwned" @click="handleDeleteResource">Delete</li>
     </context-menu>
@@ -87,7 +102,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 import PlusIcon from '~/static/Icons/plus.svg?inline'
 import ZipIcon from '~/static/Images/zip.svg?inline'
 import PDFIcon from '~/static/Images/pdf.svg?inline'
@@ -122,10 +137,11 @@ export default {
     ...mapGetters([
       'apiUrl',
       'user',
-      'userResourceFolders',
+      // 'userResourceFolders',
       'currentlyViewingClass',
       'folderContent',
     ]),
+    ...mapState(['userBookmarkedFolders']),
     isUserOwned() {
       return this.user._id === this.currentlyViewingClass.createdBy._id
     },
@@ -193,6 +209,9 @@ export default {
       this.selectedFile = file
       this.$refs.folderOptionContextMenu.open()
     },
+    fetchUserResourceFolders() {
+      this.$store.dispatch('fetchUserResourceFolders')
+    },
     fetchFolderResources() {
       this.$store.dispatch('fetchFolderContents', this.$route.params.folder)
     },
@@ -226,7 +245,7 @@ export default {
     grid-gap: 2rem;
 
     .resource-file {
-      grid-column: span 6;
+      grid-column: span 4;
       display: flex;
       border-radius: 5px;
       transition: all 0.3s ease-in-out;

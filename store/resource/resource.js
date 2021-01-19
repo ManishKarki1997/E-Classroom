@@ -146,7 +146,6 @@ const resourceActions = {
       },
     })
     commit('resetLoadingInfo')
-
     if (response.data.error) {
       dispatch(ADD_TOAST_MESSAGE, {
         text: 'Something went wrong. Please refresh and try again.',
@@ -267,7 +266,10 @@ const resourceActions = {
         type: 'success',
         dismissAfter: 3000,
       })
-      dispatch('fetchClassFolderResources', state.currentlyViewingClass._id)
+      commit(
+        'deleteUserSavedResourceFolders',
+        response.data.payload.deletedFolder
+      )
     }
   },
   async copyFolder({ state, commit, dispatch }, payload) {

@@ -60,6 +60,7 @@ const action = {
       }, 1500)
     }
   },
+
   async updateProfile({ state, commit, dispatch }, payload) {
     const response = await this.$axios.put(`/user`, payload, {
       headers: {

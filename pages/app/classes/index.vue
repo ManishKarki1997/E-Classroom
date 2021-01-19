@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="user">
     <div class="create-class-wrapper">
       <div class="form-wrapper">
         <div class="form-input">
@@ -12,7 +12,7 @@
             id="searchText"
           />
         </div>
-        <div class="form-button" v-if="user.userType==='TEACHER'">
+        <div class="form-button" v-if="user.userType === 'TEACHER'">
           <button @click="gotoCreateClassPage">Create a Class</button>
         </div>
       </div>
@@ -64,21 +64,19 @@
                 <div class="selectedClass-details">
                   <h3>{{ selectedClass.name }}</h3>
                   <p class="class-short-info">{{ selectedClass.shortInfo }}</p>
-                  <p class="selectedClass-description">{{ selectedClass.description }}</p>
+                  <p class="selectedClass-description">
+                    {{ selectedClass.description }}
+                  </p>
                 </div>
                 <div class="selectedClass-time-schedule">
                   <p>Time Schedule</p>
                   <p>
                     <span>
-                      {{
-                      selectedClass.startTime | formatClassSchedule
-                      }}
+                      {{ selectedClass.startTime | formatClassSchedule }}
                     </span>
                     -
                     <span>
-                      {{
-                      selectedClass.endTime | formatClassSchedule
-                      }}
+                      {{ selectedClass.endTime | formatClassSchedule }}
                     </span>
                   </p>
                 </div>
@@ -97,14 +95,20 @@
                       !isClassOwner
                     "
                     @click="joinClass"
-                  >Join</button>
+                  >
+                    Join
+                  </button>
 
-                  <button v-if="isPendingRequestInClass">Pending Request</button>
+                  <button v-if="isPendingRequestInClass">
+                    Pending Request
+                  </button>
                   <!-- <button v-if="showViewButton" @click="gotoSingleClassView">View</button> -->
                   <button @click="gotoSingleClassView">View</button>
 
                   <!-- <button v-if="showAttendButton" @click="attendClass">Attend</button> -->
-                  <button v-if="isEnrolledInClass" @click="handleLeaveClass">Leave</button>
+                  <button v-if="isEnrolledInClass" @click="handleLeaveClass">
+                    Leave
+                  </button>
                   <!-- <button
                     :disabled="formSubmitting"
                     v-if="

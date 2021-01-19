@@ -11,8 +11,11 @@
       <div>
         <h3>{{ user.name }}</h3>
         <p
-          style="margin-top:-4px; font-size:14px; font-style:italic;"
-        >{{user.userType.toLowerCase()}}</p>
+          v-if="user.userType !== undefined"
+          style="margin-top: -4px; font-size: 14px; font-style: italic"
+        >
+          {{ user.userType.toLowerCase() }}
+        </p>
       </div>
     </div>
     <ul class="nav-wrapper">
@@ -69,7 +72,7 @@
           <div class="nav-icon-wrapper">
             <MoonIcon />
           </div>
-          <p>{{preferredColorScheme==='light' ? 'Dark' : 'Light'}}</p>
+          <p>{{ preferredColorScheme === 'light' ? 'Dark' : 'Light' }}</p>
         </nuxt-link>
       </li>
       <li @click="logout">

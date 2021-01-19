@@ -1,5 +1,5 @@
 <template>
-  <div id="dashboard-page">
+  <div id="dashboard-page" v-if="user">
     <div class="dashboard--left">
       <div class="dashboard-user-welcome-wrapper">
         <p>Welcome,</p>
@@ -110,7 +110,6 @@ import { ADD_TOAST_MESSAGE } from 'vuex-toast'
 import moment from 'moment'
 
 export default {
-  middleware: ['checkLoggedIn', 'checkIfAdmin'],
   components: {
     Sidebar,
     BookmarkedResources,
@@ -123,7 +122,7 @@ export default {
   computed: {
     ...mapState(['user', 'apiUrl', 'viewNotificationModal']),
     isStudent() {
-      return this.user.userType === 'STUDENT'
+      return this.user?.userType === 'STUDENT'
     },
   },
   data() {
@@ -138,9 +137,7 @@ export default {
         notification: null,
       })
     },
-    fetchUserDetails() {
-      this.$store.dispatch('getUserDetails')
-    },
+
     async fetchUpcomingClasses() {
       const response = await this.$axios.get(`/class/upcoming`, {
         headers: {
@@ -177,17 +174,17 @@ export default {
   },
   mounted() {
     this.fetchUserDetails()
-    if (this.user.userType !== 'ADMIN') {
+    if (this.user?.userType !== 'ADMIN') {
       this.fetchUpcomingClasses()
     }
   },
-  validate({ params, query, store }) {
-    if (store.state.user.userType === 'ADMIN') {
-      // this.$router.push('/app/admin/dashboard')
-      return true
-    }
-    return true
-  },
+  // validate({ params, query, store }) {
+  //   if (store.state.user.userType === 'ADMIN') {
+  //     this.$router.push('/app/admin/dashboard')
+  //     return true
+  //   }
+  //   return true
+  // },
   beforeRouteLeave(to, from, next) {
     if (this.user && this.user.isKickedOut) {
       this.$store.dispatch(ADD_TOAST_MESSAGE, {

@@ -10,7 +10,6 @@ import { mapGetters } from 'vuex'
 import Sidebar from '~/components/Sidebar'
 import DashboardContents from '~/components/Sidebar'
 export default {
-  middleware: ['checkIfKickedOut', 'checkLoggedIn'],
   components: {
     Sidebar,
   },
@@ -33,6 +32,8 @@ export default {
   created() {
     if (!this.isLoggedIn) {
       this.router.push('/login')
+    } else {
+      this.$store.dispatch('getUserDetails')
     }
   },
 }

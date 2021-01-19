@@ -1,7 +1,8 @@
 function state() {
   return {
-    user: null,
+    user: {},
     jwtToken: '',
+    isLoading: false,
     isLoggedIn: false,
     apiUrl: '',
     tourEnabled: false,

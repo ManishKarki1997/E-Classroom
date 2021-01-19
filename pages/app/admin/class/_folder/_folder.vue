@@ -1,27 +1,35 @@
 <template>
   <div id="admin-view-folder-page">
     <h3>{{ folderContent.folderName }}</h3>
-    <div class="resource-files" v-if="folderContent.resources.length>0">
-      <div class="resource-file" v-for="file in folderContent.resources" :key="file._id">
+
+    <div class="resource-files" v-if="folderContent.resources.length > 0">
+      <div
+        class="resource-file"
+        v-for="file in folderContent.resources"
+        :key="file._id"
+      >
         <div class="resource-file--left">
           <div
             @click="viewResourceFile(file)"
             v-if="file.fileType === 'image'"
             class="image-file-wrapper"
           >
-            <img :src="apiUrl + '/uploads/resources/' + file.resourceUrl" alt="Resource File Image" />
+            <img
+              :src="apiUrl + '/uploads/resources/' + file.resourceUrl"
+              alt="Resource File Image"
+            />
           </div>
           <div
             @click="viewResourceFile(file)"
             class="icon-wrapper"
-            v-else-if="file.fileType==='office'"
+            v-else-if="file.fileType === 'office'"
           >
             <PDFIcon />
           </div>
           <div
             @click="viewResourceFile(file)"
             class="icon-wrapper"
-            v-else-if="file.fileType==='zip'"
+            v-else-if="file.fileType === 'zip'"
           >
             <ZipIcon />
           </div>
@@ -32,14 +40,19 @@
           </div>
           <div @click="viewResourceFile(file)">
             <h4>{{ file.name }}</h4>
-            <p class="uploaded-at">Uploaded on {{ file.createdAt | formatDate }}</p>
+            <p class="uploaded-at">
+              Uploaded on {{ file.createdAt | formatDate }}
+            </p>
             <p class="file-size">{{ file.fileSize | convertFileSize }}</p>
           </div>
         </div>
       </div>
     </div>
 
-    <context-menu class="context-menu folder-option-context-menu" ref="folderOptionContextMenu">
+    <context-menu
+      class="context-menu folder-option-context-menu"
+      ref="folderOptionContextMenu"
+    >
       <li @click="handleDeleteResource">Delete</li>
     </context-menu>
 

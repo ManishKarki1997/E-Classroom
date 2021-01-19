@@ -13,7 +13,11 @@
           <h2>{{ currentlyViewingClass.users.length }}</h2>
           <p>Students</p>
         </div>
-        <div v-if="isUserOwned" class="class-stat" @click="goto('pending-requests')">
+        <div
+          v-if="isUserOwned"
+          class="class-stat"
+          @click="goto('pending-requests')"
+        >
           <h2>{{ currentlyViewingClass.pendingJoinRequests.length }}</h2>
           <p>Pending Requests</p>
         </div>
@@ -56,13 +60,14 @@ export default {
   computed: {
     ...mapGetters(['user', 'currentlyViewingClass', 'apiUrl']),
     isUserOwned() {
-      return this.user._id === this.currentlyViewingClass.createdBy._id
+      if (!this.user) return false
+      return this?.user._id === this.currentlyViewingClass?.createdBy?._id
     },
     isAdmin() {
-      return this.user.userType === 'ADMIN'
+      return this?.user?.userType === 'ADMIN'
     },
     hasEnrolledInTheClass() {
-      return this.currentlyViewingClass.users.indexOf(this.user._id) > -1
+      return this.currentlyViewingClass.users.indexOf(this?.user?._id) > -1
     },
   },
   data() {

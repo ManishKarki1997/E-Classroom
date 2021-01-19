@@ -19,7 +19,9 @@
             <LayersIcon />
             <p>Pending Requests</p>
             <div class="class-tab-badge-wrapper" v-if="isTeacher">
-              <span>{{currentlyViewingClass.pendingJoinRequests.length}}</span>
+              <span>{{
+                currentlyViewingClass.pendingJoinRequests.length
+              }}</span>
             </div>
           </nuxt-link>
         </li>
@@ -28,7 +30,7 @@
             <UsersIcon />
             <p>Students</p>
             <div class="class-tab-badge-wrapper" v-if="isTeacher">
-              <span>{{currentlyViewingClass.users.length}}</span>
+              <span>{{ currentlyViewingClass.users.length }}</span>
             </div>
           </nuxt-link>
         </li>
@@ -37,7 +39,7 @@
             <FolderIcon />
             <p>Resources</p>
             <div class="class-tab-badge-wrapper" v-if="isTeacher">
-              <span>{{currentlyViewingClass.resources.length}}</span>
+              <span>{{ currentlyViewingClass.resources.length }}</span>
             </div>
           </nuxt-link>
         </li>
@@ -46,7 +48,7 @@
             <RSSIcon />
             <p>Announcements</p>
             <div class="class-tab-badge-wrapper" v-if="isTeacher">
-              <span>{{currentlyViewingClass.announcements.length}}</span>
+              <span>{{ currentlyViewingClass.announcements.length }}</span>
             </div>
           </nuxt-link>
         </li>
@@ -98,10 +100,10 @@ export default {
   computed: {
     ...mapGetters(['currentlyViewingClass', 'user']),
     isTeacher() {
-      return this.currentlyViewingClass.createdBy._id === this.user._id
+      return this.currentlyViewingClass?.createdBy?._id === this?.user?._id
     },
     hasJoinedClass() {
-      return this.currentlyViewingClass.users.indexOf(this.user._id) > -1
+      return this.currentlyViewingClass?.users.indexOf(this?.user?._id) > -1
     },
   },
   methods: {
@@ -115,7 +117,7 @@ export default {
   mounted() {
     this.$socket.emit('join_class', {
       classroomId: this.currentlyViewingClass._id,
-      userId: this.user._id,
+      userId: this?.user?._id,
     })
   },
 }

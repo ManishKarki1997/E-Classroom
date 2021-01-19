@@ -14,6 +14,9 @@ const mutation = {
   setRootUrl(state, payload) {
     state.apiUrl = payload
   },
+  setIsLoading(state, isLoading) {
+    state.isLoading = isLoading
+  },
   setLoadingInfo(state, payload) {
     state.loadingInfo = { ...payload }
   },
@@ -56,7 +59,16 @@ const mutation = {
   },
   setUserPersonalResources(state, payload) {
     state.userPersonalResources = payload
-    console.log(state.userPersonalResources)
+  },
+  deleteUserSavedResourceFolders(state, payload) {
+    state.userPersonalResources.userResourceFolders.splice(
+      state.userPersonalResources.userResourceFolders.indexOf(payload),
+      1
+    )
+    // state.userPersonalResources.userResourceFolders = state.userPersonalResources.userResourceFolders.filter(
+    //   (f) => f._id !== payload._id
+    // )
+    console.log(state.userPersonalResources.userResourceFolders)
   },
 
   // Classes

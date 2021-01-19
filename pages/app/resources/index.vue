@@ -2,7 +2,10 @@
   <div id="user-all-resources-page">
     <div
       class="user-bookmarked-resources-wrapper"
-      v-if="userPersonalResources.userResourceFolders && userPersonalResources.userResourceFolders.length > 0"
+      v-if="
+        userPersonalResources.userResourceFolders &&
+        userPersonalResources.userResourceFolders.length > 0
+      "
     >
       <h4>Bookmarked Resources</h4>
 
@@ -11,7 +14,10 @@
           class="class-resources"
           tag="div"
           name="slide-fade"
-          v-if="userPersonalResources.userResourceFolders && userPersonalResources.userResourceFolders.length > 0"
+          v-if="
+            userPersonalResources.userResourceFolders !== undefined &&
+            userPersonalResources.userResourceFolders.length > 0
+          "
         >
           <div
             class="class-resource-folder"
@@ -19,14 +25,22 @@
             :key="resourceFolder._id"
           >
             <div class="more-options-icon-wrapper">
-              <MoreHorizontalIcon @click="showContextMenu(resourceFolder, true)" />
+              <MoreHorizontalIcon
+                @click="showContextMenu(resourceFolder, true)"
+              />
             </div>
-            <div class="resource-folder--left" @click="viewUserResourceFolder(resourceFolder)">
+            <div
+              class="resource-folder--left"
+              @click="viewUserResourceFolder(resourceFolder)"
+            >
               <div class="resource-icon-wrapper">
                 <FolderIcon />
               </div>
             </div>
-            <div class="resource-folder--right" @click="viewUserResourceFolder(resourceFolder)">
+            <div
+              class="resource-folder--right"
+              @click="viewUserResourceFolder(resourceFolder)"
+            >
               <h3>{{ resourceFolder.folderName }}</h3>
               <p>
                 <span>{{ resourceFolder.resources.length }}</span>
@@ -44,7 +58,10 @@
 
     <div
       class="user-classes-resources-wrapper"
-      v-if="userPersonalResources.resourceFolders && userPersonalResources.resourceFolders.length > 0"
+      v-if="
+        userPersonalResources.resourceFolders &&
+        userPersonalResources.resourceFolders.length > 0
+      "
     >
       <h4>All Class Resources</h4>
       <transition-group
@@ -98,7 +115,12 @@
           </div>
           <div class="form-input">
             <label for="newFolderName">New Folder Name</label>
-            <input type="text" name="newFolderName" id="newFolderName" v-model="newFolderName" />
+            <input
+              type="text"
+              name="newFolderName"
+              id="newFolderName"
+              v-model="newFolderName"
+            />
           </div>
         </form>
       </template>
@@ -111,8 +133,12 @@
 
     <context-menu class="context-menu" ref="userResourcesFolderContextMenu">
       <li v-if="!userResourceFolderSelected" @click="copyFolder">Copy</li>
-      <li v-if="userResourceFolderSelected" @click="handleRenameFolder">Rename</li>
-      <li v-if="userResourceFolderSelected" @click="handleDeleteFolder">Delete</li>
+      <li v-if="userResourceFolderSelected" @click="handleRenameFolder">
+        Rename
+      </li>
+      <li v-if="userResourceFolderSelected" @click="handleDeleteFolder">
+        Delete
+      </li>
     </context-menu>
 
     <v-dialog />

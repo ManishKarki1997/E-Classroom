@@ -7,7 +7,6 @@ const vuexLocalStorage = new VuexPersist({
   // storage: window.localStorage,
   reducer: (state) => ({
     apiUrl: state.apiUrl,
-    user: state.user,
     isLoggedIn: state.isLoggedIn,
     jwtToken: state.jwtToken,
     preferredColorScheme: state.preferredColorScheme,
