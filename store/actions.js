@@ -56,7 +56,7 @@ const action = {
       })
       commit('setUser', { user, jwtToken, isLoggedIn: true })
       setTimeout(() => {
-        this.$router.push('/dashboard')
+        this.$router.push('/app/dashboard')
       }, 1500)
     }
   },
@@ -190,7 +190,8 @@ const action = {
         type: 'success',
         dismissAfter: 3000,
       })
-      commit('setCurrentClassAnnouncements', response.data.payload.announcement)
+      commit('addNewClassAnnouncement', response.data.payload.announcement)
+      // commit('setCurrentClassAnnouncements', response.data.payload.announcement)
     }
   },
   async fetchAnnouncements({ state, commit, dispatch }, classId) {
@@ -210,6 +211,22 @@ const action = {
         'setCurrentClassAnnouncements',
         response.data.payload.announcements
       )
+    }
+  },
+  async fetchUserAnnouncements({ state, commit, dispatch }, userId) {
+    const response = await this.$axios.get(`/announcement/user/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${state.jwtToken}`,
+      },
+    })
+    if (response.data.error) {
+      dispatch(ADD_TOAST_MESSAGE, {
+        text: response.data.message,
+        type: 'danger',
+        dismissAfter: 3000,
+      })
+    } else {
+      commit('setUserAnnouncements', response.data.payload.announcements)
     }
   },
 

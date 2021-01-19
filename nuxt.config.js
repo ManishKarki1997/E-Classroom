@@ -52,6 +52,7 @@ export default {
   },
   server: {
     port: 8080,
+    host: '0.0.0.0',
     https: {
       key: fs.readFileSync(path.resolve(__dirname, 'server.key')),
       cert: fs.readFileSync(path.resolve(__dirname, 'server.crt')),

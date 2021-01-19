@@ -51,6 +51,9 @@ const mutation = {
   setUserNotifications(state, payload) {
     state.userNotifications = payload
   },
+  setUserAnnouncements(state, payload) {
+    state.userAnnouncements = payload
+  },
   setUserPersonalResources(state, payload) {
     state.userPersonalResources = payload
     console.log(state.userPersonalResources)
@@ -77,6 +80,12 @@ const mutation = {
   },
   setCurrentClassAnnouncements(state, payload) {
     state.currentClassAnnouncements = payload
+  },
+  addNewClassAnnouncement(state, payload) {
+    state.currentClassAnnouncements = [
+      ...state.currentClassAnnouncements,
+      payload,
+    ]
   },
   setFolderContent(state, payload) {
     state.folderContent = payload

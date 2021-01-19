@@ -49,23 +49,8 @@
       v-if="viewNotificationModal.show"
       @closeModal="closeViewNotification"
     >
-      <template slot="header">
-        <!-- <h4 v-html="viewNotificationModal.notification.title">{{ viewNotificationModal.notification.title }}</h4> -->
-        <h4
-          v-if="
-            viewNotificationModal.notification.imagePurposeType !==
-            'ClassRequest'
-          "
-          v-html="viewNotificationModal.notification.title"
-        ></h4>
-        <h4
-          v-if="
-            viewNotificationModal.notification.imagePurposeType ===
-            'ClassRequest'
-          "
-        >
-          Class Join Request
-        </h4>
+      <template slot="header" class="modal-header">
+        <h4>{{ viewNotificationModal.notification.modalTitle }}</h4>
       </template>
 
       <template slot="body">
@@ -96,9 +81,7 @@
           <div>
             <h4>{{ viewNotificationModal.notification.classId.name }}</h4>
             <p class="subtitle">
-              {{
-                viewNotificationModal.notification.classId.users.length
-              }}
+              {{ viewNotificationModal.notification.classId.users.length }}
               students
             </p>
           </div>

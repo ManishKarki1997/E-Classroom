@@ -47,7 +47,10 @@ export default {
     viewNotification(notification) {
       this.$store.commit('setviewNotificationModal', {
         show: true,
-        notification,
+        notification: {
+          ...notification,
+          modalTitle: 'Notification',
+        },
       })
     },
     fetchNotifications() {

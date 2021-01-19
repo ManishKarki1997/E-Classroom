@@ -19,7 +19,12 @@
           </div>
           <div class="form-input">
             <label for="password">Password</label>
-            <input v-model="user.password" type="password" name="password" id="password" />
+            <input
+              v-model="user.password"
+              type="password"
+              name="password"
+              id="password"
+            />
           </div>
           <div class="form-input">
             <label for="confirmPassword">Confirm Password</label>
@@ -36,13 +41,24 @@
           </div>-->
           <div class="form-input">
             <label for="avatar">Avatar</label>
-            <input @change="onFileChanged" type="file" name="avatar" id="avatar" />
+            <input
+              @change="onFileChanged"
+              type="file"
+              name="avatar"
+              id="avatar"
+            />
           </div>
 
           <div class="form-input">
             <label for="userType">User Type</label>
             <select v-model="user.userType">
-              <option v-for="userType in userTypes" :key="userType" value="userType">{{userType}}</option>
+              <option
+                v-for="userType in userTypes"
+                :key="userType"
+                :value="userType"
+              >
+                {{ userType }}
+              </option>
             </select>
           </div>
           <div class="form-button">
@@ -70,7 +86,7 @@ export default {
   data() {
     return {
       user: {
-        userType: '',
+        userType: 'STUDENT',
         email: '',
         password: '',
         avatarURL: '',
@@ -116,6 +132,7 @@ export default {
         formData.append('email', this.user.email)
         formData.append('password', this.user.password)
         formData.append('image', this.image)
+        formData.append('userType', this.user.userType)
         // formData.append('contact', this.user.contact)
 
         this.$store.dispatch('register', formData)

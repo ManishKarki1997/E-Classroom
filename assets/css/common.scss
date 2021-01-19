@@ -106,12 +106,11 @@ ul {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1rem 6rem;
 
   .modal-content-wrapper {
     background-color: var(--secondary-background-color);
     color: var(--primary-font-color);
-    padding: 1.5rem 2rem;
+    // padding: 1.5rem 2rem;
     border-radius: 5px;
     min-width: 500px;
     min-height: 400px;
@@ -122,10 +121,13 @@ ul {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      padding: 1rem 2rem;
+      background-color: var(--primary-background-color);
     }
 
     .modal-body {
       margin: 2rem 0;
+      padding: 1.5rem 2rem;
 
       p.content-text {
         margin-top: 1rem;
@@ -141,6 +143,8 @@ ul {
     .modal-footer {
       max-height: 20%;
       margin-top: auto;
+      padding: 1.5rem 2rem;
+
       button {
         &:first-child {
           @include primaryButton;

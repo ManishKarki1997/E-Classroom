@@ -12,6 +12,7 @@ function state() {
     },
     allClasses: [],
     userNotifications: [],
+    userAnnouncements: [],
     userAssignments: [],
     userBookmarkedFolders: [],
     upcomingClasses: [],
