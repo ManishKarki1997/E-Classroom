@@ -56,10 +56,15 @@
 
       <template slot="body">
         <h4 v-html="viewNotificationModal.notification.title"></h4>
-        <div
+
+        <p style="margin-top: 8px">
+          Created At
+          {{ viewNotificationModal.notification.createdAt | formatDate }}
+        </p>
+        <!-- <div
           style="margin-top: 8px"
           v-html="viewNotificationModal.notification.description"
-        ></div>
+        ></div> -->
 
         <div
           v-if="viewNotificationModal.notification.classId !== undefined"
@@ -108,6 +113,7 @@ import Modal from '~/components/Modal'
 import { mapState } from 'vuex'
 import { ADD_TOAST_MESSAGE } from 'vuex-toast'
 import moment from 'moment'
+import dayjs from 'dayjs'
 
 export default {
   components: {
@@ -173,10 +179,15 @@ export default {
     },
   },
   mounted() {
-    this.fetchUserDetails()
+    // this.fetchUserDetails()
     if (this.user?.userType !== 'ADMIN') {
       this.fetchUpcomingClasses()
     }
+  },
+  filters: {
+    formatDate(value) {
+      return dayjs(value).format('MMMM DD')
+    },
   },
   // validate({ params, query, store }) {
   //   if (store.state.user.userType === 'ADMIN') {

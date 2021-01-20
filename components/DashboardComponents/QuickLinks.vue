@@ -1,5 +1,5 @@
 <template>
-  <div class="quick-links">
+  <div class="quick-links" v-if="Object.keys(user).length > 0">
     <div class="quick-link" @click="$router.push('/app/resources')">
       <div class="quick-link-icon-wrapper">
         <FolderIcon />

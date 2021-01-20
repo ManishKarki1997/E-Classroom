@@ -51,11 +51,21 @@ export default {
       })
     },
     fetchNotifications() {
-      this.$store.dispatch('fetchNotifications')
+      if (this.user._id !== undefined) {
+        this.$store.dispatch('fetchNotifications')
+      }
     },
   },
-  mounted() {
-    this.fetchNotifications()
+  watch: {
+    user: {
+      handler(newVal, oldVal) {
+        if (newVal !== oldVal && newVal._id !== undefined) {
+          this.fetchNotifications()
+        }
+      },
+      immediate: true,
+      deep: true,
+    },
   },
 }
 </script>
