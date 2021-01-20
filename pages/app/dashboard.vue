@@ -55,16 +55,12 @@
       </template>
 
       <template slot="body">
-        <h4 v-html="viewNotificationModal.notification.title"></h4>
-
+        <!-- <h4 v-html="viewNotificationModal.notification.title"></h4> -->
+        <div v-html="viewNotificationModal.notification.description"></div>
         <p style="margin-top: 8px">
           Created At
           {{ viewNotificationModal.notification.createdAt | formatDate }}
         </p>
-        <!-- <div
-          style="margin-top: 8px"
-          v-html="viewNotificationModal.notification.description"
-        ></div> -->
 
         <div
           v-if="viewNotificationModal.notification.classId !== undefined"
@@ -151,25 +147,26 @@ export default {
         },
       })
 
-      let filteredUpcomingClasses = response.data.payload.upcomingClasses.map(
-        (joinedClass) => {
-          const ms = moment(moment().format('hh:mm'), 'hh:mm').diff(
-            moment(joinedClass.startTime, 'hh:mm')
-          )
-          const humanizedTime = moment.duration(ms).humanize()
-          const inMins = humanizedTime.split(' ')[0] * 60
-          return {
-            ...joinedClass,
-            startTime: moment(joinedClass.startTime, 'hh:mm A').format(
-              'hh:mm A'
-            ),
-            endTime: moment(joinedClass.endTime, 'hh:mm A').format('hh:mm A'),
-            milliseconds: new Date().getTime() + inMins * 60 * 1000,
-            inMins,
-            humanizedTime,
-          }
+      let allClasses =
+        this.user?.userType === 'TEACHER'
+          ? response.data.payload.upcomingClasses.createdClasses
+          : response.data.payload.upcomingClasses.joinedClasses
+
+      let filteredUpcomingClasses = allClasses.map((joinedClass) => {
+        const ms = moment(moment().format('hh:mm'), 'hh:mm').diff(
+          moment(joinedClass.startTime, 'hh:mm')
+        )
+        const humanizedTime = moment.duration(ms).humanize()
+        const inMins = humanizedTime.split(' ')[0] * 60
+        return {
+          ...joinedClass,
+          startTime: moment(joinedClass.startTime, 'hh:mm A').format('hh:mm A'),
+          endTime: moment(joinedClass.endTime, 'hh:mm A').format('hh:mm A'),
+          milliseconds: new Date().getTime() + inMins * 60 * 1000,
+          inMins,
+          humanizedTime,
         }
-      )
+      })
 
       this.upcomingClasses = filteredUpcomingClasses.sort(
         (a, b) => a.inMins - b.inMins
