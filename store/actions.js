@@ -48,15 +48,16 @@ const action = {
         dismissAfter: 3000,
       })
     } else {
-      const { user, jwtToken } = response.data.payload
+      // const { user, jwtToken } = response.data.payload
       dispatch(ADD_TOAST_MESSAGE, {
-        text: 'Registered successfully. Redirecting...',
+        text: response.data.message,
         type: 'success',
         dismissAfter: 1500,
       })
-      commit('setUser', { user, jwtToken, isLoggedIn: true })
+      // commit('setUser', { user, jwtToken, isLoggedIn: true })
       setTimeout(() => {
-        this.$router.push('/app/dashboard')
+        this.$router.push('/confirmemail')
+        // this.$router.push('/app/dashboard')
       }, 1500)
     }
   },
