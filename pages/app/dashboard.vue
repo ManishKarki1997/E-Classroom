@@ -31,17 +31,14 @@
 
       <template slot="body">
         <div v-if="viewNotificationModal.notification.type === 'KICKOUT'">
-          <h4
-            v-if="viewNotificationModal.notification.type === 'KICKOUT'"
-            v-html="viewNotificationModal.notification.title"
-          ></h4>
+          <h4 v-html="viewNotificationModal.notification.title"></h4>
           <p style="margin: 8px 0">
             <span style="font-weight: bold">Reason: </span
             >{{ viewNotificationModal.notification.extraInfo.kickoutReason }}
           </p>
         </div>
 
-        <div v-if="viewNotificationModal.notification.type !== 'KICKOUT'">
+        <div v-if="viewNotificationModal.notification.type === 'Notification'">
           <h4
             v-if="viewNotificationModal.notification.title"
             v-html="viewNotificationModal.notification.title"
@@ -51,6 +48,22 @@
             v-html="viewNotificationModal.notification.description"
           ></div>
         </div>
+
+        <div v-if="viewNotificationModal.notification.type === 'Assignment'">
+          <h4
+            v-if="viewNotificationModal.notification.description"
+            v-html="viewNotificationModal.notification.description"
+          ></h4>
+          <h4 v-else v-html="viewNotificationModal.notification.title"></h4>
+        </div>
+
+        <div v-if="viewNotificationModal.notification.type === 'Announcement'">
+          <h4>{{ viewNotificationModal.notification.title }}</h4>
+          <p>
+            {{ viewNotificationModal.notification.description }}
+          </p>
+        </div>
+
         <p style="margin-top: 8px">
           <span style="font-weight: bold">Date: </span>
 

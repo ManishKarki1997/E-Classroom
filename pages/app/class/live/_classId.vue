@@ -41,7 +41,10 @@
             <MicOnIcon />
           </li>-->
         </ul>
-        <ul class="class-collapsible-items-toggler" :class="{ collapsibleExpand }">
+        <ul
+          class="class-collapsible-items-toggler"
+          :class="{ collapsibleExpand }"
+        >
           <!-- <li :class="{ iconSelected: activeTab === 'online_users' }">
             <UsersIcon @click="tabButtonClicked('online_users')" />
           </li>-->
@@ -168,7 +171,10 @@
         </div>
         <CodeEditor v-if="activeTab === 'code_editor'" />
         <Whiteboard v-if="activeTab === 'whiteboard'" />
-        <div id="student-webcam-videos-wrapper" v-show="activeTab === 'studentsWebcamVideo'"></div>
+        <div
+          id="student-webcam-videos-wrapper"
+          v-show="activeTab === 'studentsWebcamVideo'"
+        ></div>
       </div>
     </div>
   </div>

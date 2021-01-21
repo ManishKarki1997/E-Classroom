@@ -5,10 +5,10 @@
         <div class="drawing-color-palette">
           <div
             class="palette"
-            :style="{backgroundColor:palette}"
+            :style="{ backgroundColor: palette }"
             v-for="palette in colorPalette"
             :key="palette"
-            @click="drawingData.color=palette"
+            @click="drawingData.color = palette"
           ></div>
         </div>
         <div class="line-width">
@@ -21,12 +21,19 @@
             max="10"
             v-model="drawingData.lineWidth"
           />
-          <span>{{drawingData.lineWidth}}</span>
-          <button @click="ctx.clearRect(0,0,canvas.width, canvas.height)">Clear</button>
+          <span>{{ drawingData.lineWidth }}</span>
+          <button @click="ctx.clearRect(0, 0, canvas.width, canvas.height)">
+            Clear
+          </button>
         </div>
       </div>
     </div>
-    <canvas @mousedown="onMouseDown" @mouseup="onMouseUp" @mousemove="onMouseMove" id="canvas"></canvas>
+    <canvas
+      @mousedown="onMouseDown"
+      @mouseup="onMouseUp"
+      @mousemove="onMouseMove"
+      id="canvas"
+    ></canvas>
   </div>
 </template>
 
@@ -134,7 +141,7 @@ export default {
           color,
           lineWidth: this.drawingData.lineWidth,
         },
-        classroomId: '5f37797ea926637178d4af85',
+        classroomId: this.$route.params.classId,
       })
     },
   },
@@ -161,10 +168,10 @@ export default {
     // canvas.height = 500
     // canvas.width = 300
 
-    this.$socket.emit('join_class', {
-      classroomId: '5f37797ea926637178d4af85',
-      userId: this.user._id,
-    })
+    // this.$socket.emit('join_class', {
+    //   classroomId: this.$route.params.classId,
+    //   userId: this.user._id,
+    // })
   },
 }
 </script>
