@@ -61,6 +61,12 @@ const action = {
       }, 1500)
     }
   },
+  async verifyAccount({ state, commit }, accountConfirmationHash) {
+    const response = await this.$axios.post('/user/confirmaccount', {
+      accountConfirmationHash,
+    })
+    return response
+  },
 
   async updateProfile({ state, commit, dispatch }, payload) {
     const response = await this.$axios.put(`/user`, payload, {

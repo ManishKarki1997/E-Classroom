@@ -1,8 +1,10 @@
 <template>
   <header>
     <h1>
-      Virtual
-      <span>Classroom</span>
+      <nuxt-link to="/">
+        Virtual
+        <span>Classroom</span>
+      </nuxt-link>
     </h1>
     <ul>
       <li>
