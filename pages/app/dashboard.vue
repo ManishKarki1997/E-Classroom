@@ -8,34 +8,9 @@
 
       <QuickLinks style="margin-top: 6rem" />
 
-      <div class="upcoming-classes">
-        <h3>Upcoming Classes</h3>
-        <div
-          class="upcoming-class-item"
-          v-for="(upcomingClass, index) in upcomingClasses"
-          :key="'upcoming-class-' + index + '-' + upcomingClass._id"
-        >
-          <p>
-            <strong>{{ upcomingClass.name }}</strong>
-            class is in
-            {{ upcomingClass.humanizedTime }} @
-            {{ upcomingClass.startTime }}
-          </p>
+      <UpcomingClasses />
 
-          <vac :end-time="upcomingClass.milliseconds">
-            <template v-slot:process="{ timeObj }">
-              <span>{{
-                ` ${timeObj.h}h : ${timeObj.m}m : ${timeObj.s}s`
-              }}</span>
-            </template>
-            <template v-slot:finish>
-              <span>Done!</span>
-            </template>
-          </vac>
-        </div>
-      </div>
-
-      <UnsubmittedAssignment v-if="isStudent" style="margin-top: 6rem" />
+      <UnsubmittedAssignment v-if="isStudent" />
 
       <Calendar />
 
@@ -125,6 +100,7 @@ import QuickLinks from '~/components/DashboardComponents/QuickLinks'
 import DashboardTabs from '~/components/DashboardComponents/Tabs/DashboardTabs'
 import Calendar from '~/components/DashboardComponents/Calendar'
 import UnsubmittedAssignment from '~/components/DashboardComponents/UnsubmittedAssignment'
+import UpcomingClasses from '~/components/DashboardComponents/UpcomingClasses'
 import Modal from '~/components/Modal'
 import { mapState } from 'vuex'
 import { ADD_TOAST_MESSAGE } from 'vuex-toast'
@@ -197,9 +173,9 @@ export default {
   },
   mounted() {
     // this.fetchUserDetails()
-    if (this.user?.userType !== 'ADMIN') {
-      this.fetchUpcomingClasses()
-    }
+    // if (this.user?.userType !== 'ADMIN') {
+    //   this.fetchUpcomingClasses()
+    // }
   },
   filters: {
     formatDate(value) {
@@ -241,57 +217,6 @@ export default {
     width: 72%;
     .dashboard-user-welcome-wrapper {
       border-radius: 5px;
-    }
-
-    .upcoming-classes {
-      margin-top: 4rem;
-
-      background-color: var(--primary-background-color);
-      // background-color: var(--sidebar-background-color);
-      // background: linear-gradient(
-      //   97deg,
-      //   var(--sidebar-background-color) 40%,
-      //   var(--sidebar-background-color) 70%,
-      //   var(--sidebar-background-color) 100%
-      // );
-      border-radius: 5px;
-      padding: 2rem;
-      // color: var(--opposite-font-color);
-      color: var(--primary-font-color);
-
-      @include normalBoxShadow;
-      transition: all 0.3s ease-in-out;
-
-      &:hover {
-        @include hoverBoxShadow;
-      }
-
-      .upcoming-class-item {
-        // background-color: var(--primary-background-color);
-        padding: 8px 0;
-        border-radius: 5px;
-        // margin: 8px 0;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-
-        p {
-          strong {
-            font-style: italic;
-          }
-          margin: 1rem 0;
-          color: var(--primary-font-color);
-
-          // color: var(--opposite-font-color);
-        }
-
-        span {
-          color: var(--primary-font-color);
-
-          // color: var(--opposite-font-color);
-          font-weight: bold;
-        }
-      }
     }
   }
   .dashboard--right {

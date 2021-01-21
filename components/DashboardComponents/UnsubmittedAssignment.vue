@@ -1,7 +1,9 @@
 <template>
   <div class="unsubmitted-assignments-wrapper">
     <h2>Unsubmitted Assignments</h2>
-    <p v-if="filteredAssignments.length == 0">No assignments</p>
+    <p v-if="filteredAssignments.length == 0" style="margin-top: 4px">
+      No assignments
+    </p>
 
     <transition-group
       v-if="filteredAssignments.length > 0"
@@ -37,7 +39,9 @@
           </div>
 
           <div class="assignment--footer" @click="viewAssignment(assignment)">
-            <p class="subtitle">Due Date {{ assignment.dueDate | formatDate }}</p>
+            <p class="subtitle">
+              Due Date {{ assignment.dueDate | formatDate }}
+            </p>
           </div>
         </div>
 
@@ -50,7 +54,9 @@
         :key="Date.now.toString()"
         v-if="filteredAssignments.length >= assignmentToShow + 1"
       >
-        <p class="subtitle">And {{ filteredAssignments.length - assignmentToShow }} more</p>
+        <p class="subtitle">
+          And {{ filteredAssignments.length - assignmentToShow }} more
+        </p>
       </div>
     </transition-group>
 
@@ -69,8 +75,12 @@
       </template>
 
       <template slot="footer">
-        <button type="submit" @click="handleAssignmentSubmit">Submit Assignment</button>
-        <button @click="showDetailedAssignmentInformation = false">Close</button>
+        <button type="submit" @click="handleAssignmentSubmit">
+          Submit Assignment
+        </button>
+        <button @click="showDetailedAssignmentInformation = false">
+          Close
+        </button>
       </template>
     </Modal>
 
@@ -243,15 +253,8 @@ export default {
 
 <style lang="scss" scoped>
 .unsubmitted-assignments-wrapper {
-  // background-color: var(--sidebar-background-color);
-  // background: linear-gradient(
-  //   97deg,
-  //   var(--sidebar-background-color) 40%,
-  //   var(--sidebar-background-color) 70%,
-  //   var(--sidebar-background-color) 100%
-  // );
+  margin-top: 2rem;
   background-color: var(--primary-background-color);
-
   border-radius: 5px;
   padding: 2rem;
   // color: #d6eaff;
