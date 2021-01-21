@@ -104,5 +104,15 @@ const mutation = {
       1
     )
   },
+  updateClassPendingRequest(state, user) {
+    console.log(user._id, state.currentClassPendingRequests[0]._id)
+    state.currentClassPendingRequests = state.currentClassPendingRequests.filter(
+      (r) => r._id !== user._id
+    )
+    state.currentlyViewingClass.pendingJoinRequests.splice(
+      state.currentlyViewingClass.pendingJoinRequests.indexOf(user._id),
+      1
+    )
+  },
 }
 export default mutation

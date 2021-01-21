@@ -17,7 +17,12 @@
         </div>
       </div>
     </div>
-    <transition-group tag="div" name="slide-fade" class="classes">
+    <transition-group
+      tag="div"
+      name="slide-fade"
+      class="classes"
+      v-if="searchResults.length > 0"
+    >
       <ClassCard
         v-for="availableClass in searchResults"
         :key="availableClass._id"
@@ -26,6 +31,12 @@
         @classroomClicked="viewClassInfo"
       />
     </transition-group>
+    <div
+      v-if="searchResults.length == 0"
+      style="margin-left: 8px; margin-top: 1rem"
+    >
+      <h4>No classes available</h4>
+    </div>
 
     <Modal class="create-class-modal-wrapper" v-if="showClassInfoModal">
       <template slot="header">
@@ -185,7 +196,7 @@ export default {
       this.isLoading = true
       this.$store.dispatch('joinNewClass', {
         classId: this.selectedClass._id,
-        userId: this.user._id,
+        userId: this.user?._id,
       })
       this.isLoading = false
       setTimeout(() => {
@@ -297,15 +308,15 @@ export default {
       position: relative;
       svg {
         position: absolute;
-        top: 20px;
+        top: 18px;
         left: 20px;
-        width: 24px;
-        height: 24px;
+        width: 16px;
+        height: 16px;
       }
       margin-right: 8px;
       width: 70%;
       input {
-        padding: 16px 12px 16px 48px;
+        padding: 8px 12px 8px 48px;
         background-color: var(--primary-background-color);
         outline: none;
       }

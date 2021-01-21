@@ -17,7 +17,12 @@
         </div>-->
       </div>
     </div>
-    <transition-group v-if="searchResults.length>0" class="classes" tag="div" name="slide-fade">
+    <transition-group
+      v-if="searchResults.length > 0"
+      class="classes"
+      tag="div"
+      name="slide-fade"
+    >
       <ClassCard
         v-for="availableClass in searchResults"
         :key="availableClass._id"
@@ -27,7 +32,7 @@
       />
     </transition-group>
 
-    <div v-if="allClasses.length==0">
+    <div v-if="allClasses.length == 0">
       <p>No classes available</p>
     </div>
 
@@ -68,21 +73,19 @@
                 <div class="selectedClass-details">
                   <h3>{{ selectedClass.name }}</h3>
                   <p class="class-short-info">{{ selectedClass.shortInfo }}</p>
-                  <p class="selectedClass-description">{{ selectedClass.description }}</p>
+                  <p class="selectedClass-description">
+                    {{ selectedClass.description }}
+                  </p>
                 </div>
                 <div class="selectedClass-time-schedule">
                   <p>Time Schedule</p>
                   <p>
                     <span>
-                      {{
-                      selectedClass.startTime | formatClassSchedule
-                      }}
+                      {{ selectedClass.startTime | formatClassSchedule }}
                     </span>
                     -
                     <span>
-                      {{
-                      selectedClass.endTime | formatClassSchedule
-                      }}
+                      {{ selectedClass.endTime | formatClassSchedule }}
                     </span>
                   </p>
                 </div>
@@ -101,17 +104,27 @@
                       !isAdmin
                     "
                     @click="joinClass"
-                  >Join</button>
+                  >
+                    Join
+                  </button>
 
-                  <button v-if="isPendingRequestInClass">Pending Request</button>
+                  <button v-if="isPendingRequestInClass">
+                    Pending Request
+                  </button>
 
-                  <button v-if="!isAdmin" @click="gotoSingleClassView">View</button>
+                  <button v-if="!isAdmin" @click="gotoSingleClassView">
+                    View
+                  </button>
                   <button
                     @click="handleMakeClassPublicOrPrivate"
                     v-if="isAdmin || isClassOwner"
-                  >Toggle Visibility</button>
+                  >
+                    Toggle Visibility
+                  </button>
 
-                  <button v-if="isEnrolledInClass" @click="leaveClass">Leave</button>
+                  <button v-if="isEnrolledInClass" @click="leaveClass">
+                    Leave
+                  </button>
                 </div>
               </div>
             </div>

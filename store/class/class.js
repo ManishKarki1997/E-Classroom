@@ -187,7 +187,7 @@ const classActions = {
         type: 'success',
         dismissAfter: 3000,
       })
-      dispatch('fetchClassPendingRequests', state.currentlyViewingClass._id)
+      commit('updateClassPendingRequest', payload.user)
     }
   },
 }

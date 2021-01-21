@@ -11,7 +11,12 @@
         <form @submit.prevent="createClass">
           <div class="form-input">
             <label for="className">Name</label>
-            <input v-model="newClass.name" type="text" name="className" id="className" />
+            <input
+              v-model="newClass.name"
+              type="text"
+              name="className"
+              id="className"
+            />
           </div>
           <div class="form-input">
             <label for="classBackgroundImage">Image</label>
@@ -25,7 +30,12 @@
           </div>
           <div class="form-input">
             <label for="classShortInfo">Short Info</label>
-            <input v-model="newClass.shortInfo" type="text" name="shortInfo" id="shortInfo" />
+            <input
+              v-model="newClass.shortInfo"
+              type="text"
+              name="shortInfo"
+              id="shortInfo"
+            />
           </div>
           <div class="form-input">
             <label for="classroomDescription">Description</label>
@@ -40,8 +50,18 @@
           <div class="classroom-timeschedule">
             <label for="classTimeSchedule">Class Schedule</label>
             <div class="time-wrappers">
-              <input type="time" name="startTime" id="startTime" v-model="newClass.startTime" />
-              <input type="time" name="endTime" id="endTime" v-model="newClass.endTime" />
+              <input
+                type="time"
+                name="startTime"
+                id="startTime"
+                v-model="newClass.startTime"
+              />
+              <input
+                type="time"
+                name="endTime"
+                id="endTime"
+                v-model="newClass.endTime"
+              />
             </div>
             <!-- <vue-timepicker v-model="newClass.startTime" format="hh:mm A"></vue-timepicker>
             <vue-timepicker v-model="newClass.endTime" format="hh:mm A"></vue-timepicker>-->
@@ -49,7 +69,9 @@
 
           <div class="buttons-wrapper">
             <button type="submit" :disabled="formSubmitting">Create</button>
-            <button :disabled="formSubmitting" @click="cancelCreateClass">Cancel</button>
+            <button :disabled="formSubmitting" @click="cancelCreateClass">
+              Cancel
+            </button>
           </div>
         </form>
       </div>
@@ -175,6 +197,13 @@ export default {
 
       form {
         width: 100%;
+
+        #classroomDescription {
+          padding: 8px;
+          font-size: 1.1rem;
+          background-color: var(--primary-background-color);
+          color: var(--primary-font-color);
+        }
 
         .classroom-timeschedule {
           display: flex;

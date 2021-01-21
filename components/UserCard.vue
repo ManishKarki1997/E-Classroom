@@ -1,7 +1,10 @@
 <template>
   <div class="user-card">
     <div class="user-card--left">
-      <img :src="apiUrl + '/uploads/images/' + userInfo.avatar" alt="User Profile Picture" />
+      <img
+        :src="apiUrl + '/uploads/images/' + userInfo.avatar"
+        alt="User Profile Picture"
+      />
     </div>
     <div class="user-card--right">
       <div class="user-info">
@@ -11,12 +14,30 @@
       </div>
       <div class="card--buttons" v-if="actions">
         <button
-          v-if="actions.includes('kickout') && !userInfo.isKickedOut && user.userType==='TEACHER'"
+          v-if="
+            actions.includes('kickout') &&
+            !userInfo.isKickedOut &&
+            user.userType === 'TEACHER'
+          "
           @click="kickoutStudent"
-        >Kickout</button>
-        <button v-if="actions.includes('view')" @click="viewStudentDetails">View</button>
-        <button v-if="actions.includes('reject')" @click="handlePendingRequest('reject')">Reject</button>
-        <button v-if="actions.includes('accept')" @click="handlePendingRequest('accept')">Accept</button>
+        >
+          Kickout
+        </button>
+        <button v-if="actions.includes('view')" @click="viewStudentDetails">
+          View
+        </button>
+        <button
+          v-if="actions.includes('reject')"
+          @click="handlePendingRequest('reject')"
+        >
+          Reject
+        </button>
+        <button
+          v-if="actions.includes('accept')"
+          @click="handlePendingRequest('accept')"
+        >
+          Accept
+        </button>
       </div>
     </div>
   </div>
@@ -38,6 +59,7 @@ export default {
         decision,
         userId: this.userInfo._id,
         classId: this.$route.params.classId,
+        user: this.userInfo,
       })
     },
     kickoutStudent() {

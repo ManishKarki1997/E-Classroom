@@ -55,10 +55,30 @@
       </template>
 
       <template slot="body">
-        <!-- <h4 v-html="viewNotificationModal.notification.title"></h4> -->
-        <div v-html="viewNotificationModal.notification.description"></div>
+        <div v-if="viewNotificationModal.notification.type === 'KICKOUT'">
+          <h4
+            v-if="viewNotificationModal.notification.type === 'KICKOUT'"
+            v-html="viewNotificationModal.notification.title"
+          ></h4>
+          <p style="margin: 8px 0">
+            <span style="font-weight: bold">Reason: </span
+            >{{ viewNotificationModal.notification.extraInfo.kickoutReason }}
+          </p>
+        </div>
+
+        <div v-if="viewNotificationModal.notification.type !== 'KICKOUT'">
+          <h4
+            v-if="viewNotificationModal.notification.title"
+            v-html="viewNotificationModal.notification.title"
+          ></h4>
+          <div
+            v-else
+            v-html="viewNotificationModal.notification.description"
+          ></div>
+        </div>
         <p style="margin-top: 8px">
-          Created At
+          <span style="font-weight: bold">Date: </span>
+
           {{ viewNotificationModal.notification.createdAt | formatDate }}
         </p>
 
@@ -141,7 +161,7 @@ export default {
     },
 
     async fetchUpcomingClasses() {
-      const response = await this.$axios.get(`/class/upcoming`, {
+      const response = await this.$axios.get(`/class/upcoming/all`, {
         headers: {
           Authorization: `Bearer ${this.$store.state.jwtToken}`,
         },

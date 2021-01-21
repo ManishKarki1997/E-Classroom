@@ -32,18 +32,21 @@ export default {
   computed: {
     ...mapGetters(['currentClassPendingRequests', 'currentlyViewingClass']),
   },
+  data() {
+    return {
+      classId: '',
+    }
+  },
   methods: {
     fetchClassPendingRequests() {
-      this.$store.dispatch(
-        'fetchClassPendingRequests',
-        this.currentlyViewingClass._id
-      )
+      this.$store.dispatch('fetchClassPendingRequests', this.classId)
     },
     handlePendingRequest(decision) {
       this.$store.dispatch('pendingRequestDecision', decision)
     },
   },
   mounted() {
+    this.classId = this.$route.params.classId
     this.fetchClassPendingRequests()
   },
 }

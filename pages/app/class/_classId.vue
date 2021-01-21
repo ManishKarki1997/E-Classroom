@@ -95,7 +95,9 @@ export default {
     ClipboardIcon,
   },
   data() {
-    return {}
+    return {
+      classId: '',
+    }
   },
   computed: {
     ...mapGetters(['currentlyViewingClass', 'user']),
@@ -113,11 +115,27 @@ export default {
     goto(route) {
       this.$router.push(`/app/class/${this.currentlyViewingClass._id}/${route}`)
     },
+    async fetchClassDetails() {
+      const response = await this.$axios.get(`/class/${this.classId}`, {
+        headers: {
+          Authorization: `Bearer ${this.$store.state.jwtToken}`,
+        },
+      })
+      if (!response.data.error) {
+        this.$store.commit(
+          'setCurrentlyViewingClass',
+          response.data.payload.class
+        )
+      }
+    },
   },
   mounted() {
+    this.classId = this.$route.params.classId
+    this.fetchClassDetails()
+
     this.$socket.emit('join_class', {
-      classroomId: this.currentlyViewingClass._id,
-      userId: this?.user?._id,
+      classroomId: this.classId,
+      userId: this.user?._id,
     })
   },
 }
