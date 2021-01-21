@@ -126,6 +126,13 @@ export default {
           dismissAfter: 3000,
         })
         return false
+      } else if (!this.image) {
+        this.$store.dispatch(ADD_TOAST_MESSAGE, {
+          text: 'Please select your profile avatar.',
+          type: 'danger',
+          dismissAfter: 3000,
+        })
+        return false
       } else {
         let formData = new FormData()
         formData.append('name', this.user.name)
@@ -133,11 +140,9 @@ export default {
         formData.append('password', this.user.password)
         formData.append('image', this.image)
         formData.append('userType', this.user.userType)
-        // formData.append('contact', this.user.contact)
 
         this.$store.dispatch('register', formData)
-        // console.log('islogged in ', this.isLoggedIn)
-        // if (this.isLoggedIn) {
+
         this.$store.commit('setRootUrl', process.env.rootUrl)
         // setTimeout(() => {
         // this.$router.push('/login')
