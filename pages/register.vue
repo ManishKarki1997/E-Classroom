@@ -62,7 +62,41 @@
             </select>
           </div>
           <div class="form-button">
-            <button :disabled="isLoading" type="submit">Register</button>
+            <button
+              :disabled="isLoading"
+              type="submit"
+              style="
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <svg
+                style="margin-right: 8px"
+                class="loading-icon"
+                v-if="isLoading"
+                width="16"
+                height="16"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  class="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  stroke-width="4"
+                ></circle>
+                <path
+                  class="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                ></path>
+              </svg>
+              {{ isLoading ? 'Registering...' : 'Register' }}
+            </button>
           </div>
         </form>
         <div class="register-form-footer">
@@ -108,6 +142,7 @@ export default {
       this.image = e.target.files[0]
     },
     async register() {
+      this.isLoading = true
       if (
         this.user.email === '' ||
         this.user.password === '' ||
@@ -118,6 +153,7 @@ export default {
           type: 'danger',
           dismissAfter: 3000,
         })
+        this.isLoading = false
         return false
       } else if (this.user.password !== this.confirmPassword) {
         this.$store.dispatch(ADD_TOAST_MESSAGE, {
@@ -125,6 +161,7 @@ export default {
           type: 'danger',
           dismissAfter: 3000,
         })
+        this.isLoading = false
         return false
       } else if (!this.image) {
         this.$store.dispatch(ADD_TOAST_MESSAGE, {
@@ -132,6 +169,7 @@ export default {
           type: 'danger',
           dismissAfter: 3000,
         })
+        this.isLoading = false
         return false
       } else {
         let formData = new FormData()
@@ -141,12 +179,10 @@ export default {
         formData.append('image', this.image)
         formData.append('userType', this.user.userType)
 
-        this.$store.dispatch('register', formData)
+        await this.$store.dispatch('register', formData)
 
         this.$store.commit('setRootUrl', process.env.rootUrl)
-        // setTimeout(() => {
-        // this.$router.push('/login')
-        // }, 1500)
+        this.isLoading = false
       }
     },
   },

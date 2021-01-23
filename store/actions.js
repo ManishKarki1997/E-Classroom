@@ -39,7 +39,7 @@ const action = {
     }
   },
   async register({ state, commit, dispatch }, payload) {
-    const response = await this.$axios.post(`/user/`, payload)
+    const response = await this.$axios.post(`/user`, payload)
 
     if (response.data.error) {
       dispatch(ADD_TOAST_MESSAGE, {

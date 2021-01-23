@@ -58,6 +58,28 @@ button {
 ul {
   list-style-type: none;
 }
+
+.loading-icon {
+  animation: spin 1s linear infinite;
+
+  circle {
+    opacity: 0.25;
+  }
+
+  path {
+    opacity: 0.75;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .form-input {
   padding: 8px;
   display: flex;
