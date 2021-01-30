@@ -8,7 +8,7 @@
         v-for="onlineUser in onlineUsers"
         :key="onlineUser.email"
       >
-        <div class="user-info">
+        <div class="user-info" v-if="onlineUser.email !== undefined">
           <div class="user-avatar-wrapper">
             <img
               :src="apiUrl + '/uploads/images/' + onlineUser.avatar"
@@ -34,8 +34,8 @@ export default {
     ...mapGetters(['apiUrl']),
   },
   sockets: {
-    class_active_users(data) {
-      this.onlineUsers = data
+    class_active_users(users) {
+      this.onlineUsers = users
     },
   },
 }

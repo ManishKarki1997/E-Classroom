@@ -145,6 +145,7 @@ const resourceActions = {
         Authorization: `Bearer ${state.jwtToken}`,
       },
     })
+
     commit('resetLoadingInfo')
     if (response.data.error) {
       dispatch(ADD_TOAST_MESSAGE, {

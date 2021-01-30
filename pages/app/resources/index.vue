@@ -186,6 +186,7 @@ export default {
         'setCurrentClassResourceFolders',
         classResource.resourceFolders
       )
+      // this.$router.push(`/app/resources/${classResource.classId}`)
       this.$router.push(`/app/resources/class/${classResource.classId}`)
     },
     showContextMenu(resourceFolder, isUserResource) {

@@ -1,9 +1,9 @@
 <template>
   <div id="create-class">
-    <div class="create-class-left-wrapper">
+    <!-- <div class="create-class-left-wrapper">
       <h2>Virtual Classroom</h2>
       <DreamerIcon />
-    </div>
+    </div> -->
     <div class="create-class-right-wrapper">
       <h3>Create a Class</h3>
 
@@ -177,10 +177,11 @@ export default {
 
   .create-class-right-wrapper {
     width: 60%;
+    margin: 0 auto;
     background-color: var(--primary-background-color);
     height: 100%;
     padding: 3rem 4rem;
-    border-left: 1px solid var(--primary-border-color);
+    /* border-left: 1px solid var(--primary-border-color); */
     @include normalBoxShadow;
 
     &:hover {

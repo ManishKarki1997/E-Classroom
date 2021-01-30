@@ -2,17 +2,22 @@
   <div id="class-resources-wrapper">
     <div class="class-resources-header">
       <h2>Resources</h2>
+
       <div v-if="isUserOwned" class="action-buttons">
         <button @click.prevent="$refs.addButtonContextMenu.open">
           <div class="icon-wrapper">
             <PlusIcon />
-          </div>Add
+          </div>
+          Add
         </button>
       </div>
     </div>
     <div class="class-resources-body">
       <div class="class-resources--left">
-        <div class="not-available" v-if="currentClassResourceFolders.length == 0">
+        <div
+          class="not-available"
+          v-if="currentClassResourceFolders.length == 0"
+        >
           <p>No resources available</p>
         </div>
         <div class="class-resources-wrapper" v-else>
@@ -30,7 +35,10 @@
                   <FolderIcon />
                 </div>
               </div>
-              <div class="resource-folder--right" @click="gotoFolderView(resourceFolder)">
+              <div
+                class="resource-folder--right"
+                @click="gotoFolderView(resourceFolder)"
+              >
                 <h3>{{ resourceFolder.folderName }}</h3>
                 <p>
                   <span>{{ resourceFolder.resources.length }}</span> files
@@ -67,7 +75,12 @@
           </div>
           <div class="form-input">
             <label for="newFolderName">New Folder Name</label>
-            <input type="text" name="newFolderName" id="newFolderName" v-model="newFolderName" />
+            <input
+              type="text"
+              name="newFolderName"
+              id="newFolderName"
+              v-model="newFolderName"
+            />
           </div>
         </form>
       </template>
@@ -79,12 +92,19 @@
     </Modal>
 
     <!-- Context Menus -->
-    <context-menu v-if="isUserOwned" class="add-button-context-menu" ref="addButtonContextMenu">
+    <context-menu
+      v-if="isUserOwned"
+      class="add-button-context-menu"
+      ref="addButtonContextMenu"
+    >
       <li @click="showAddResource">Resource</li>
       <li @click="showAddResourceFolder">Folder</li>
     </context-menu>
 
-    <context-menu class="add-button-context-menu" ref="resourceFolderContextMenu">
+    <context-menu
+      class="add-button-context-menu"
+      ref="resourceFolderContextMenu"
+    >
       <li v-if="!isUserOwned" @click="copyFolder">Copy</li>
     </context-menu>
     <v-dialog />
@@ -134,8 +154,9 @@ export default {
   methods: {
     gotoFolderView(resourceFolder) {
       this.$store.commit('setFolderContent', resourceFolder)
+
       this.$router.push(
-        `/app/resources/class/${this.$route.params.classId}/folder/${resourceFolder._id}`
+        `/app/resources/class/${this.$route.params.class}/folder/${resourceFolder._id}`
       )
     },
 
@@ -233,7 +254,7 @@ export default {
         grid-gap: 2rem;
 
         .class-resource-folder {
-          grid-column: span 6;
+          grid-column: span 4;
           display: flex;
           align-items: center;
           padding: 16px;
