@@ -22,7 +22,10 @@
                   <FolderIcon />
                 </div>
               </div>
-              <div class="resource-folder--right" @click="gotoFolderView(resourceFolder)">
+              <div
+                class="resource-folder--right"
+                @click="gotoFolderView(resourceFolder)"
+              >
                 <h3>{{ resourceFolder.folderName }}</h3>
                 <p>
                   <span>{{ resourceFolder.resources.length }}</span> files
@@ -34,7 +37,10 @@
       </div>
     </div>
 
-    <context-menu class="add-button-context-menu" ref="resourceFolderContextMenu">
+    <context-menu
+      class="add-button-context-menu"
+      ref="resourceFolderContextMenu"
+    >
       <li @click="handleDeleteFolder">Delete</li>
     </context-menu>
   </div>
@@ -117,6 +123,7 @@ export default {
           padding: 16px;
           border-radius: 5px;
           margin-bottom: 1rem;
+          max-height: 150px;
           background-color: var(--primary-background-color);
           transition: all 0.3s ease-in-out;
           position: relative;

@@ -29,7 +29,7 @@
           <nuxt-link to>
             <UsersIcon />
             <p>Students</p>
-            <div class="class-tab-badge-wrapper" v-if="isTeacher">
+            <div class="class-tab-badge-wrapper">
               <span>{{ currentlyViewingClass.users.length }}</span>
             </div>
           </nuxt-link>
@@ -38,7 +38,7 @@
           <nuxt-link to>
             <FolderIcon />
             <p>Resources</p>
-            <div class="class-tab-badge-wrapper" v-if="isTeacher">
+            <div class="class-tab-badge-wrapper">
               <span>{{ currentlyViewingClass.resources.length }}</span>
             </div>
           </nuxt-link>
@@ -47,12 +47,12 @@
           <nuxt-link to>
             <RSSIcon />
             <p>Announcements</p>
-            <div class="class-tab-badge-wrapper" v-if="isTeacher">
+            <div class="class-tab-badge-wrapper">
               <span>{{ currentlyViewingClass.announcements.length }}</span>
             </div>
           </nuxt-link>
         </li>
-        <li @click="goto('assignments')" v-if="isTeacher || hasJoinedClass">
+        <li @click="goto('assignments')" v-if="isTeacher">
           <nuxt-link to>
             <ClipboardIcon />
             <p>Assignments</p>
@@ -105,7 +105,7 @@ export default {
       return this.currentlyViewingClass?.createdBy?._id === this?.user?._id
     },
     hasJoinedClass() {
-      return this.currentlyViewingClass?.users.indexOf(this?.user?._id) > -1
+      return this.currentlyViewingClass?.users.indexOf(this.user._id) > -1
     },
   },
   methods: {

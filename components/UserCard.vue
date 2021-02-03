@@ -15,9 +15,10 @@
       <div class="card--buttons" v-if="actions">
         <button
           v-if="
-            actions.includes('kickout') &&
-            !userInfo.isKickedOut &&
-            user.userType === 'TEACHER'
+            (actions.includes('kickout') &&
+              !userInfo.isKickedOut &&
+              user.userType === 'TEACHER') ||
+            'ADMIN'
           "
           @click="kickoutStudent"
         >

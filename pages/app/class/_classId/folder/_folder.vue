@@ -1,6 +1,9 @@
 <template>
   <div id="folder-view-wrapper">
-    <h3>{{ folderContent.folderName }}</h3>
+    <div class="page-title">
+      <h3>{{ folderContent.folderName }}</h3>
+      <button @click="showAddResourceModal = true">Add Resource</button>
+    </div>
 
     <div class="resource-files" v-if="folderContent.resources.length > 0">
       <div
@@ -104,6 +107,11 @@
       <li v-if="isUserOwned" @click="handleDeleteResource">Delete</li>
     </context-menu>
 
+    <AddResourceModal
+      v-if="showAddResourceModal"
+      @addNewResource="addNewResource"
+    />
+
     <v-dialog />
   </div>
 </template>
@@ -133,6 +141,7 @@ export default {
       selectedFile: null,
       showBookmarkResourceModal: false,
       showDeleteResourceModal: false,
+      showAddResourceModal: false,
       bookmarkPayload: {
         folderId: '',
         resourceId: '',
@@ -155,6 +164,13 @@ export default {
   },
 
   methods: {
+    addNewResource(newResource) {
+      this.$store.dispatch('addNewResourceDirectlyToFolder', newResource)
+      this.showAddResourceModal = false
+    },
+    closeAddResourceFolderModal() {
+      this.showAddResourceFolderModal = false
+    },
     bookmarkResource() {
       if (this.userBookmarkedFolders.length == 0) {
         this.$store.dispatch(ADD_TOAST_MESSAGE, {
@@ -257,6 +273,17 @@ export default {
 #folder-view-wrapper {
   padding: 1rem;
 
+  .page-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+
+    button {
+      @include primaryButton;
+    }
+  }
+
   .resource-files {
     margin-top: 1rem;
     display: grid;
@@ -266,6 +293,7 @@ export default {
     .resource-file {
       grid-column: span 4;
       display: flex;
+      max-height: 180px;
       border-radius: 5px;
       transition: all 0.3s ease-in-out;
       @include normalBoxShadow;
@@ -288,6 +316,7 @@ export default {
           img {
             width: 100%;
             height: 100%;
+            object-fit: cover;
           }
         }
 

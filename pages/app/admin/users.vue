@@ -14,25 +14,38 @@
     </div>
     <div class="users-filters-wrapper">
       <div class="users-filter-buttons-wrapper">
-        <button @click="activeTab='allUsers'" :class="{activeTab:activeTab==='allUsers'}">All</button>
         <button
-          @click="activeTab='kickedOut'"
-          :class="{activeTab:activeTab==='kickedOut'}"
-        >Kicked Out</button>
+          @click="activeTab = 'allUsers'"
+          :class="{ activeTab: activeTab === 'allUsers' }"
+        >
+          All
+        </button>
+        <button
+          @click="activeTab = 'kickedOut'"
+          :class="{ activeTab: activeTab === 'kickedOut' }"
+        >
+          Kicked Out
+        </button>
       </div>
       <div class="users-view-icons">
         <div class="icon-wrapper">
-          <GridIcon @click="active='grid'" :class="{active:active==='grid'}" />
+          <GridIcon
+            @click="active = 'grid'"
+            :class="{ active: active === 'grid' }"
+          />
         </div>
         <div class="icon-wrapper">
-          <TableIcon @click="active='table'" :class="{active:active==='table'}" />
+          <TableIcon
+            @click="active = 'table'"
+            :class="{ active: active === 'table' }"
+          />
         </div>
       </div>
     </div>
-    <div v-if="allUsers && allUsers.length==0">
+    <div v-if="allUsers && allUsers.length == 0">
       <p>No users</p>
     </div>
-    <div v-if="active==='grid'">
+    <div v-if="active === 'grid'">
       <transition-group class="users" tag="div" name="slide-fade">
         <UserCard
           v-for="user in filteredUsers"
@@ -44,7 +57,7 @@
       </transition-group>
     </div>
 
-    <div v-else-if="active==='table'" class="user-table-view-wrapper">
+    <div v-else-if="active === 'table'" class="user-table-view-wrapper">
       <table>
         <thead>
           <tr>
@@ -57,31 +70,42 @@
 
         <tbody>
           <tr
-            :class="{disabled:user.isKickedOut==true}"
+            :class="{ disabled: user.isKickedOut == true }"
             v-for="user in filteredUsers"
             :key="user._id"
           >
             <td class="table-user-name">
               <img :src="apiUrl + '/uploads/images/' + user.avatar" />
-              {{user.name}}
+              {{ user.name }}
             </td>
-            <td>{{user.email}}</td>
-            <td>{{user.createdAt | formatDate}}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.createdAt | formatDate }}</td>
             <td class="delete-user-icon">
-              <XCircleIcon v-if="!user.isKickedOut" @click="handleKickoutUser(user)" />
+              <XCircleIcon
+                v-if="!user.isKickedOut"
+                @click="handleKickoutUser(user)"
+              />
             </td>
           </tr>
         </tbody>
       </table>
     </div>
 
-    <Modal v-if="showKickoutReasonModal" @closeModal="showKickoutReasonModal = false">
+    <Modal
+      v-if="showKickoutReasonModal"
+      @closeModal="showKickoutReasonModal = false"
+    >
       <template slot="header">Kickout User</template>
       <template slot="body">
         <form @submit.prevent="kickoutUser">
           <div class="form-input">
             <label for="kickoutReason">Kickout Reason</label>
-            <input type="text" name="kickoutReason" id="kickoutReason" v-model="kickoutReason" />
+            <input
+              type="text"
+              name="kickoutReason"
+              id="kickoutReason"
+              v-model="kickoutReason"
+            />
           </div>
         </form>
       </template>
@@ -95,7 +119,6 @@
     <v-dialog />
   </div>
 </template>
-
 
 <script>
 import dayjs from 'dayjs'
@@ -218,7 +241,6 @@ export default {
 }
 </script>
 
-
 <style lang="scss" scoped>
 #admin-users-page {
   .users-header-wrapper {
@@ -282,7 +304,7 @@ export default {
     margin-top: 3rem;
 
     .user-card {
-      grid-column: span 6;
+      grid-column: span 4;
       grid-row: span 3;
     }
   }

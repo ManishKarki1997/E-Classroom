@@ -29,7 +29,7 @@
               ></textarea>
             </div>
 
-            <div class="form-input">
+            <div class="form-input" v-if="!$route.params.folder">
               <label for="folderName">Folder</label>
               <select
                 placeholder="Select a folder"
@@ -117,7 +117,7 @@ export default {
     addResource() {
       this.newResource.classId = this.currentlyViewingClass._id
       this.newResource.createdBy = this.user._id
-
+      this.newResource.folderId = this.$route.params.folder
       if (
         this.newResource.name === '' ||
         this.newResource.description === '' ||

@@ -3,14 +3,12 @@
     <div class="class-top-header">
       <h3>Announcements</h3>
       <div class="make-announcement-button-wrapper" v-if="isTeacher">
-        <button @click="handleMakingAnnouncement">
-          <PlusIcon />Announce
-        </button>
+        <button @click="handleMakingAnnouncement"><PlusIcon />Announce</button>
       </div>
     </div>
     <div class="announcements-wrapper">
       <!-- <pre>{{currentClassAnnouncements}}</pre> -->
-      <div class="announcements" v-if="currentClassAnnouncements.length>0">
+      <div class="announcements" v-if="currentClassAnnouncements.length > 0">
         <div
           class="announcement"
           v-for="announcement in currentClassAnnouncements"
@@ -22,9 +20,9 @@
               <ActivityIcon />
             </div>
             <div class="announcement--right">
-              <h3>{{announcement.title.slice(0,50)}}</h3>
-              <p>{{announcement.description.slice(0,100)}}</p>
-              <p class="subtitle">{{announcement.createdAt | formatDate}}</p>
+              <h3>{{ announcement.title.slice(0, 50) }}</h3>
+              <p>{{ announcement.description.slice(0, 100) }}</p>
+              <p class="subtitle">{{ announcement.createdAt | formatDate }}</p>
             </div>
           </div>
         </div>
@@ -47,7 +45,12 @@
         <form @submit.prevent="makeAnAnnouncement">
           <div class="form-input">
             <label for="title">Title</label>
-            <input type="text" name="title" id="title" v-model="announcement.title" />
+            <input
+              type="text"
+              name="title"
+              id="title"
+              v-model="announcement.title"
+            />
           </div>
 
           <div class="form-input">
@@ -68,15 +71,18 @@
       </template>
     </Modal>
 
-    <Modal v-if="showViewAnnouncementModal" @closeModal="closeViewAnnouncementModal">
+    <Modal
+      v-if="showViewAnnouncementModal"
+      @closeModal="closeViewAnnouncementModal"
+    >
       <template slot="header">
         <h4>View Announcement</h4>
       </template>
 
       <template slot="body">
-        <h2>{{selectedAnnouncement.title}}</h2>
-        <p class="content-text">{{selectedAnnouncement.description}}</p>
-        <p class="subtitle">{{selectedAnnouncement.createdAt}}</p>
+        <h2>{{ selectedAnnouncement.title }}</h2>
+        <p class="content-text">{{ selectedAnnouncement.description }}</p>
+        <p class="subtitle">{{ selectedAnnouncement.createdAt }}</p>
       </template>
 
       <template slot="footer">
@@ -158,6 +164,8 @@ export default {
       this.announcement.userId = this.user._id
       this.announcement.classId = this.currentlyViewingClass._id
       this.$store.dispatch('makeAnAnnouncement', this.announcement)
+      this.announcement.title = ''
+      this.announcement.description = ''
 
       setTimeout(() => {
         this.showMakeAnnouncementModal = false
@@ -179,7 +187,6 @@ export default {
   },
 }
 </script>
-
 
 <style lang="scss" scoped>
 #class-announcements-page {
